@@ -33,12 +33,12 @@
       "static/chunks/styles.js",
       "static/chunks/pages/admin/alerts.js"
     ],
-    "/admin/send-push-notificaton": [
+    "/admin/dashboard": [
       "static/chunks/webpack.js",
       "static/chunks/main.js",
       "static/css/styles.chunk.css",
       "static/chunks/styles.js",
-      "static/chunks/pages/admin/send-push-notificaton.js"
+      "static/chunks/pages/admin/dashboard.js"
     ]
   },
   "ampFirstPages": []

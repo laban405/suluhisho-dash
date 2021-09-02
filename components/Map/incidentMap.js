@@ -44,7 +44,8 @@ export default function GoogleMaps(props) {
       }}
     >
       <RegularMap
-        googleMapURL={`https://maps.googleapis.com/maps/api/js?key=${process.env.NEXT_PUBLIC_GOOGLE_MAP_KEY}`}
+        // googleMapURL={`https://maps.googleapis.com/maps/api/js?key=${process.env.NEXT_PUBLIC_GOOGLE_MAP_KEY}`}AIzaSyAxqV2MiSDAF3rV81ZDYwrtzL7NjvQqQhI
+        googleMapURL={`https://maps.googleapis.com/maps/api/js?key=AIzaSyAxqV2MiSDAF3rV81ZDYwrtzL7NjvQqQhI`}
         loadingElement={<div style={loadingElementStyle} />}
         containerElement={<div style={containerElementStyle} />}
         mapElement={<div style={mapElementStyle} />}
