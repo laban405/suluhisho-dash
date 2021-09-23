@@ -94,7 +94,7 @@ function AlertEdit() {
               </CardBody>
               <CardFooter>
                 <Button type="submit" color="primary">
-                  Create FAQ
+                  Create Resource
                 </Button>
                 <Button
                   color="primary"

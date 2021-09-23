@@ -18,6 +18,7 @@ import CardHeader from 'components/Card/CardHeader.js';
 import CardBody from 'components/Card/CardBody.js';
 import ManageAlert from 'components/Menu/viewAlertsMenu.js';
 import { useRouter } from 'next/router';
+import PageLoad from 'components/PageLoad/PageLoad.js';
 
 export default function Reports() {
   const useStyles = makeStyles(styles);
@@ -134,6 +135,7 @@ export default function Reports() {
       })
       .then(() => {
         setAlerts(alertsArr);
+        console.log('alets array: ' + alertsArr);
       });
   };
 
@@ -211,6 +213,7 @@ export default function Reports() {
             </GridContainer>
           </CardHeader>
           <Divider />
+          {alerts.length === 0 ? <PageLoad /> : null}
           <CardBody>
             <GridContainer>
               <GridItem xs={12} sm={12} md={10}>

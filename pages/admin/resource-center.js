@@ -13,6 +13,7 @@ import CardHeader from 'components/Card/CardHeader.js';
 import CardBody from 'components/Card/CardBody.js';
 import { useRouter } from 'next/router';
 import ManageResource from 'components/Menu/faqMenu.js';
+import PageLoad from 'components/PageLoad/PageLoad.js';
 
 const useStyles = makeStyles({
   cardCategoryWhite: {
@@ -193,6 +194,7 @@ export default function Reports() {
             </GridContainer>
           </CardHeader>
           <Divider />
+          {faqs.length === 0 ? <PageLoad /> : null}
           <CardBody>
             <Paper className={classes.root}>
               {faqs.map((faq) => (

@@ -95,12 +95,12 @@ export default function AdminNavbarLinks() {
 
   const MenuItems = () => (
     <div>
-    {alerts && alerts.map(alert => (
+    {alerts.length > 0 && alerts.map(alert => (
        <MenuItem
        onClick={handleCloseNotification}
        className={classes.dropdownItem}
      >
-       {`${alert && alert.message || 'new'.substring(0, 15)}...`}
+       {`${alert.message.substring(0, 15)}...`}
      </MenuItem>
     ))}
     </div>
@@ -108,12 +108,10 @@ export default function AdminNavbarLinks() {
 
   useEffect(() => {
     fetchAlerts();
-  }, [setAlerts]);
+  }, []);
   
   return (
     <div>
-      {/*  
-      */}
     <div className={classes.manager}>
         <Button
           color={size.width > 959 ? "transparent" : "white"}
@@ -127,7 +125,6 @@ export default function AdminNavbarLinks() {
           <RateReview className={classes.icons} />
         </Button>
       </div>
-    {/*  */}
       
       <div className={classes.manager}>
         <Button
