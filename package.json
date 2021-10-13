@@ -6,8 +6,8 @@
     "test": "echo \"Error: no test specified\" && exit 1",
     "dev": "next",
     "build": "rm -rf ./out && NODE_ENV=production next build && next export",
+    "start": "next start -p 8001",
     "client-s3-deploy": "aws s3 sync build/ s3://suluhisho-dashboard --profile suluhisho-app",
-    "start": "next start -p 8000",
     "install:clean": "rm -rf node_modules/ && rm -rf package-lock.json && rm -rf .next/ && npm install && npm run dev"
   },
   "dependencies": {
