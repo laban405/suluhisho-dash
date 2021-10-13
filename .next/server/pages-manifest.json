@@ -2,6 +2,5 @@
   "/_app": "pages/_app.js",
   "/_document": "pages/_document.js",
   "/_error": "pages/_error.js",
-  "/admin/add-user": "pages/admin/add-user.js",
-  "/admin/view-user": "pages/admin/view-user.js"
+  "/admin/send-push-notificaton": "pages/admin/send-push-notificaton.js"
 }

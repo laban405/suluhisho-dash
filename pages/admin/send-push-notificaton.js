@@ -29,7 +29,7 @@ function AlertEdit() {
     onSubmit: (values) => {
       createIncident(values);
       axios.post(
-        process.env.NEXT_PUBLIC_PUSH_NOTIFICATION_URL,
+        process.env.NEXT_PUBLIC_PUSH_NOTIFICATION_URL_REMOTE,
         {
           title: values.title,
           text: values.text,

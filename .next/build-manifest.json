@@ -26,19 +26,12 @@
       "static/chunks/main.js",
       "static/chunks/pages/_error.js"
     ],
-    "/admin/add-user": [
+    "/admin/send-push-notificaton": [
       "static/chunks/webpack.js",
       "static/chunks/main.js",
       "static/css/styles.chunk.css",
       "static/chunks/styles.js",
-      "static/chunks/pages/admin/add-user.js"
-    ],
-    "/admin/view-user": [
-      "static/chunks/webpack.js",
-      "static/chunks/main.js",
-      "static/css/styles.chunk.css",
-      "static/chunks/styles.js",
-      "static/chunks/pages/admin/view-user.js"
+      "static/chunks/pages/admin/send-push-notificaton.js"
     ]
   },
   "ampFirstPages": []
