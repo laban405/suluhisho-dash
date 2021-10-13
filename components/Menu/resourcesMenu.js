@@ -30,6 +30,7 @@ export default function HandleManageFAQData (props){
     
     const handleEdit = (resource) => {
         localStorage.setItem('resource', JSON.stringify(resource));
+        console.log('resource: ', resource);
         router.push('manage-resource');
         setAnchorEl(null);
     };

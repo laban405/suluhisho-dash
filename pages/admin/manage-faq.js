@@ -39,8 +39,7 @@ function ManageFaq() {
     router.push('faqs');
   };
 
-  useEffect(() => {
-    setFAQ(JSON.parse(localStorage.getItem('faq')));
+  const checkIfUserLoggedIn = () => {
     auth.onAuthStateChanged(async (user) => {
       if (!user) {
         router.push('../login');
@@ -48,6 +47,11 @@ function ManageFaq() {
         setIsUserLoggedIn(true);
       }
     });
+  };
+
+  useEffect(() => {
+    checkIfUserLoggedIn();
+    setFAQ(JSON.parse(localStorage.getItem('faq')));
   }, []);
 
   return isUserLoggedIn ? (
@@ -67,7 +71,6 @@ function ManageFaq() {
                       onChange={formik.handleChange}
                       value={formik.values.title}
                       id="title"
-                      // name="title"
                       style={{ color: 'black' }}
                       formControlProps={{
                         fullWidth: true,

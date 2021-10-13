@@ -20,27 +20,31 @@ function AlertEdit() {
 
   const formik = useFormik({
     initialValues: {
-      title: resource.title,
-      text: resource.text,
+      title: '',
+      text: '',
     },
     onSubmit: (values) => {
       let newValues = {
         title: values.title || resource.title,
-        text: values.resource || resource.text,
+        text: values.text || resource.text,
       };
-      updateFAQ(newValues);
+      updateResource(newValues);
     },
   });
 
   // to fix updating with some null fields not working
-  const updateFAQ = async (newFAQData) => {
+  const updateResource = async (newResourceData) => {
     const resource = JSON.parse(localStorage.getItem('resource'));
-    await firestore.collection('resources').doc(resource.id).update(newFAQData);
+    console.log('resource id: ' + resource.id);
+    await firestore
+      .collection('resources')
+      .doc(resource.id)
+      .update(newResourceData);
     router.push('resource-center');
+    console.log(newResourceData);
   };
 
-  useEffect(() => {
-    setResource(JSON.parse(localStorage.getItem('resource')));
+  const checkIfUserLoggedIn = () => {
     auth.onAuthStateChanged(async (user) => {
       if (!user) {
         router.push('../login');
@@ -48,6 +52,11 @@ function AlertEdit() {
         setIsUserLoggedIn(true);
       }
     });
+  };
+
+  useEffect(() => {
+    checkIfUserLoggedIn();
+    setResource(JSON.parse(localStorage.getItem('resource')));
   }, []);
 
   return isUserLoggedIn ? (
@@ -63,7 +72,8 @@ function AlertEdit() {
                 <GridContainer>
                   <GridItem xs={12} sm={12} md={12}>
                     <CustomInput
-                      labelText={`Title:`}
+                      labelText={`Title: ${resource.title}`}
+                      onChange={formik.handleChange}
                       id="title"
                       formControlProps={{
                         fullWidth: true,
@@ -74,9 +84,11 @@ function AlertEdit() {
                     <TextareaAutosize
                       maxRows={7}
                       minRows={4}
+                      onChange={formik.handleChange}
+                      id={'text'}
                       aria-label="maximum height"
                       placeholder={formik.values.text}
-                      defaultValue={formik.values.text}
+                      defaultValue={formik.values.text || resource.text}
                     />
                   </GridItem>
                 </GridContainer>
