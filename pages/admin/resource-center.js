@@ -12,7 +12,7 @@ import Card from 'components/Card/Card.js';
 import CardHeader from 'components/Card/CardHeader.js';
 import CardBody from 'components/Card/CardBody.js';
 import { useRouter } from 'next/router';
-import ManageResource from 'components/Menu/faqMenu.js';
+import ManageResource from 'components/Menu/resourcesMenu.js';
 import PageLoad from 'components/PageLoad/PageLoad.js';
 
 const useStyles = makeStyles({
@@ -67,7 +67,7 @@ const useStyles = makeStyles({
 export default function Reports() {
   const classes = useStyles();
   const router = useRouter();
-  const [faqs, setFAQs] = useState([]);
+  const [resources, setResources] = useState([]);
   const [page, setPage] = useState(0);
   const [rowsPerPage, setRowsPerPage] = useState(10);
   const [totalFaqs, setTotalFaqsSize] = useState(0);
@@ -82,7 +82,7 @@ export default function Reports() {
   const handleChangeRowsPerPage = (event) => {
     setRowsPerPage(parseInt(event.target.value, 10));
     setPage(0);
-    fetchFAQs();
+    fetchResources();
   };
 
   const faqsSize = () => {
@@ -94,28 +94,28 @@ export default function Reports() {
       });
   };
 
-  // fetch faqs from firestore
-  const fetchFAQs = async () => {
-    const faqArr = [];
+  // fetch resources from firestore
+  const fetchResources = async () => {
+    const resourcesArr = [];
     firestore
       .collection('resources')
       .get()
       .then((snap) => {
-        snap.forEach((faq) => {
-          let newFaq = faq.data();
-          newFaq.id = faq.id;
-          faqArr.push(newFaq);
+        snap.forEach((resource) => {
+          let newFaq = resource.data();
+          newFaq.id = resource.id;
+          resourcesArr.push(newFaq);
           setLastVisibleData(snap.docs[snap.docs.length - 1]);
         });
       })
       .then(() => {
-        setFAQs(faqArr);
+        setResources(resourcesArr);
       });
   };
 
   //
   const fetchNextFaqs = async () => {
-    const faqArr = [];
+    const resourcesArr = [];
 
     firestore
       .collection('resources')
@@ -127,17 +127,17 @@ export default function Reports() {
         querySnapshot.forEach((alert) => {
           let currentAlertData = alert.data();
           currentAlertData.id = alert.id;
-          faqArr.push(currentAlertData);
+          resourcesArr.push(currentAlertData);
           setLastVisibleData(querySnapshot.docs[querySnapshot.docs.length - 1]);
         });
       })
       .then(() => {
-        setFAQs(faqArr);
+        setResources(resourcesArr);
       });
   };
 
   const fetchPreviousFaqs = async () => {
-    const faqArr = [];
+    const resourcesArr = [];
 
     firestore
       .collection('resources')
@@ -149,17 +149,17 @@ export default function Reports() {
         querySnapshot.forEach((alert) => {
           let currentAlertData = alert.data();
           currentAlertData.id = alert.id;
-          faqArr.push(currentAlertData);
+          resourcesArr.push(currentAlertData);
           setLastVisibleData(querySnapshot.docs[querySnapshot.docs.length - 1]);
         });
       })
       .then(() => {
-        setFAQs(faqArr);
+        setResources(resourcesArr);
       });
   };
 
   useEffect(() => {
-    fetchFAQs();
+    fetchResources();
     faqsSize();
     auth.onAuthStateChanged(async (user) => {
       if (!user) {
@@ -194,16 +194,19 @@ export default function Reports() {
             </GridContainer>
           </CardHeader>
           <Divider />
-          {faqs.length === 0 ? <PageLoad /> : null}
+          {resources.length === 0 ? <PageLoad /> : null}
           <CardBody>
             <Paper className={classes.root}>
-              {faqs.map((faq) => (
+              {resources.map((resource) => (
                 <>
                   <div className={classes.cardItemTitle}>
-                    {faq.title}
-                    <ManageResource faq={faq} fetchFAQs={fetchFAQs} />
+                    {resource.title}
+                    <ManageResource
+                      resource={resource}
+                      fetchResources={fetchResources}
+                    />
                   </div>
-                  <h5 className={classes.cardItem}>{faq.text}</h5>
+                  <h5 className={classes.cardItem}>{resource.text}</h5>
                   <Divider />
                 </>
               ))}

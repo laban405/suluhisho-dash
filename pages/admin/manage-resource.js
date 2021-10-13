@@ -14,19 +14,19 @@ import CardBody from 'components/Card/CardBody.js';
 import CardFooter from 'components/Card/CardFooter.js';
 
 function AlertEdit() {
-  const [faq, setFAQ] = useState('');
+  const [resource, setResource] = useState('');
   const router = useRouter();
   const [isUserLoggedIn, setIsUserLoggedIn] = useState(false);
 
   const formik = useFormik({
     initialValues: {
-      title: faq.title,
-      text: faq.text,
+      title: resource.title,
+      text: resource.text,
     },
     onSubmit: (values) => {
       let newValues = {
-        title: values.title || faq.title,
-        text: values.faq || faq.text,
+        title: values.title || resource.title,
+        text: values.resource || resource.text,
       };
       updateFAQ(newValues);
     },
@@ -34,13 +34,13 @@ function AlertEdit() {
 
   // to fix updating with some null fields not working
   const updateFAQ = async (newFAQData) => {
-    const faq = JSON.parse(localStorage.getItem('faq'));
-    await firestore.collection('resources').doc(faq.id).update(newFAQData);
+    const resource = JSON.parse(localStorage.getItem('resource'));
+    await firestore.collection('resources').doc(resource.id).update(newFAQData);
     router.push('resource-center');
   };
 
   useEffect(() => {
-    setFAQ(JSON.parse(localStorage.getItem('faq')));
+    setResource(JSON.parse(localStorage.getItem('resource')));
     auth.onAuthStateChanged(async (user) => {
       if (!user) {
         router.push('../login');
@@ -89,7 +89,7 @@ function AlertEdit() {
                   color="primary"
                   onClick={() => {
                     router.push('resource-center');
-                    localStorage.removeItem('faq');
+                    localStorage.removeItem('resource');
                   }}
                 >
                   exit

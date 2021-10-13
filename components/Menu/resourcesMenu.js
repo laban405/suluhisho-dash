@@ -14,7 +14,7 @@ const useStyles = makeStyles({
 })
 
 export default function HandleManageFAQData (props){
-    const {fetchFAQs, faq} = props;
+    const {fetchResources, resource} = props;
     const classes = useStyles();
     const [anchorEl, setAnchorEl] = useState(null);
   const router = useRouter();
@@ -28,25 +28,25 @@ export default function HandleManageFAQData (props){
         setAnchorEl(null);
     };
     
-    const handleEdit = (faq) => {
-        localStorage.setItem('faq', JSON.stringify(faq));
-        router.push('manage-faq');
+    const handleEdit = (resource) => {
+        localStorage.setItem('resource', JSON.stringify(resource));
+        router.push('manage-resource');
         setAnchorEl(null);
     };
     
-    const handleDelete = (faq) => {
+    const handleDelete = (resource) => {
         firestore
-        .collection('faqs')
-        .doc(faq.id)
+        .collection('resources')
+        .doc(resource.id)
         .delete()
         .then(() => {
-            alert('FAQ deleted!');
-            fetchFAQs();
+            alert('Resource deleted!');
+            fetchResources();
         })
         .catch((error) => {
-          alert('error deleting FAQ!');
-            console.log('error deleting FAQ....', error);
-            fetchFAQs();
+          alert('error deleting Resource!');
+            console.log('error deleting Resource....', error);
+            fetchResources();
         });
         setAnchorEl(null);
     };
@@ -72,10 +72,10 @@ export default function HandleManageFAQData (props){
         open={open}
         onClose={handleClose}
       >
-        <MenuItem onClick={() => handleEdit(faq)}>
+        <MenuItem onClick={() => handleEdit(resource)}>
           Edit
         </MenuItem>
-        <MenuItem onClick={() => handleDelete(faq)}>Delete</MenuItem>
+        <MenuItem onClick={() => handleDelete(resource)}>Delete</MenuItem>
       </Menu>
     </>
   )};

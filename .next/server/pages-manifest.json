@@ -2,5 +2,6 @@
   "/_app": "pages/_app.js",
   "/_document": "pages/_document.js",
   "/_error": "pages/_error.js",
-  "/admin/send-push-notificaton": "pages/admin/send-push-notificaton.js"
+  "/admin/manage-resource": "pages/admin/manage-resource.js",
+  "/admin/resource-center": "pages/admin/resource-center.js"
 }
