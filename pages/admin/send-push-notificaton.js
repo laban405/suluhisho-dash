@@ -24,7 +24,7 @@ function AlertEdit() {
       title: '',
       text: '',
       dateCreated: new Date(),
-      category: 'general',
+      topic: 'messaging',
     },
     onSubmit: (values) => {
       createIncident(values);
@@ -48,13 +48,13 @@ function AlertEdit() {
   };
 
   const createIncident = async (newFAQData) => {
-    newFAQData.date = Date.now();
+    // newFAQData.date = Date.now();
     newFAQData.incidentType = 'push notification';
-    newFAQData.senderName = getUser();
+    newFAQData.senderEmail = getUser();
     newFAQData.status = 'sent';
 
     firestore
-      .collection('sms')
+      .collection('notifications')
       .add(newFAQData)
       .then(() => {
         alert('Push notification sent!');
