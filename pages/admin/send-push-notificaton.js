@@ -1,5 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { firestore, auth } from '../../firebase';
+import axios from 'axios';
+import moment from 'moment';
 import firebase from 'firebase';
 import { useRouter } from 'next/router';
 import { useFormik } from 'formik';
@@ -13,7 +15,6 @@ import Card from 'components/Card/Card.js';
 import CardHeader from 'components/Card/CardHeader.js';
 import CardBody from 'components/Card/CardBody.js';
 import CardFooter from 'components/Card/CardFooter.js';
-import axios from 'axios';
 
 function AlertEdit() {
   const router = useRouter();
@@ -23,7 +24,7 @@ function AlertEdit() {
     initialValues: {
       title: '',
       text: '',
-      dateCreated: new Date(),
+      dateCreated: moment().format('MMMM Do YYYY, h:mm:ss a'),
       topic: 'messaging',
     },
     onSubmit: (values) => {
