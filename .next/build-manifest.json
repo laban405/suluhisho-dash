@@ -33,12 +33,26 @@
       "static/chunks/styles.js",
       "static/chunks/pages/admin/add-user.js"
     ],
-    "/admin/dashboard": [
+    "/admin/alerts": [
       "static/chunks/webpack.js",
       "static/chunks/main.js",
       "static/css/styles.chunk.css",
       "static/chunks/styles.js",
-      "static/chunks/pages/admin/dashboard.js"
+      "static/chunks/pages/admin/alerts.js"
+    ],
+    "/admin/users": [
+      "static/chunks/webpack.js",
+      "static/chunks/main.js",
+      "static/css/styles.chunk.css",
+      "static/chunks/styles.js",
+      "static/chunks/pages/admin/users.js"
+    ],
+    "/admin/view-alert": [
+      "static/chunks/webpack.js",
+      "static/chunks/main.js",
+      "static/css/styles.chunk.css",
+      "static/chunks/styles.js",
+      "static/chunks/pages/admin/view-alert.js"
     ]
   },
   "ampFirstPages": []

@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { firestore, auth } from '../../firebase';
+import * as Yup from 'yup';
 import { useRouter } from 'next/router';
 import { useFormik } from 'formik';
 import Avatar from '@mui/material/Avatar';
@@ -17,49 +18,71 @@ function AddUser() {
   const router = useRouter();
   const [isUserLoggedIn, setIsUserLoggedIn] = useState(false);
 
+  const SignupSchema = Yup.object().shape({
+    firstname: Yup.string()
+      .min(2, 'Too Short!')
+      .max(50, 'Too Long!')
+      .required('Required'),
+    lastname: Yup.string()
+      .min(2, 'Too Short!')
+      .max(50, 'Too Long!')
+      .required('Required'),
+    email: Yup.string().email('Invalid email').required('Required'),
+    firstname: Yup.string()
+      .min(2, 'Too Short!')
+      .max(50, 'Too Long!')
+      .required('Required'),
+    county: Yup.string()
+      .min(2, 'Too Short!')
+      .max(50, 'Too Long!')
+      .required('Required'),
+    subcounty: Yup.string()
+      .min(2, 'Too Short!')
+      .max(50, 'Too Long!')
+      .required('Required'),
+    phone: Yup.required('Required'),
+    nationalID: Yup.number().required('Required'),
+    location: Yup.string().required('Required'),
+    phone: Yup.string().required('Required'),
+    category: Yup.string().required('Required'),
+    categoryID: Yup.number().required('Required'),
+  });
+
   const formik = useFormik({
     initialValues: {
       firstname: '',
       lastname: '',
       phone: '',
+      email: '',
       location: '',
       county: '',
       subcounty: '',
       category: '',
-      categoryId: '',
+      categoryID: '',
       nationalID: '',
       profession: '',
       latitude: '',
       longitude: '',
     },
+    validationSchema: SignupSchema,
     onSubmit: (values) => {
-      createFAQ(values);
+      createUser(values);
     },
   });
 
-  // to fix updating with some null fields not working
-  const createFAQ = async (newFAQData) => {
+  const createUser = async (newUserData) => {
     firestore
-      .collection('resources')
-      .add(newFAQData)
+      .collection('users')
+      .add(newUserData)
       .then(() => {
-        alert('Resource created!');
+        alert('New user created!');
       })
       .then(() => {
-        router.push('resource-center');
+        router.push('users');
       })
       .catch((error) => {
-        console.log('could not create FAQ...', error);
+        console.log('could not create User...', error);
       });
-  };
-
-  const handleSelectFiles = (event) => {
-    const filesKey = uuid();
-    setFilesKey(filesKey);
-    const newFiles = event.target.files;
-    // setSelectedFile(newFiles);
-    console.log('selfiles: ', selectedFiles);
-    return;
   };
 
   useEffect(() => {
@@ -86,7 +109,7 @@ function AddUser() {
                   <Avatar
                     alt="User"
                     src="/static/images/avatar/3.jpg"
-                    sx={{ width: 60, height: 60 }}
+                    sx={{ width: 60, height: 60, float: 'right' }}
                   />
                 </Stack>
 
@@ -118,11 +141,11 @@ function AddUser() {
 
                   <GridItem xs={12} sm={12} md={6}>
                     <CustomInput
-                      labelText={`Location/Address:`}
-                      id="location"
-                      name="location"
+                      labelText={`Email:`}
+                      id="email"
+                      name="email"
                       onChange={formik.handleChange}
-                      value={formik.values.location}
+                      value={formik.values.email}
                       formControlProps={{
                         fullWidth: true,
                       }}
@@ -183,10 +206,10 @@ function AddUser() {
                   <GridItem xs={12} sm={12} md={6}>
                     <CustomInput
                       labelText={`Category ID:`}
-                      id="categoryId"
-                      name="categoryId"
+                      id="categoryID"
+                      name="categoryID"
                       onChange={formik.handleChange}
-                      value={formik.values.categoryId}
+                      value={formik.values.categoryID}
                       formControlProps={{
                         fullWidth: true,
                       }}
@@ -244,6 +267,18 @@ function AddUser() {
                       }}
                     />
                   </GridItem>
+                  <GridItem xs={12} sm={12} md={6}>
+                    <CustomInput
+                      labelText={`Location/Address:`}
+                      id="location"
+                      name="location"
+                      onChange={formik.handleChange}
+                      value={formik.values.location}
+                      formControlProps={{
+                        fullWidth: true,
+                      }}
+                    />
+                  </GridItem>
                 </GridContainer>
                 <GridContainer>
                   <GridItem xs={12} sm={12} md={6}>
@@ -252,6 +287,7 @@ function AddUser() {
                       id="profile"
                       name="profile"
                       accept="image/"
+                      style={{ marginTop: 30 }}
                     />
                   </GridItem>
                 </GridContainer>
