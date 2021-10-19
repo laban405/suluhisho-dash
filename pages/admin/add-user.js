@@ -2,6 +2,8 @@ import React, { useEffect, useState } from 'react';
 import { firestore, auth } from '../../firebase';
 import { useRouter } from 'next/router';
 import { useFormik } from 'formik';
+import Avatar from '@mui/material/Avatar';
+import Stack from '@mui/material/Stack';
 import Admin from 'layouts/Admin.js';
 import GridItem from 'components/Grid/GridItem.js';
 import GridContainer from 'components/Grid/GridContainer.js';
@@ -11,41 +13,24 @@ import Card from 'components/Card/Card.js';
 import CardHeader from 'components/Card/CardHeader.js';
 import CardBody from 'components/Card/CardBody.js';
 import CardFooter from 'components/Card/CardFooter.js';
-
-/*
-    /*
-    - update
-    ----------------------------------------------------------------
-    -> service priders -> fetch users where isSP === true
-    -> 
-      "isActive":true,
-      "isOccupied":false,
-      "isAdmin": false,
-      "isClient": false,
-      "isSP": true,
-      "name": name.text.trim(),
-      "id": userId, -> from auth registration
-      "email": email.text.trim(),
-      "nationalID": nationalID.text.trim(),
-      "phone": phone.text.trim(),
-      "county": county,
-      "subCounty": subCounty.text.trim(),
-      "category": 'socialwork',
-      'categoryID': "4",
-      'position': myLocation.data -> geopoint datatype,
-
-    */
-
 function AddUser() {
   const router = useRouter();
   const [isUserLoggedIn, setIsUserLoggedIn] = useState(false);
 
   const formik = useFormik({
     initialValues: {
-      title: '',
-      text: '',
-      dateCreated: new Date(),
-      category: 'general',
+      firstname: '',
+      lastname: '',
+      phone: '',
+      location: '',
+      county: '',
+      subcounty: '',
+      category: '',
+      categoryId: '',
+      nationalID: '',
+      profession: '',
+      latitude: '',
+      longitude: '',
     },
     onSubmit: (values) => {
       createFAQ(values);
@@ -68,6 +53,15 @@ function AddUser() {
       });
   };
 
+  const handleSelectFiles = (event) => {
+    const filesKey = uuid();
+    setFilesKey(filesKey);
+    const newFiles = event.target.files;
+    // setSelectedFile(newFiles);
+    console.log('selfiles: ', selectedFiles);
+    return;
+  };
+
   useEffect(() => {
     auth.onAuthStateChanged(async (user) => {
       if (!user) {
@@ -88,14 +82,47 @@ function AddUser() {
                 <h4 className={styles.cardTitleWhite}>Add A New User</h4>
               </CardHeader>
               <CardBody>
+                <Stack direction="row" spacing={2}>
+                  <Avatar
+                    alt="User"
+                    src="/static/images/avatar/3.jpg"
+                    sx={{ width: 60, height: 60 }}
+                  />
+                </Stack>
+
                 <GridContainer>
                   <GridItem xs={12} sm={12} md={6}>
                     <CustomInput
-                      labelText={`Name:`}
-                      id="name"
-                      name="name"
+                      labelText={`First Name:`}
+                      id="firstname"
+                      name="firstname"
                       onChange={formik.handleChange}
-                      value={formik.values.name}
+                      value={formik.values.firstname}
+                      formControlProps={{
+                        fullWidth: true,
+                      }}
+                    />
+                  </GridItem>
+                  <GridItem xs={12} sm={12} md={6}>
+                    <CustomInput
+                      labelText={`Last Name:`}
+                      id="lastname"
+                      name="lastname"
+                      onChange={formik.handleChange}
+                      value={formik.values.lastname}
+                      formControlProps={{
+                        fullWidth: true,
+                      }}
+                    />
+                  </GridItem>
+
+                  <GridItem xs={12} sm={12} md={6}>
+                    <CustomInput
+                      labelText={`Location/Address:`}
+                      id="location"
+                      name="location"
+                      onChange={formik.handleChange}
+                      value={formik.values.location}
                       formControlProps={{
                         fullWidth: true,
                       }}
@@ -115,11 +142,11 @@ function AddUser() {
                   </GridItem>
                   <GridItem xs={12} sm={12} md={6}>
                     <CustomInput
-                      id="text"
-                      name="text"
+                      id="county"
+                      name="county"
                       onChange={formik.handleChange}
-                      value={formik.values.text}
-                      placeholder={formik.values.text}
+                      value={formik.values.county}
+                      placeholder={formik.values.county}
                       labelText={'County:'}
                       formControlProps={{
                         fullWidth: true,
@@ -128,11 +155,11 @@ function AddUser() {
                   </GridItem>
                   <GridItem xs={12} sm={12} md={6}>
                     <CustomInput
-                      id="text"
-                      name="text"
+                      id="subcounty"
+                      name="subcounty"
                       onChange={formik.handleChange}
-                      value={formik.values.text}
-                      placeholder={formik.values.text}
+                      value={formik.values.subcounty}
+                      placeholder={formik.values.subcounty}
                       labelText={'Sub-County:'}
                       formControlProps={{
                         fullWidth: true,
@@ -144,10 +171,10 @@ function AddUser() {
                   <GridItem xs={12} sm={12} md={6}>
                     <CustomInput
                       labelText={`Category:`}
-                      id="title"
-                      name="title"
+                      id="category"
+                      name="category"
                       onChange={formik.handleChange}
-                      value={formik.values.title}
+                      value={formik.values.category}
                       formControlProps={{
                         fullWidth: true,
                       }}
@@ -156,10 +183,10 @@ function AddUser() {
                   <GridItem xs={12} sm={12} md={6}>
                     <CustomInput
                       labelText={`Category ID:`}
-                      id="title"
-                      name="title"
+                      id="categoryId"
+                      name="categoryId"
                       onChange={formik.handleChange}
-                      value={formik.values.title}
+                      value={formik.values.categoryId}
                       formControlProps={{
                         fullWidth: true,
                       }}
@@ -167,12 +194,12 @@ function AddUser() {
                   </GridItem>
                   <GridItem xs={12} sm={12} md={6}>
                     <CustomInput
-                      id="text"
-                      name="text"
+                      id="nationaID"
+                      name="nationaID"
                       onChange={formik.handleChange}
-                      value={formik.values.text}
-                      placeholder={formik.values.text}
-                      labelText={'National ID'}
+                      value={formik.values.nationaID}
+                      placeholder={formik.values.nationaID}
+                      labelText={'National ID or Passport No.'}
                       formControlProps={{
                         fullWidth: true,
                       }}
@@ -180,15 +207,51 @@ function AddUser() {
                   </GridItem>
                   <GridItem xs={12} sm={12} md={6}>
                     <CustomInput
-                      id="text"
-                      name="text"
+                      id="profession"
+                      name="profession"
                       onChange={formik.handleChange}
-                      value={formik.values.text}
-                      placeholder={formik.values.text}
-                      labelText={'Position'}
+                      value={formik.values.profession}
+                      placeholder={formik.values.profession}
+                      labelText={'Profession'}
                       formControlProps={{
                         fullWidth: true,
                       }}
+                    />
+                  </GridItem>
+                  <GridItem xs={12} sm={12} md={6}>
+                    <CustomInput
+                      id="latitude"
+                      name="latitude"
+                      onChange={formik.handleChange}
+                      value={formik.values.latitude}
+                      placeholder={formik.values.latitude}
+                      labelText={'Location - Latitude'}
+                      formControlProps={{
+                        fullWidth: true,
+                      }}
+                    />
+                  </GridItem>
+                  <GridItem xs={12} sm={12} md={6}>
+                    <CustomInput
+                      id="longitude"
+                      name="longitude"
+                      onChange={formik.handleChange}
+                      value={formik.values.longitude}
+                      placeholder={formik.values.longitude}
+                      labelText={'Location - Longitude'}
+                      formControlProps={{
+                        fullWidth: true,
+                      }}
+                    />
+                  </GridItem>
+                </GridContainer>
+                <GridContainer>
+                  <GridItem xs={12} sm={12} md={6}>
+                    <input
+                      type="file"
+                      id="profile"
+                      name="profile"
+                      accept="image/"
                     />
                   </GridItem>
                 </GridContainer>
@@ -200,8 +263,7 @@ function AddUser() {
                 <Button
                   color="primary"
                   onClick={() => {
-                    router.push('resource-center');
-                    localStorage.removeItem('faq');
+                    router.push('users');
                   }}
                 >
                   exit

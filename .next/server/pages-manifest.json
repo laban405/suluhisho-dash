@@ -2,7 +2,6 @@
   "/_app": "pages/_app.js",
   "/_document": "pages/_document.js",
   "/_error": "pages/_error.js",
-  "/admin/send-push-notificaton": "pages/admin/send-push-notificaton.js",
-  "/admin/dashboard": "pages/admin/dashboard.js",
-  "/admin/alerts": "pages/admin/alerts.js"
+  "/admin/add-user": "pages/admin/add-user.js",
+  "/admin/dashboard": "pages/admin/dashboard.js"
 }

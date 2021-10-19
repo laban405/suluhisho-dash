@@ -5,6 +5,7 @@ import Admin from 'layouts/Admin.js';
 import Divider from '@material-ui/core/Divider';
 import TablePagination from '@material-ui/core/TablePagination';
 import Paper from '@material-ui/core/Paper';
+import Button from '@material-ui/core/Button';
 import GridItem from 'components/Grid/GridItem.js';
 import GridContainer from 'components/Grid/GridContainer.js';
 import Table from 'components/Table/Table.js';
@@ -157,7 +158,14 @@ export default function Reports() {
                 </p>
               </GridItem>
 
-              <GridItem xs={12} sm={12} md={2}></GridItem>
+              <GridItem xs={12} sm={12} md={2}>
+                <Button
+                  variant="contained"
+                  onClick={() => router.push('add-user')}
+                >
+                  Add User
+                </Button>
+              </GridItem>
             </GridContainer>
           </CardHeader>
           <Divider />

@@ -49,7 +49,6 @@ function AlertEdit() {
   };
 
   const createIncident = async (newFAQData) => {
-    // newFAQData.date = Date.now();
     newFAQData.incidentType = 'push notification';
     newFAQData.senderEmail = getUser();
     newFAQData.status = 'sent';
