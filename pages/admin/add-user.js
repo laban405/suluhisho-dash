@@ -1,6 +1,5 @@
 import React, { useEffect, useState } from 'react';
 import { firestore, auth } from '../../firebase';
-import { getAuth, createUserWithEmailAndPassword } from 'firebase/auth';
 import * as Yup from 'yup';
 import geofire from 'geofire';
 import { useRouter } from 'next/router';
@@ -68,11 +67,11 @@ function AddUser() {
     },
     // validationSchema: SignupSchema,
     onSubmit: (values) => {
-      const hash = geofire.geohashForLocation([
-        values.latitude,
-        values.longitude,
-      ]);
-      values.geohash = hash;
+      // const hash = geofire.geohashForLocation([
+      // values[latitude],
+      // values[longitude],
+      // ]);
+      // values.geohash = hash;
 
       createUser(values);
     },
