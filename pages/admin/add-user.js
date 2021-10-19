@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { firestore, auth } from '../../firebase';
+import { getAuth, createUserWithEmailAndPassword } from 'firebase/auth';
 import * as Yup from 'yup';
 import { useRouter } from 'next/router';
 import { useFormik } from 'formik';
@@ -40,7 +41,7 @@ function AddUser() {
       .min(2, 'Too Short!')
       .max(50, 'Too Long!')
       .required('Required'),
-    phone: Yup.required('Required'),
+    phone: Yup.number().min(10, 'Too Short!').required('Required'),
     nationalID: Yup.number().required('Required'),
     location: Yup.string().required('Required'),
     phone: Yup.string().required('Required'),
@@ -64,7 +65,7 @@ function AddUser() {
       latitude: '',
       longitude: '',
     },
-    validationSchema: SignupSchema,
+    // validationSchema: SignupSchema,
     onSubmit: (values) => {
       createUser(values);
     },

@@ -2,8 +2,5 @@
   "/_app": "pages/_app.js",
   "/_document": "pages/_document.js",
   "/_error": "pages/_error.js",
-  "/admin/users": "pages/admin/users.js",
-  "/admin/view-alert": "pages/admin/view-alert.js",
-  "/admin/add-user": "pages/admin/add-user.js",
-  "/admin/alerts": "pages/admin/alerts.js"
+  "/admin/users": "pages/admin/users.js"
 }
