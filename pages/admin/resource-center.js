@@ -204,27 +204,22 @@ export default function Reports() {
             <Paper className={classes.root}>
               {resources.map((resource) => (
                 <>
-                  <Accordion>
+                  <Accordion style={{ marginBottom: 5 }}>
                     <AccordionSummary
                       expandIcon={<ExpandMoreIcon />}
                       aria-controls="panel1a-content"
                       id="panel1a-header"
                     >
                       <Typography style={{ fontWeight: 'bold' }}>
-                        <GridContainer>
-                          <GridItem xs={12} sm={11} md={11}>
-                            {resource.title}
-                          </GridItem>
-                          <GridItem xs={12} sm={12} md={1}>
-                            <ManageResource
-                              resource={resource}
-                              fetchResources={fetchResources}
-                            />
-                          </GridItem>
-                        </GridContainer>
+                        <GridContainer>{resource.title}</GridContainer>
                       </Typography>
                     </AccordionSummary>
                     <AccordionDetails>
+                      <ManageResource
+                        resource={resource}
+                        fetchResources={fetchResources}
+                        style={{ float: 'right' }}
+                      />
                       <Typography>{resource.text}</Typography>
                     </AccordionDetails>
                   </Accordion>

@@ -7,8 +7,11 @@ import TablePagination from '@material-ui/core/TablePagination';
 import Paper from '@material-ui/core/Paper';
 import GridItem from 'components/Grid/GridItem.js';
 import Button from 'components/CustomButtons/Button.js';
-import ExpandMore from '@material-ui/icons/ExpandMore';
-import ExpandLess from '@material-ui/icons/ExpandLess';
+import Accordion from '@mui/material/Accordion';
+import AccordionSummary from '@mui/material/AccordionSummary';
+import AccordionDetails from '@mui/material/AccordionDetails';
+import Typography from '@mui/material/Typography';
+import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 import GridContainer from 'components/Grid/GridContainer.js';
 import Card from 'components/Card/Card.js';
 import CardHeader from 'components/Card/CardHeader.js';
@@ -199,11 +202,26 @@ export default function Reports() {
             <Paper className={classes.root}>
               {faqs.map((faq) => (
                 <>
-                  <div className={classes.cardItemTitle}>
-                    <ManageFAQ faq={faq} fetchFAQs={fetchFAQs} />
-                    {faq.title}
-                  </div>
-                  <h5 className={classes.cardItem}>{faq.text}</h5>
+                  <Accordion style={{ marginBottom: 5 }}>
+                    <AccordionSummary
+                      expandIcon={<ExpandMoreIcon />}
+                      aria-controls="panel1a-content"
+                      id="panel1a-header"
+                    >
+                      <Typography style={{ fontWeight: 'bold' }}>
+                        <GridContainer>{faq.title}</GridContainer>
+                      </Typography>
+                    </AccordionSummary>
+
+                    <AccordionDetails>
+                      <ManageFAQ
+                        faq={faq}
+                        fetchFAQs={fetchFAQs}
+                        style={{ float: 'right' }}
+                      />
+                      <Typography>{faq.text}</Typography>
+                    </AccordionDetails>
+                  </Accordion>
                   <Divider />
                 </>
               ))}
