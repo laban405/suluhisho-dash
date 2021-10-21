@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { firestore, auth } from '../../firebase';
 import { makeStyles } from '@material-ui/core/styles';
 import Admin from 'layouts/Admin.js';
+import { motion } from 'framer-motion';
 import Accordion from '@mui/material/Accordion';
 import AccordionSummary from '@mui/material/AccordionSummary';
 import AccordionDetails from '@mui/material/AccordionDetails';
@@ -78,6 +79,20 @@ export default function Reports() {
   const [totalFaqs, setTotalFaqsSize] = useState(0);
   const [lastVisibleData, setLastVisibleData] = useState(null);
   const [isUserLoggedIn, setIsUserLoggedIn] = useState(false);
+
+  const containerVariants = {
+    hidden: {
+      opacity: 0.5,
+      scale: 1.1,
+      y: 10,
+    },
+    visible: {
+      y: 0,
+      opacity: 1,
+      scale: 1,
+      transition: { delay: 0, duration: 0.5 },
+    },
+  };
 
   const handleChangePage = (event, newPage) => {
     newPage > page ? fetchNextFaqs() : fetchPreviousFaqs();
@@ -176,74 +191,81 @@ export default function Reports() {
   }, []);
 
   return isUserLoggedIn ? (
-    <GridContainer className={classes.container}>
-      <GridItem xs={12} sm={12} md={12}>
-        <Card>
-          <CardHeader>
-            <GridContainer>
-              <GridItem xs={12} sm={12} md={10}>
-                <h4 className={classes.cardTitleWhite}>
-                  Available Resources
-                  <Button
-                    size="sm"
-                    color="primary"
-                    className={classes.btn}
-                    onClick={() => router.push('add-resource')}
-                  >
-                    Add A Resource
-                  </Button>
-                </h4>
-              </GridItem>
-
-              <GridItem xs={12} sm={12} md={2}></GridItem>
-            </GridContainer>
-          </CardHeader>
-          <Divider />
-          {resources.length === 0 ? <PageLoad /> : null}
-          <CardBody>
-            <Paper className={classes.root}>
-              {resources.map((resource) => (
-                <>
-                  <Accordion style={{ marginBottom: 5 }}>
-                    <AccordionSummary
-                      expandIcon={<ExpandMoreIcon />}
-                      aria-controls="panel1a-content"
-                      id="panel1a-header"
+    <motion.main
+      variants={containerVariants}
+      initial="hidden"
+      animate="visible"
+      exit="exit"
+    >
+      <GridContainer className={classes.container}>
+        <GridItem xs={12} sm={12} md={12}>
+          <Card>
+            <CardHeader>
+              <GridContainer>
+                <GridItem xs={12} sm={12} md={10}>
+                  <h4 className={classes.cardTitleWhite}>
+                    Available Resources
+                    <Button
+                      size="sm"
+                      color="primary"
+                      className={classes.btn}
+                      onClick={() => router.push('add-resource')}
                     >
-                      <Typography style={{ fontWeight: 'bold' }}>
-                        <GridContainer>{resource.title}</GridContainer>
-                      </Typography>
-                    </AccordionSummary>
-                    <AccordionDetails>
-                      <ManageResource
-                        resource={resource}
-                        fetchResources={fetchResources}
-                        style={{ float: 'right' }}
-                      />
-                      <Typography>{resource.text}</Typography>
-                    </AccordionDetails>
-                  </Accordion>
-                  <Divider />
-                </>
-              ))}
-            </Paper>
-          </CardBody>
-          <GridContainer>
-            <GridItem xs={12} sm={12} md={10} container justify="center">
-              <TablePagination
-                component="div"
-                count={totalFaqs}
-                page={page}
-                onPageChange={handleChangePage}
-                rowsPerPage={rowsPerPage}
-                onRowsPerPageChange={handleChangeRowsPerPage}
-              />
-            </GridItem>
-            <GridItem xs={12} sm={12} md={2} container></GridItem>
-          </GridContainer>
-        </Card>
-      </GridItem>
-    </GridContainer>
+                      Add A Resource
+                    </Button>
+                  </h4>
+                </GridItem>
+
+                <GridItem xs={12} sm={12} md={2}></GridItem>
+              </GridContainer>
+            </CardHeader>
+            <Divider />
+            {resources.length === 0 ? <PageLoad /> : null}
+            <CardBody>
+              <Paper className={classes.root}>
+                {resources.map((resource) => (
+                  <>
+                    <Accordion style={{ marginBottom: 5 }}>
+                      <AccordionSummary
+                        expandIcon={<ExpandMoreIcon />}
+                        aria-controls="panel1a-content"
+                        id="panel1a-header"
+                      >
+                        <Typography style={{ fontWeight: 'bold' }}>
+                          <GridContainer>{resource.title}</GridContainer>
+                        </Typography>
+                      </AccordionSummary>
+                      <AccordionDetails>
+                        <ManageResource
+                          resource={resource}
+                          fetchResources={fetchResources}
+                          style={{ float: 'right' }}
+                        />
+                        <Typography>{resource.text}</Typography>
+                      </AccordionDetails>
+                    </Accordion>
+                    <Divider />
+                  </>
+                ))}
+              </Paper>
+            </CardBody>
+            <GridContainer>
+              <GridItem xs={12} sm={12} md={10} container justify="center">
+                <TablePagination
+                  component="div"
+                  count={totalFaqs}
+                  page={page}
+                  onPageChange={handleChangePage}
+                  rowsPerPage={rowsPerPage}
+                  onRowsPerPageChange={handleChangeRowsPerPage}
+                />
+              </GridItem>
+              <GridItem xs={12} sm={12} md={2} container></GridItem>
+            </GridContainer>
+          </Card>
+        </GridItem>
+      </GridContainer>
+    </motion.main>
   ) : null;
 }
 Reports.layout = Admin;

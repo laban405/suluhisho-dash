@@ -3,6 +3,7 @@ import { firestore, auth } from '../../firebase';
 import { makeStyles } from '@material-ui/core/styles';
 import Admin from 'layouts/Admin.js';
 import Divider from '@material-ui/core/Divider';
+import { motion } from 'framer-motion';
 import TablePagination from '@material-ui/core/TablePagination';
 import Paper from '@material-ui/core/Paper';
 import GridItem from 'components/Grid/GridItem.js';
@@ -29,6 +30,20 @@ export default function Reports() {
   const [totalAlerts, setTotalAlerts] = useState(0);
   const [anchorEl, setAnchorEl] = React.useState(null);
   const [isUserLoggedIn, setIsUserLoggedIn] = useState(false);
+
+  const containerVariants = {
+    hidden: {
+      opacity: 0.5,
+      scale: 1.1,
+      y: 10,
+    },
+    visible: {
+      y: 0,
+      opacity: 1,
+      scale: 1,
+      transition: { delay: 0, duration: 0.5 },
+    },
+  };
 
   const handleChangePage = (event, newPage) => {
     newPage > page ? fetchNextAlerts() : fetchPreviousAlerts();
@@ -125,91 +140,102 @@ export default function Reports() {
   }, []);
 
   return isUserLoggedIn ? (
-    <GridContainer>
-      <GridItem xs={12} sm={12} md={12}>
-        <Card>
-          <CardHeader>
-            <GridContainer>
-              <GridItem xs={12} sm={12} md={10}>
-                <h4 className={classes.cardTitleWhite}>Service Providers</h4>
-                <p className={classes.cardCategoryWhite}>
-                  View and Manage all Service Providers.
-                </p>
-              </GridItem>
+    <motion.main
+      variants={containerVariants}
+      initial="hidden"
+      animate="visible"
+      exit="exit"
+    >
+      <GridContainer>
+        <GridItem xs={12} sm={12} md={12}>
+          <Card>
+            <CardHeader>
+              <GridContainer>
+                <GridItem xs={12} sm={12} md={10}>
+                  <h4 className={classes.cardTitleWhite}>Service Providers</h4>
+                  <p className={classes.cardCategoryWhite}>
+                    View and Manage all Service Providers.
+                  </p>
+                </GridItem>
 
-              <GridItem xs={12} sm={12} md={2}></GridItem>
-            </GridContainer>
-          </CardHeader>
-          <Divider />
-          <CardBody>
+                <GridItem xs={12} sm={12} md={2}></GridItem>
+              </GridContainer>
+            </CardHeader>
+            <Divider />
+            <CardBody>
+              <GridContainer>
+                <GridItem xs={12} sm={12} md={6}>
+                  <SearchComponent
+                    handleSearch={handleSearch}
+                    placeholder={'Search category...'}
+                  />
+                </GridItem>
+              </GridContainer>
+              <Paper style={classes.root}>
+                <Table
+                  tableHeaderColor="primary"
+                  tableHead={[
+                    'Name',
+                    'Email',
+                    'Location',
+                    'Location Name',
+                    'Phone',
+                    'Action',
+                  ]}
+                  tableData={serviceProviders.map((data) => [
+                    data.category,
+                    data.email,
+                    data.locationName,
+                    data.name,
+                    data.phone,
+                    <div>
+                      <Button
+                        size="sm"
+                        aria-controls="simple-menu"
+                        aria-haspopup="true"
+                        onClick={handleClick}
+                      >
+                        <MoreVert />
+                      </Button>
+                      <Menu
+                        id="simple-menu"
+                        anchorEl={anchorEl}
+                        keepMounted
+                        open={Boolean(anchorEl)}
+                        onClose={handleClose}
+                      >
+                        <MenuItem onClick={() => handleView(data)}>
+                          View
+                        </MenuItem>
+                        <MenuItem onClick={() => handleEdit(data)}>
+                          Edit
+                        </MenuItem>
+                        <MenuItem onClick={() => handleDelete(data)}>
+                          Delete
+                        </MenuItem>
+                      </Menu>
+                    </div>,
+                  ])}
+                />
+              </Paper>
+            </CardBody>
             <GridContainer>
-              <GridItem xs={12} sm={12} md={6}>
-                <SearchComponent
-                  handleSearch={handleSearch}
-                  placeholder={'Search category...'}
+              <GridItem xs={12} sm={12} md={10} container justify="center">
+                <TablePagination
+                  component="div"
+                  count={totalAlerts}
+                  page={page}
+                  onPageChange={handleChangePage}
+                  rowsPerPage={rowsPerPage}
+                  onRowsPerPageChange={handleChangeRowsPerPage}
                 />
               </GridItem>
+              <GridItem xs={12} sm={12} md={2} container></GridItem>
             </GridContainer>
-            <Paper style={classes.root}>
-              <Table
-                tableHeaderColor="primary"
-                tableHead={[
-                  'Name',
-                  'Email',
-                  'Location',
-                  'Location Name',
-                  'Phone',
-                  'Action',
-                ]}
-                tableData={serviceProviders.map((data) => [
-                  data.category,
-                  data.email,
-                  data.locationName,
-                  data.name,
-                  data.phone,
-                  <div>
-                    <Button
-                      size="sm"
-                      aria-controls="simple-menu"
-                      aria-haspopup="true"
-                      onClick={handleClick}
-                    >
-                      <MoreVert />
-                    </Button>
-                    <Menu
-                      id="simple-menu"
-                      anchorEl={anchorEl}
-                      keepMounted
-                      open={Boolean(anchorEl)}
-                      onClose={handleClose}
-                    >
-                      <MenuItem onClick={() => handleView(data)}>View</MenuItem>
-                      <MenuItem onClick={() => handleEdit(data)}>Edit</MenuItem>
-                      <MenuItem onClick={() => handleDelete(data)}>
-                        Delete
-                      </MenuItem>
-                    </Menu>
-                  </div>,
-                ])}
-              />
-            </Paper>
-          </CardBody>
-          <GridContainer>
-            <GridItem xs={12} sm={12} md={10} container justify="center">
-              <TablePagination
-                component="div"
-                count={totalAlerts}
-                page={page}
-                onPageChange={handleChangePage}
-                rowsPerPage={rowsPerPage}
-                onRowsPerPageChange={handleChangeRowsPerPage}
-              />
-            </GridItem>
-            <GridItem xs={12} sm={12} md={2} container></GridItem>
-          </GridContainer>
-        </Card>
-      </GridItem>
-    </GridContainer>
+          </Card>
+        </GridItem>
+      </GridContainer>
+    </motion.main>
   ) : null;
 }
 

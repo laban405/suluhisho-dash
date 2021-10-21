@@ -39,6 +39,34 @@
       "static/css/styles.chunk.css",
       "static/chunks/styles.js",
       "static/chunks/pages/admin/dashboard.js"
+    ],
+    "/admin/faqs": [
+      "static/chunks/webpack.js",
+      "static/chunks/main.js",
+      "static/css/styles.chunk.css",
+      "static/chunks/styles.js",
+      "static/chunks/pages/admin/faqs.js"
+    ],
+    "/admin/resource-center": [
+      "static/chunks/webpack.js",
+      "static/chunks/main.js",
+      "static/css/styles.chunk.css",
+      "static/chunks/styles.js",
+      "static/chunks/pages/admin/resource-center.js"
+    ],
+    "/admin/service-providers": [
+      "static/chunks/webpack.js",
+      "static/chunks/main.js",
+      "static/css/styles.chunk.css",
+      "static/chunks/styles.js",
+      "static/chunks/pages/admin/service-providers.js"
+    ],
+    "/admin/users": [
+      "static/chunks/webpack.js",
+      "static/chunks/main.js",
+      "static/css/styles.chunk.css",
+      "static/chunks/styles.js",
+      "static/chunks/pages/admin/users.js"
     ]
   },
   "ampFirstPages": []

@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { makeStyles } from '@material-ui/core/styles';
 import { firestore, auth } from '../../firebase';
 import Icon from '@material-ui/core/Icon';
+import {motion} from 'framer-motion'
 import Store from '@material-ui/icons/Store';
 import Admin from 'layouts/Admin.js';
 import GridItem from 'components/Grid/GridItem.js';
@@ -27,6 +28,21 @@ function Dashboard() {
   const [totalServiceProviders, setTotalServiceProviders] = useState(0);
   const [isUserLoggedIn, setIsUserLoggedIn] = useState(false);
 
+  const containerVariants = {
+    hidden: {
+      opacity: 0.5,
+      scale: 1.1,
+      y: 10,
+    },
+    visible: {
+      y: 0,
+      opacity: 1,
+      scale: 1,
+      transition: { delay: 0, duration: 0.5 },
+    },
+  };
+
+  
   const alertsSize = () => {
     firestore
       .collection('sms')
@@ -68,6 +84,13 @@ function Dashboard() {
   }, []);
 
   return isUserLoggedIn ? (
+    <motion.main
+    variants={containerVariants}
+    initial="hidden"
+    animate="visible"
+    exit="exit"
+  >
+
     <div>
       <GridContainer>
         <GridItem xs={12} sm={6} md={4}>
@@ -109,6 +132,7 @@ function Dashboard() {
       </GridContainer>
       <GridContainer></GridContainer>
     </div>
+    </motion.main>
   ) : null;
 }
 Dashboard.layout = Admin;

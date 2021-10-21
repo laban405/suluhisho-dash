@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { firestore, auth } from '../../firebase';
 import { makeStyles } from '@material-ui/core/styles';
 import Admin from 'layouts/Admin.js';
+import { motion } from 'framer-motion';
 import Divider from '@material-ui/core/Divider';
 import TablePagination from '@material-ui/core/TablePagination';
 import Paper from '@material-ui/core/Paper';
@@ -27,6 +28,20 @@ export default function Reports() {
   const [rowsPerPage, setRowsPerPage] = useState(10);
   const [totalUsers, setTotalUsers] = useState(0);
   const [isUserLoggedIn, setIsUserLoggedIn] = useState(false);
+
+  const containerVariants = {
+    hidden: {
+      opacity: 0.5,
+      scale: 1.1,
+      y: 10,
+    },
+    visible: {
+      y: 0,
+      opacity: 1,
+      scale: 1,
+      transition: { delay: 0, duration: 0.5 },
+    },
+  };
 
   const handleSearch = (e) => {
     let searchVal = e.target.value.toLowerCase();
@@ -146,76 +161,83 @@ export default function Reports() {
   }, []);
 
   return isUserLoggedIn ? (
-    <GridContainer>
-      <GridItem xs={12} sm={12} md={12}>
-        <Card>
-          <CardHeader>
-            <GridContainer>
-              <GridItem xs={12} sm={12} md={10}>
-                <h4 className={classes.cardTitleWhite}>Users</h4>
-                <p className={classes.cardCategoryWhite}>
-                  View and Manage all users.
-                </p>
-              </GridItem>
+    <motion.main
+      variants={containerVariants}
+      initial="hidden"
+      animate="visible"
+      exit="exit"
+    >
+      <GridContainer>
+        <GridItem xs={12} sm={12} md={12}>
+          <Card>
+            <CardHeader>
+              <GridContainer>
+                <GridItem xs={12} sm={12} md={10}>
+                  <h4 className={classes.cardTitleWhite}>Users</h4>
+                  <p className={classes.cardCategoryWhite}>
+                    View and Manage all users.
+                  </p>
+                </GridItem>
 
-              <GridItem xs={12} sm={12} md={2}>
-                <Button
-                  variant="contained"
-                  onClick={() => router.push('add-user')}
-                >
-                  Add User
-                </Button>
-              </GridItem>
-            </GridContainer>
-          </CardHeader>
-          <Divider />
-          {users.length === 0 ? <PageLoad /> : null}
-          <CardBody>
+                <GridItem xs={12} sm={12} md={2}>
+                  <Button
+                    variant="contained"
+                    onClick={() => router.push('add-user')}
+                  >
+                    Add User
+                  </Button>
+                </GridItem>
+              </GridContainer>
+            </CardHeader>
+            <Divider />
+            {users.length === 0 ? <PageLoad /> : null}
+            <CardBody>
+              <GridContainer>
+                <GridItem xs={12} sm={12} md={6}>
+                  <SearchComponent handleSearch={handleSearch} />
+                </GridItem>
+              </GridContainer>
+              <Paper style={classes.root}>
+                <Table
+                  tableHeaderColor="primary"
+                  tableHead={[
+                    'Name',
+                    'Phone',
+                    'NationalID',
+                    'Email',
+                    'County',
+                    'Sub-County',
+                    'Action',
+                  ]}
+                  tableData={users.map((userData) => [
+                    userData.name,
+                    userData.phone,
+                    userData.nationalID,
+                    userData.email,
+                    userData.county,
+                    userData.subCounty,
+                    <ManageUser userData={userData} fetchUsers={fetchUsers} />,
+                  ])}
+                />
+              </Paper>
+            </CardBody>
             <GridContainer>
-              <GridItem xs={12} sm={12} md={6}>
-                <SearchComponent handleSearch={handleSearch} />
+              <GridItem xs={12} sm={12} md={10} container justify="center">
+                <TablePagination
+                  component="div"
+                  count={totalUsers}
+                  page={page}
+                  onPageChange={handleChangePage}
+                  rowsPerPage={rowsPerPage}
+                  onRowsPerPageChange={handleChangeRowsPerPage}
+                />
               </GridItem>
+              <GridItem xs={12} sm={12} md={2} container></GridItem>
             </GridContainer>
-            <Paper style={classes.root}>
-              <Table
-                tableHeaderColor="primary"
-                tableHead={[
-                  'Name',
-                  'Phone',
-                  'NationalID',
-                  'Email',
-                  'County',
-                  'Sub-County',
-                  'Action',
-                ]}
-                tableData={users.map((userData) => [
-                  userData.name,
-                  userData.phone,
-                  userData.nationalID,
-                  userData.email,
-                  userData.county,
-                  userData.subCounty,
-                  <ManageUser userData={userData} fetchUsers={fetchUsers} />,
-                ])}
-              />
-            </Paper>
-          </CardBody>
-          <GridContainer>
-            <GridItem xs={12} sm={12} md={10} container justify="center">
-              <TablePagination
-                component="div"
-                count={totalUsers}
-                page={page}
-                onPageChange={handleChangePage}
-                rowsPerPage={rowsPerPage}
-                onRowsPerPageChange={handleChangeRowsPerPage}
-              />
-            </GridItem>
-            <GridItem xs={12} sm={12} md={2} container></GridItem>
-          </GridContainer>
-        </Card>
-      </GridItem>
-    </GridContainer>
+          </Card>
+        </GridItem>
+      </GridContainer>
+    </motion.main>
   ) : null;
 }
 

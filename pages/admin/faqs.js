@@ -5,6 +5,7 @@ import Admin from 'layouts/Admin.js';
 import Divider from '@material-ui/core/Divider';
 import TablePagination from '@material-ui/core/TablePagination';
 import Paper from '@material-ui/core/Paper';
+import { motion } from 'framer-motion';
 import GridItem from 'components/Grid/GridItem.js';
 import Button from 'components/CustomButtons/Button.js';
 import Accordion from '@mui/material/Accordion';
@@ -79,6 +80,20 @@ export default function Reports() {
   const [lastVisibleData, setLastVisibleData] = useState(null);
   const [isUserLoggedIn, setIsUserLoggedIn] = useState(false);
   const [open, SetOpen] = useState(false);
+
+  const containerVariants = {
+    hidden: {
+      opacity: 0.5,
+      scale: 1.1,
+      y: 10,
+    },
+    visible: {
+      y: 0,
+      opacity: 1,
+      scale: 1,
+      transition: { delay: 0, duration: 0.5 },
+    },
+  };
 
   const handleChangePage = (event, newPage) => {
     newPage > page ? fetchNextFaqs() : fetchPreviousFaqs();
@@ -176,73 +191,80 @@ export default function Reports() {
   }, []);
 
   return isUserLoggedIn ? (
-    <GridContainer className={classes.container}>
-      <GridItem xs={12} sm={12} md={12}>
-        <Card>
-          <CardHeader>
-            <GridContainer>
-              <GridItem xs={12} sm={12} md={10}>
-                <h4 className={classes.cardTitleWhite}>
-                  Frequently Asked Questions
-                  <Button
-                    size="sm"
-                    color="primary"
-                    className={classes.btn}
-                    onClick={() => router.push('add-faq')}
-                  >
-                    Add A FAQ
-                  </Button>
-                </h4>
-              </GridItem>
-              <GridItem xs={12} sm={12} md={2}></GridItem>
-            </GridContainer>
-          </CardHeader>
-
-          <CardBody>
-            <Paper className={classes.root}>
-              {faqs.map((faq) => (
-                <>
-                  <Accordion style={{ marginBottom: 5 }}>
-                    <AccordionSummary
-                      expandIcon={<ExpandMoreIcon />}
-                      aria-controls="panel1a-content"
-                      id="panel1a-header"
+    <motion.main
+      variants={containerVariants}
+      initial="hidden"
+      animate="visible"
+      exit="exit"
+    >
+      <GridContainer className={classes.container}>
+        <GridItem xs={12} sm={12} md={12}>
+          <Card>
+            <CardHeader>
+              <GridContainer>
+                <GridItem xs={12} sm={12} md={10}>
+                  <h4 className={classes.cardTitleWhite}>
+                    Frequently Asked Questions
+                    <Button
+                      size="sm"
+                      color="primary"
+                      className={classes.btn}
+                      onClick={() => router.push('add-faq')}
                     >
-                      <Typography style={{ fontWeight: 'bold' }}>
-                        <GridContainer>{faq.title}</GridContainer>
-                      </Typography>
-                    </AccordionSummary>
+                      Add A FAQ
+                    </Button>
+                  </h4>
+                </GridItem>
+                <GridItem xs={12} sm={12} md={2}></GridItem>
+              </GridContainer>
+            </CardHeader>
 
-                    <AccordionDetails>
-                      <ManageFAQ
-                        faq={faq}
-                        fetchFAQs={fetchFAQs}
-                        style={{ float: 'right' }}
-                      />
-                      <Typography>{faq.text}</Typography>
-                    </AccordionDetails>
-                  </Accordion>
-                  <Divider />
-                </>
-              ))}
-            </Paper>
-          </CardBody>
-          <GridContainer>
-            <GridItem xs={12} sm={12} md={10} container justify="center">
-              <TablePagination
-                component="div"
-                count={totalFaqs}
-                page={page}
-                onPageChange={handleChangePage}
-                rowsPerPage={rowsPerPage}
-                onRowsPerPageChange={handleChangeRowsPerPage}
-              />
-            </GridItem>
-            <GridItem xs={12} sm={12} md={2} container></GridItem>
-          </GridContainer>
-        </Card>
-      </GridItem>
-    </GridContainer>
+            <CardBody>
+              <Paper className={classes.root}>
+                {faqs.map((faq) => (
+                  <>
+                    <Accordion style={{ marginBottom: 5 }}>
+                      <AccordionSummary
+                        expandIcon={<ExpandMoreIcon />}
+                        aria-controls="panel1a-content"
+                        id="panel1a-header"
+                      >
+                        <Typography style={{ fontWeight: 'bold' }}>
+                          <GridContainer>{faq.title}</GridContainer>
+                        </Typography>
+                      </AccordionSummary>
+
+                      <AccordionDetails>
+                        <ManageFAQ
+                          faq={faq}
+                          fetchFAQs={fetchFAQs}
+                          style={{ float: 'right' }}
+                        />
+                        <Typography>{faq.text}</Typography>
+                      </AccordionDetails>
+                    </Accordion>
+                    <Divider />
+                  </>
+                ))}
+              </Paper>
+            </CardBody>
+            <GridContainer>
+              <GridItem xs={12} sm={12} md={10} container justify="center">
+                <TablePagination
+                  component="div"
+                  count={totalFaqs}
+                  page={page}
+                  onPageChange={handleChangePage}
+                  rowsPerPage={rowsPerPage}
+                  onRowsPerPageChange={handleChangeRowsPerPage}
+                />
+              </GridItem>
+              <GridItem xs={12} sm={12} md={2} container></GridItem>
+            </GridContainer>
+          </Card>
+        </GridItem>
+      </GridContainer>
+    </motion.main>
   ) : null;
 }
 Reports.layout = Admin;
