@@ -2,6 +2,11 @@ import React, { useEffect, useState } from 'react';
 import { firestore, auth } from '../../firebase';
 import { makeStyles } from '@material-ui/core/styles';
 import Admin from 'layouts/Admin.js';
+import Accordion from '@mui/material/Accordion';
+import AccordionSummary from '@mui/material/AccordionSummary';
+import AccordionDetails from '@mui/material/AccordionDetails';
+import Typography from '@mui/material/Typography';
+import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 import Divider from '@material-ui/core/Divider';
 import TablePagination from '@material-ui/core/TablePagination';
 import Paper from '@material-ui/core/Paper';
@@ -199,14 +204,30 @@ export default function Reports() {
             <Paper className={classes.root}>
               {resources.map((resource) => (
                 <>
-                  <div className={classes.cardItemTitle}>
-                    {resource.title}
-                    <ManageResource
-                      resource={resource}
-                      fetchResources={fetchResources}
-                    />
-                  </div>
-                  <h5 className={classes.cardItem}>{resource.text}</h5>
+                  <Accordion>
+                    <AccordionSummary
+                      expandIcon={<ExpandMoreIcon />}
+                      aria-controls="panel1a-content"
+                      id="panel1a-header"
+                    >
+                      <Typography style={{ fontWeight: 'bold' }}>
+                        <GridContainer>
+                          <GridItem xs={12} sm={11} md={11}>
+                            {resource.title}
+                          </GridItem>
+                          <GridItem xs={12} sm={12} md={1}>
+                            <ManageResource
+                              resource={resource}
+                              fetchResources={fetchResources}
+                            />
+                          </GridItem>
+                        </GridContainer>
+                      </Typography>
+                    </AccordionSummary>
+                    <AccordionDetails>
+                      <Typography>{resource.text}</Typography>
+                    </AccordionDetails>
+                  </Accordion>
                   <Divider />
                 </>
               ))}
