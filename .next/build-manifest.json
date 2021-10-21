@@ -26,26 +26,19 @@
       "static/chunks/main.js",
       "static/chunks/pages/_error.js"
     ],
-    "/admin/faqs": [
+    "/admin/alerts": [
       "static/chunks/webpack.js",
       "static/chunks/main.js",
       "static/css/styles.chunk.css",
       "static/chunks/styles.js",
-      "static/chunks/pages/admin/faqs.js"
+      "static/chunks/pages/admin/alerts.js"
     ],
-    "/admin/manage-faq": [
+    "/admin/dashboard": [
       "static/chunks/webpack.js",
       "static/chunks/main.js",
       "static/css/styles.chunk.css",
       "static/chunks/styles.js",
-      "static/chunks/pages/admin/manage-faq.js"
-    ],
-    "/admin/resource-center": [
-      "static/chunks/webpack.js",
-      "static/chunks/main.js",
-      "static/css/styles.chunk.css",
-      "static/chunks/styles.js",
-      "static/chunks/pages/admin/resource-center.js"
+      "static/chunks/pages/admin/dashboard.js"
     ]
   },
   "ampFirstPages": []

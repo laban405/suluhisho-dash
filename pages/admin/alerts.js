@@ -3,6 +3,7 @@ import { firestore, auth } from '../../firebase';
 import moment from 'moment';
 import jsPDF from 'jspdf';
 import 'jspdf-autotable';
+import { motion } from 'framer-motion';
 import { makeStyles } from '@material-ui/core/styles';
 import Admin from 'layouts/Admin.js';
 import Divider from '@material-ui/core/Divider';
@@ -44,6 +45,20 @@ export default function Reports() {
       'Incident Type',
     ],
   ];
+
+  const containerVariants = {
+    hidden: {
+      opacity: 0.5,
+      scale: 1.1,
+      y: 10,
+    },
+    visible: {
+      y: 0,
+      opacity: 1,
+      scale: 1,
+      transition: { delay: 0, duration: 0.5 },
+    },
+  };
 
   const bodyRows = () =>
     alerts &&
@@ -197,80 +212,87 @@ export default function Reports() {
   }, []);
 
   return isUserLoggedIn ? (
-    <GridContainer>
-      <GridItem xs={12} sm={12} md={12}>
-        <Card>
-          <CardHeader>
-            <GridContainer>
-              <GridItem xs={12} sm={12} md={10}>
-                <h4 className={classes.cardTitleWhite}>Incidents</h4>
-                <p className={classes.cardCategoryWhite}>
-                  View and Manage all incidents.
-                </p>
-              </GridItem>
+    <motion.main
+      variants={containerVariants}
+      initial="hidden"
+      animate="visible"
+      exit="exit"
+    >
+      <GridContainer>
+        <GridItem xs={12} sm={12} md={12}>
+          <Card>
+            <CardHeader>
+              <GridContainer>
+                <GridItem xs={12} sm={12} md={10}>
+                  <h4 className={classes.cardTitleWhite}>Incidents</h4>
+                  <p className={classes.cardCategoryWhite}>
+                    View and Manage all incidents.
+                  </p>
+                </GridItem>
 
-              <GridItem xs={12} sm={12} md={2}></GridItem>
-            </GridContainer>
-          </CardHeader>
-          <Divider />
-          {alerts.length === 0 ? <PageLoad /> : null}
-          <CardBody>
+                <GridItem xs={12} sm={12} md={2}></GridItem>
+              </GridContainer>
+            </CardHeader>
+            <Divider />
+            {alerts.length === 0 ? <PageLoad /> : null}
+            <CardBody>
+              <GridContainer>
+                <GridItem xs={12} sm={12} md={10}>
+                  <FilterAlerts
+                    fetchOldAlerts={fetchOldAlerts}
+                    fetchNewAlerts={fetchAlerts}
+                  />
+                </GridItem>
+                <div style={{ float: 'right', marginLeft: '55px' }}>
+                  <DownloadReport
+                    handleDownload={handleDownload}
+                    alertsData={alerts}
+                  />
+                </div>
+              </GridContainer>
+              <Paper style={classes.root}>
+                <Table
+                  tableHeaderColor="primary"
+                  tableHead={[
+                    'Date',
+                    'Sender name',
+                    'Sender Number.',
+                    'Location',
+                    'Recipients',
+                    'Status',
+                    'Message',
+                    'Action',
+                  ]}
+                  tableData={alerts.map((data) => [
+                    moment(data.date.seconds).format('LLL'),
+                    data.senderName,
+                    data.senderNumber,
+                    data.location,
+                    data.recipients,
+                    data.status,
+                    data.message,
+                    <ManageAlert alertsData={data} fetchAlerts={fetchAlerts} />,
+                  ])}
+                />
+              </Paper>
+            </CardBody>
             <GridContainer>
-              <GridItem xs={12} sm={12} md={10}>
-                <FilterAlerts
-                  fetchOldAlerts={fetchOldAlerts}
-                  fetchNewAlerts={fetchAlerts}
+              <GridItem xs={12} sm={12} md={10} container justify="center">
+                <TablePagination
+                  component="div"
+                  count={totalAlerts}
+                  page={page}
+                  onPageChange={handleChangePage}
+                  rowsPerPage={rowsPerPage}
+                  onRowsPerPageChange={handleChangeRowsPerPage}
                 />
               </GridItem>
-              <div style={{ float: 'right', marginLeft: '55px' }}>
-                <DownloadReport
-                  handleDownload={handleDownload}
-                  alertsData={alerts}
-                />
-              </div>
+              <GridItem xs={12} sm={12} md={2} container></GridItem>
             </GridContainer>
-            <Paper style={classes.root}>
-              <Table
-                tableHeaderColor="primary"
-                tableHead={[
-                  'Date',
-                  'Sender name',
-                  'Sender Number.',
-                  'Location',
-                  'Recipients',
-                  'Status',
-                  'Message',
-                  'Action',
-                ]}
-                tableData={alerts.map((data) => [
-                  moment(data.date.seconds).format('LLL'),
-                  data.senderName,
-                  data.senderNumber,
-                  data.location,
-                  data.recipients,
-                  data.status,
-                  data.message,
-                  <ManageAlert alertsData={data} fetchAlerts={fetchAlerts} />,
-                ])}
-              />
-            </Paper>
-          </CardBody>
-          <GridContainer>
-            <GridItem xs={12} sm={12} md={10} container justify="center">
-              <TablePagination
-                component="div"
-                count={totalAlerts}
-                page={page}
-                onPageChange={handleChangePage}
-                rowsPerPage={rowsPerPage}
-                onRowsPerPageChange={handleChangeRowsPerPage}
-              />
-            </GridItem>
-            <GridItem xs={12} sm={12} md={2} container></GridItem>
-          </GridContainer>
-        </Card>
-      </GridItem>
-    </GridContainer>
+          </Card>
+        </GridItem>
+      </GridContainer>
+    </motion.main>
   ) : null;
 }
 
