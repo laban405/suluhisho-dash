@@ -2,6 +2,9 @@ import React, { useEffect, useState } from 'react';
 import { firestore, auth } from '../../firebase';
 import { useRouter } from 'next/router';
 import { useFormik } from 'formik';
+import ReactDOM from 'react-dom';
+import { Editor, EditorState } from 'draft-js';
+import 'draft-js/dist/Draft.css';
 import Admin from 'layouts/Admin.js';
 import GridItem from 'components/Grid/GridItem.js';
 import GridContainer from 'components/Grid/GridContainer.js';
@@ -12,10 +15,14 @@ import CardHeader from 'components/Card/CardHeader.js';
 import CardBody from 'components/Card/CardBody.js';
 import CardFooter from 'components/Card/CardFooter.js';
 import PageChange from '../../components/PageChange/PageChange';
+import RichText from '../../components/RichText/RichText.js';
 
 function FaqCreate() {
   const router = useRouter();
   const [isUserLoggedIn, setIsUserLoggedIn] = useState(false);
+  const [editorState, setEditorState] = useState(() =>
+    EditorState.createEmpty()
+  );
 
   const formik = useFormik({
     initialValues: {
@@ -77,6 +84,13 @@ function FaqCreate() {
                         fullWidth: true,
                       }}
                     />
+                  </GridItem>
+                  <GridItem xs={12} sm={12} md={12}>
+                    <Editor
+                      editorState={editorState}
+                      onChange={setEditorState}
+                    />
+                    <RichText />
                   </GridItem>
                   <GridItem xs={12} sm={12} md={12}>
                     <CustomInput
