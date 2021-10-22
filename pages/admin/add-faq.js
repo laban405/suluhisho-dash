@@ -1,10 +1,14 @@
 import React, { useEffect, useState } from 'react';
 import { firestore, auth } from '../../firebase';
 import { useRouter } from 'next/router';
+import 'react-quill/dist/quill.snow.css';
 import { useFormik } from 'formik';
 import ReactDOM from 'react-dom';
 import { Editor, EditorState } from 'draft-js';
 import 'draft-js/dist/Draft.css';
+import dynamic from 'next/dynamic';
+const ReactQuill = dynamic(() => import('react-quill'), { ssr: false });
+import 'react-quill/dist/quill.snow.css';
 import Admin from 'layouts/Admin.js';
 import GridItem from 'components/Grid/GridItem.js';
 import GridContainer from 'components/Grid/GridContainer.js';
@@ -23,6 +27,7 @@ function FaqCreate() {
   const [editorState, setEditorState] = useState(() =>
     EditorState.createEmpty()
   );
+  const [value, setValue] = useState('');
 
   const formik = useFormik({
     initialValues: {
@@ -91,6 +96,8 @@ function FaqCreate() {
                       onChange={setEditorState}
                     />
                     <RichText />
+                    <br />
+                    <ReactQuill value={value} onChange={setValue} />
                   </GridItem>
                   <GridItem xs={12} sm={12} md={12}>
                     <CustomInput
