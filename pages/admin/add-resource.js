@@ -2,6 +2,9 @@ import React, { useEffect, useState } from 'react';
 import { firestore, auth } from '../../firebase';
 import { useRouter } from 'next/router';
 import { useFormik } from 'formik';
+import dynamic from 'next/dynamic';
+const ReactQuill = dynamic(() => import('react-quill'), { ssr: false });
+import 'react-quill/dist/quill.snow.css';
 import Admin from 'layouts/Admin.js';
 import GridItem from 'components/Grid/GridItem.js';
 import GridContainer from 'components/Grid/GridContainer.js';
@@ -15,15 +18,16 @@ import CardFooter from 'components/Card/CardFooter.js';
 function AlertEdit() {
   const router = useRouter();
   const [isUserLoggedIn, setIsUserLoggedIn] = useState(false);
+  const [textValue, setTextValue] = useState('');
 
   const formik = useFormik({
     initialValues: {
       title: '',
-      text: '',
       dateCreated: new Date(),
       category: 'general',
     },
     onSubmit: (values) => {
+      values.text = textValue;
       createFAQ(values);
     },
   });
@@ -78,17 +82,7 @@ function AlertEdit() {
                     />
                   </GridItem>
                   <GridItem xs={12} sm={12} md={12}>
-                    <CustomInput
-                      id="text"
-                      name="text"
-                      onChange={formik.handleChange}
-                      value={formik.values.text}
-                      placeholder={formik.values.text}
-                      labelText={'Add new text....'}
-                      formControlProps={{
-                        fullWidth: true,
-                      }}
-                    />
+                    <ReactQuill value={textValue} onChange={setTextValue} />
                   </GridItem>
                 </GridContainer>
               </CardBody>

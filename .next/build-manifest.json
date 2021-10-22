@@ -26,12 +26,12 @@
       "static/chunks/main.js",
       "static/chunks/pages/_error.js"
     ],
-    "/admin/add-faq": [
+    "/admin/add-resource": [
       "static/chunks/webpack.js",
       "static/chunks/main.js",
       "static/css/styles.chunk.css",
       "static/chunks/styles.js",
-      "static/chunks/pages/admin/add-faq.js"
+      "static/chunks/pages/admin/add-resource.js"
     ],
     "/admin/faqs": [
       "static/chunks/webpack.js",

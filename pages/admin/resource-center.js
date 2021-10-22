@@ -241,7 +241,9 @@ export default function Reports() {
                           fetchResources={fetchResources}
                           style={{ float: 'right' }}
                         />
-                        <Typography>{resource.text}</Typography>
+                        <Typography
+                          dangerouslySetInnerHTML={{ __html: resource.text }}
+                        />
                       </AccordionDetails>
                     </Accordion>
                     <Divider />
