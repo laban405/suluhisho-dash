@@ -201,11 +201,11 @@ function AddUser() {
                   </GridItem>
                   <GridItem xs={12} sm={12} md={6}>
                     <CustomInput
-                      id="nationaID"
-                      name="nationaID"
+                      id="nationalID"
+                      name="nationalID"
                       onChange={formik.handleChange}
-                      value={formik.values.nationaID}
-                      placeholder={formik.values.nationaID}
+                      value={formik.values.nationalID}
+                      placeholder={formik.values.nationalID}
                       labelText={'National ID or Passport No.'}
                       formControlProps={{
                         fullWidth: true,
