@@ -19,36 +19,6 @@ function AddUser() {
   const router = useRouter();
   const [isUserLoggedIn, setIsUserLoggedIn] = useState(false);
 
-  const SignupSchema = Yup.object().shape({
-    firstname: Yup.string()
-      .min(2, 'Too Short!')
-      .max(50, 'Too Long!')
-      .required('Required'),
-    lastname: Yup.string()
-      .min(2, 'Too Short!')
-      .max(50, 'Too Long!')
-      .required('Required'),
-    email: Yup.string().email('Invalid email').required('Required'),
-    firstname: Yup.string()
-      .min(2, 'Too Short!')
-      .max(50, 'Too Long!')
-      .required('Required'),
-    county: Yup.string()
-      .min(2, 'Too Short!')
-      .max(50, 'Too Long!')
-      .required('Required'),
-    subcounty: Yup.string()
-      .min(2, 'Too Short!')
-      .max(50, 'Too Long!')
-      .required('Required'),
-    phone: Yup.number().min(10, 'Too Short!').required('Required'),
-    nationalID: Yup.number().required('Required'),
-    location: Yup.string().required('Required'),
-    phone: Yup.string().required('Required'),
-    category: Yup.string().required('Required'),
-    categoryID: Yup.number().required('Required'),
-  });
-
   const formik = useFormik({
     initialValues: {
       firstname: '',
@@ -57,11 +27,16 @@ function AddUser() {
       email: '',
       location: '',
       county: '',
-      subcounty: '',
+      subCounty: '',
       category: '',
       categoryID: '',
       nationalID: '',
       profession: '',
+      isActive: true,
+      isAdmin: false,
+      isClient: false,
+      isOccupied: false,
+      position: {},
       latitude: '',
       longitude: '',
     },
@@ -72,6 +47,8 @@ function AddUser() {
       // values[longitude],
       // ]);
       // values.geohash = hash;
+
+      values.name = `${values.firstname} ${values.lastname}`;
 
       createUser(values);
     },
@@ -185,11 +162,11 @@ function AddUser() {
                   </GridItem>
                   <GridItem xs={12} sm={12} md={6}>
                     <CustomInput
-                      id="subcounty"
-                      name="subcounty"
+                      id="subCounty"
+                      name="subCounty"
                       onChange={formik.handleChange}
-                      value={formik.values.subcounty}
-                      placeholder={formik.values.subcounty}
+                      value={formik.values.subCounty}
+                      placeholder={formik.values.subCounty}
                       labelText={'Sub-County:'}
                       formControlProps={{
                         fullWidth: true,

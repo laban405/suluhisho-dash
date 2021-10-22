@@ -85,7 +85,11 @@ function FaqCreate() {
                     />
                   </GridItem>
                   <GridItem xs={12} sm={12} md={12}>
-                    <ReactQuill value={value} onChange={setValue} />
+                    <ReactQuill
+                      value={value}
+                      onChange={setValue}
+                      placeholder={'Enter some text..'}
+                    />
                   </GridItem>
                 </GridContainer>
               </CardBody>

@@ -3,6 +3,10 @@ import { firestore, auth } from '../../firebase';
 import { useRouter } from 'next/router';
 import { useFormik } from 'formik';
 import Admin from 'layouts/Admin.js';
+import 'react-quill/dist/quill.snow.css';
+import dynamic from 'next/dynamic';
+const ReactQuill = dynamic(() => import('react-quill'), { ssr: false });
+import 'react-quill/dist/quill.snow.css';
 import { TextareaAutosize } from '@material-ui/core';
 import GridItem from 'components/Grid/GridItem.js';
 import GridContainer from 'components/Grid/GridContainer.js';
@@ -17,6 +21,7 @@ function AlertEdit() {
   const [resource, setResource] = useState('');
   const router = useRouter();
   const [isUserLoggedIn, setIsUserLoggedIn] = useState(false);
+  const [textValue, setTextValue] = useState('');
 
   const formik = useFormik({
     initialValues: {
@@ -26,7 +31,7 @@ function AlertEdit() {
     onSubmit: (values) => {
       let newValues = {
         title: values.title || resource.title,
-        text: values.text || resource.text,
+        text: textValue,
       };
       updateResource(newValues);
     },
@@ -81,14 +86,11 @@ function AlertEdit() {
                     />
                   </GridItem>
                   <GridItem xs={12} sm={12} md={12}>
-                    <TextareaAutosize
-                      maxRows={7}
-                      minRows={4}
-                      onChange={formik.handleChange}
-                      id={'text'}
-                      aria-label="maximum height"
-                      placeholder={formik.values.text}
-                      defaultValue={formik.values.text || resource.text}
+                    <ReactQuill
+                      value={textValue}
+                      // value={textValue !== '' ? textValue : setTextValue(resource.text)}
+                      onChange={setTextValue}
+                      placeholder={'Enter some text..'}
                     />
                   </GridItem>
                 </GridContainer>
