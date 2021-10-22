@@ -240,7 +240,9 @@ export default function Reports() {
                           fetchFAQs={fetchFAQs}
                           style={{ float: 'right' }}
                         />
-                        <Typography>{faq.text}</Typography>
+                        <Typography
+                          dangerouslySetInnerHTML={{ __html: faq.text }}
+                        />
                       </AccordionDetails>
                     </Accordion>
                     <Divider />
