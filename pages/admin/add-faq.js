@@ -3,9 +3,6 @@ import { firestore, auth } from '../../firebase';
 import { useRouter } from 'next/router';
 import 'react-quill/dist/quill.snow.css';
 import { useFormik } from 'formik';
-import ReactDOM from 'react-dom';
-import { Editor, EditorState } from 'draft-js';
-import 'draft-js/dist/Draft.css';
 import dynamic from 'next/dynamic';
 const ReactQuill = dynamic(() => import('react-quill'), { ssr: false });
 import 'react-quill/dist/quill.snow.css';
@@ -19,24 +16,21 @@ import CardHeader from 'components/Card/CardHeader.js';
 import CardBody from 'components/Card/CardBody.js';
 import CardFooter from 'components/Card/CardFooter.js';
 import PageChange from '../../components/PageChange/PageChange';
-import RichText from '../../components/RichText/RichText.js';
 
 function FaqCreate() {
   const router = useRouter();
   const [isUserLoggedIn, setIsUserLoggedIn] = useState(false);
-  const [editorState, setEditorState] = useState(() =>
-    EditorState.createEmpty()
-  );
   const [value, setValue] = useState('');
 
   const formik = useFormik({
     initialValues: {
       title: '',
-      text: '',
+      // text: '',
       dateCreated: new Date(),
       category: 'general',
     },
     onSubmit: (values) => {
+      values.text = value;
       createFAQ(values);
     },
   });
@@ -91,26 +85,7 @@ function FaqCreate() {
                     />
                   </GridItem>
                   <GridItem xs={12} sm={12} md={12}>
-                    <Editor
-                      editorState={editorState}
-                      onChange={setEditorState}
-                    />
-                    <RichText />
-                    <br />
                     <ReactQuill value={value} onChange={setValue} />
-                  </GridItem>
-                  <GridItem xs={12} sm={12} md={12}>
-                    <CustomInput
-                      id="text"
-                      name="text"
-                      onChange={formik.handleChange}
-                      value={formik.values.text}
-                      placeholder={formik.values.text}
-                      labelText={'Add new text....'}
-                      formControlProps={{
-                        fullWidth: true,
-                      }}
-                    />
                   </GridItem>
                 </GridContainer>
               </CardBody>
