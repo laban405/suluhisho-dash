@@ -28,6 +28,7 @@ export default function Reports() {
   const [rowsPerPage, setRowsPerPage] = useState(10);
   const [totalUsers, setTotalUsers] = useState(0);
   const [isUserLoggedIn, setIsUserLoggedIn] = useState(false);
+  const [pageLoading, setPageLoading] = useState();
 
   const containerVariants = {
     hidden: {
@@ -71,6 +72,7 @@ export default function Reports() {
 
   const fetchNextUsers = async () => {
     const usersArr = [];
+    setPageLoading(true);
 
     firestore
       .collection('users')
@@ -87,12 +89,14 @@ export default function Reports() {
         });
       })
       .then(() => {
+        setPageLoading(false);
         setUsers(usersArr);
       });
   };
 
   const fetchPreviousUsersList = async () => {
     const usersArr = [];
+    setPageLoading(true);
     firestore
       .collection('users')
       .orderBy('name')
@@ -108,11 +112,13 @@ export default function Reports() {
         });
       })
       .then(() => {
+        setPageLoading(false);
         setUsers(usersArr);
       });
   };
 
   const fetchUsers = async () => {
+    setPageLoading(true);
     const usersArr = [];
     firestore
       .collection('users')
@@ -127,10 +133,14 @@ export default function Reports() {
           setLastVisibleData(querySnapshot.docs[querySnapshot.docs.length - 1]);
         });
       })
-      .then(() => setUsers(usersArr));
+      .then(() => {
+        setPageLoading(false);
+        setUsers(usersArr);
+      });
   };
 
   const searchUserByName = async (searchValue) => {
+    setPageLoading(false);
     const usersArr = [];
     firestore
       .collection('users')
@@ -144,7 +154,10 @@ export default function Reports() {
             usersArr.push(currentUser);
         });
       })
-      .then(() => setUsers(usersArr));
+      .then(() => {
+        setPageLoading(false);
+        setUsers(usersArr);
+      });
   };
 
   useEffect(() => {
@@ -189,7 +202,7 @@ export default function Reports() {
               </GridContainer>
             </CardHeader>
             <Divider />
-            {users.length === 0 ? <PageLoad /> : null}
+            {pageLoading ? <PageLoad /> : null}
             <CardBody>
               <GridContainer>
                 <GridItem xs={12} sm={12} md={6}>

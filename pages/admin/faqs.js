@@ -79,7 +79,7 @@ export default function Reports() {
   const [totalFaqs, setTotalFaqsSize] = useState(0);
   const [lastVisibleData, setLastVisibleData] = useState(null);
   const [isUserLoggedIn, setIsUserLoggedIn] = useState(false);
-  const [open, SetOpen] = useState(false);
+  const [pageLoading, setPageLoading] = useState();
 
   const containerVariants = {
     hidden: {
@@ -117,6 +117,8 @@ export default function Reports() {
 
   const fetchNextFaqs = async () => {
     const faqArr = [];
+    setPageLoading(true);
+
     firestore
       .collection('faqs')
       .orderBy('title')
@@ -132,11 +134,13 @@ export default function Reports() {
         });
       })
       .then(() => {
+        setPageLoading(false);
         setFAQs(faqArr);
       });
   };
 
   const fetchPreviousFaqs = async () => {
+    setPageLoading(true);
     const faqArr = [];
     firestore
       .collection('faqs')
@@ -153,12 +157,14 @@ export default function Reports() {
         });
       })
       .then(() => {
+        setPageLoading(false);
         setFAQs(faqArr);
       });
   };
 
   // fetch faqs from firestore
   const fetchFAQs = async () => {
+    setPageLoading(true);
     const faqArr = [];
     firestore
       .collection('faqs')
@@ -174,6 +180,7 @@ export default function Reports() {
         });
       })
       .then(() => {
+        setPageLoading(false);
         setFAQs(faqArr);
       });
   };
@@ -200,6 +207,7 @@ export default function Reports() {
       <GridContainer className={classes.container}>
         <GridItem xs={12} sm={12} md={12}>
           <Card>
+            {pageLoading ? <PageLoad /> : null}
             <CardHeader>
               <GridContainer>
                 <GridItem xs={12} sm={12} md={10}>
