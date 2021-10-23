@@ -4,5 +4,11 @@
     "files": [
       "static/chunks/0.js"
     ]
+  },
+  "admin/add-resource.js -> react-quill": {
+    "id": "./node_modules/react-quill/lib/index.js",
+    "files": [
+      "static/chunks/1.js"
+    ]
   }
 }
