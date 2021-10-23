@@ -99,7 +99,9 @@ function Dashboard() {
                   <Icon>content_copy</Icon>
                 </CardIcon>
                 <p className={classes.cardCategory}>Total Reported Incidents</p>
-                <h3 className={classes.cardTitle}>{totalAlerts}</h3>
+                <h3 className={classes.cardTitle}>
+                  <CountUp start={0} end={totalAlerts} duration={3} />
+                </h3>
               </CardHeader>
               <CardFooter stats></CardFooter>
             </Card>
@@ -111,7 +113,9 @@ function Dashboard() {
                   <Store />
                 </CardIcon>
                 <p className={classes.cardCategory}>Total Users</p>
-                <h3 className={classes.cardTitle}>{totalUsers}</h3>
+                <h3 className={classes.cardTitle}>
+                  <CountUp start={0} end={totalUsers} duration={4} />
+                </h3>
               </CardHeader>
               <CardFooter stats></CardFooter>
             </Card>
@@ -123,18 +127,15 @@ function Dashboard() {
                   <Icon>info_outline</Icon>
                 </CardIcon>
                 <p className={classes.cardCategory}>Total Service Providers</p>
-                <h3 className={classes.cardTitle}>{5}</h3>
+                <h3 className={classes.cardTitle}>
+                  <CountUp start={0} end={5} duration={5} />
+                </h3>
               </CardHeader>
               <CardFooter stats></CardFooter>
             </Card>
           </GridItem>
         </GridContainer>
-        <GridContainer>
-          <h1>GEEKSFORGEEKS</h1>
-          <div style={{ fontSize: '150px' }}>
-            <CountUp start={0} end={100000} duration={3} />
-          </div>
-        </GridContainer>
+        <GridContainer></GridContainer>
       </div>
     </motion.main>
   ) : null;
