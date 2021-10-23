@@ -3,6 +3,7 @@ import classNames from "classnames";
 import firebase from 'firebase/app';
 import {useRouter} from 'next/router';
 import { makeStyles } from "@material-ui/core/styles";
+import Tooltip from '@mui/material/Tooltip';
 import MenuItem from "@material-ui/core/MenuItem";
 import MenuList from "@material-ui/core/MenuList";
 import Grow from "@material-ui/core/Grow";
@@ -34,6 +35,7 @@ export default function AdminNavbarLinks() {
   const [signedOutError, setSignedOutError] = useState(false);
   const [lastVisibleData, setLastVisibleData] = useState(null);
   const [alerts, setAlerts] = useState([]);
+  const [showTooltip, setShowTooltip] = useState(true)
 
   
   const handleClickNotification = (event) => {
@@ -112,19 +114,23 @@ export default function AdminNavbarLinks() {
   
   return (
     <div>
-    <div className={classes.manager}>
-        <Button
-          color={size.width > 959 ? "transparent" : "white"}
-          justIcon={size.width > 959}
-          simple={!(size.width > 959)}
-          aria-owns={openProfile ? "profile-menu-list-grow" : null}
-          aria-haspopup="true"
-          onClick={handleSendPushNotification}
-          className={classes.buttonLink}
-        >
-          <RateReview className={classes.icons} />
-        </Button>
-      </div>
+    <Tooltip title="Send Push Notification">
+      <div className={classes.manager}>
+          <Button
+            color={size.width > 959 ? "transparent" : "white"}
+            justIcon={size.width > 959}
+            simple={!(size.width > 959)}
+            aria-owns={openProfile ? "profile-menu-list-grow" : null}
+            aria-haspopup="true"
+            onClick={handleSendPushNotification}
+            className={classes.buttonLink}
+            onMouseEnter={() => setShowTooltip(true)}
+            onMouseLeave={() => setShowTooltip(false)}
+          >
+            <RateReview className={classes.icons} />
+          </Button>
+        </div>
+        </Tooltip>
       
       <div className={classes.manager}>
         <Button

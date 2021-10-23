@@ -88,7 +88,6 @@ function AlertEdit() {
                   <GridItem xs={12} sm={12} md={12}>
                     <ReactQuill
                       value={textValue}
-                      // value={textValue !== '' ? textValue : setTextValue(resource.text)}
                       onChange={setTextValue}
                       placeholder={'Enter some text..'}
                     />

@@ -2,8 +2,11 @@ import React, { useEffect, useState } from 'react';
 import { firestore, auth } from '../../firebase';
 import { useRouter } from 'next/router';
 import { useFormik } from 'formik';
+import 'react-quill/dist/quill.snow.css';
+import dynamic from 'next/dynamic';
+const ReactQuill = dynamic(() => import('react-quill'), { ssr: false });
+import 'react-quill/dist/quill.snow.css';
 import Admin from 'layouts/Admin.js';
-import { TextareaAutosize } from '@material-ui/core';
 import GridItem from 'components/Grid/GridItem.js';
 import GridContainer from 'components/Grid/GridContainer.js';
 import CustomInput from 'components/CustomInput/CustomInput.js';
@@ -17,6 +20,7 @@ function ManageFaq() {
   const router = useRouter();
   const [faq, setFAQ] = useState('');
   const [isUserLoggedIn, setIsUserLoggedIn] = useState(false);
+  const [textValue, setTextValue] = useState('');
 
   const formik = useFormik({
     initialValues: {
@@ -26,13 +30,12 @@ function ManageFaq() {
     onSubmit: (values) => {
       let newValues = {
         title: values.title || faq.title,
-        text: values.text || faq.text,
+        text: textValue,
       };
       updateFAQ(newValues);
     },
   });
 
-  // to fix updating with some null fields not working
   const updateFAQ = async (newFAQData) => {
     const faq = JSON.parse(localStorage.getItem('faq'));
     await firestore.collection('faqs').doc(faq.id).update(newFAQData);
@@ -78,14 +81,10 @@ function ManageFaq() {
                     />
                   </GridItem>
                   <GridItem xs={12} sm={12} md={12}>
-                    <TextareaAutosize
-                      maxRows={7}
-                      minRows={4}
-                      id={'text'}
-                      onChange={formik.handleChange}
-                      aria-label="maximum height"
-                      placeholder={formik.values.text}
-                      defaultValue={formik.values.text || faq.text}
+                    <ReactQuill
+                      value={textValue}
+                      onChange={setTextValue}
+                      placeholder={'Enter some text..'}
                     />
                   </GridItem>
                 </GridContainer>
