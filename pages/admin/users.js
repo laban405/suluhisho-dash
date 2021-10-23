@@ -1,6 +1,5 @@
 import React, { useEffect, useState } from 'react';
 import { firestore, auth } from '../../firebase';
-import { collection, query, where } from '@firebase/firestore';
 import { makeStyles } from '@material-ui/core/styles';
 import Admin from 'layouts/Admin.js';
 import { motion } from 'framer-motion';
@@ -45,6 +44,7 @@ export default function Reports() {
   };
 
   const handleSearch = (e) => {
+    e.preventDefault();
     let searchVal = e.target.value.toLowerCase();
     searchUserByName(searchVal);
   };
@@ -134,16 +134,14 @@ export default function Reports() {
     const usersArr = [];
     firestore
       .collection('users')
-      .orderBy('name')
-      .startAt(searchValue.toLowerCase())
-      .endAt(searchValue.toLowerCase() + '\uf8ff')
+      .limit(rowsPerPage)
       .get()
-      .then((snap) => {
-        snap.forEach((user) => {
+      .then((querySnapshot) => {
+        querySnapshot.forEach((user) => {
           let currentUser = user.data();
           currentUser.id = user.id;
-          usersArr.push(currentUser);
-          setLastVisibleData(snap.docs[snap.docs.length - 1]);
+          if (currentUser.name?.toLowerCase().includes(searchValue))
+            usersArr.push(currentUser);
         });
       })
       .then(() => setUsers(usersArr));
