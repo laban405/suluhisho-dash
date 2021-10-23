@@ -31,6 +31,7 @@ export default function Reports() {
   const [rowsPerPage, setRowsPerPage] = useState(10);
   const [totalAlerts, setTotalAlerts] = useState(0);
   const [isUserLoggedIn, setIsUserLoggedIn] = useState(false);
+  const [isLoading, setIsLoading] = useState(false);
 
   // PDF report
   const alertsReport = new jsPDF();
@@ -99,6 +100,8 @@ export default function Reports() {
 
   const fetchOldAlerts = () => {
     const alertsArr = [];
+    setIsLoading(true);
+
     firestore
       .collection('sms')
       .orderBy('date', 'desc')
@@ -113,7 +116,12 @@ export default function Reports() {
         });
       })
       .then(() => {
+        setIsLoading(false);
         setAlerts(alertsArr);
+      })
+      .catch((error) => {
+        setIsLoading(false);
+        console.error(error);
       });
   };
 
@@ -134,6 +142,7 @@ export default function Reports() {
 
   const fetchAlerts = async () => {
     const alertsArr = [];
+    setIsLoading(true);
 
     firestore
       .collection('sms')
@@ -149,13 +158,18 @@ export default function Reports() {
         });
       })
       .then(() => {
+        setIsLoading(false);
         setAlerts(alertsArr);
-        console.log('alets array: ' + alertsArr);
+      })
+      .catch((error) => {
+        console.error(error);
+        setIsLoading(false);
       });
   };
 
   const fetchNextAlerts = async () => {
     const alertsArr = [];
+    setIsLoading(false);
 
     firestore
       .collection('sms')
@@ -173,12 +187,18 @@ export default function Reports() {
       })
       .then(() => {
         setAlerts(alertsArr);
+        setIsLoading(false);
+      })
+      .catch((error) => {
+        setIsLoading(false);
+        console.error(error);
       });
   };
 
   // to fix fetch previous alerts
   const fetchPreviousAlerts = async () => {
     const alertsArr = [];
+    setIsLoading(true);
 
     firestore
       .collection('sms')
@@ -196,6 +216,11 @@ export default function Reports() {
       })
       .then(() => {
         setAlerts(alertsArr);
+        setIsLoading(false);
+      })
+      .catch((error) => {
+        setIsLoading(false);
+        console.error(error);
       });
   };
 
@@ -234,7 +259,7 @@ export default function Reports() {
               </GridContainer>
             </CardHeader>
             <Divider />
-            {alerts.length === 0 ? <PageLoad /> : null}
+            {isLoading ? <PageLoad /> : null}
             <CardBody>
               <GridContainer>
                 <GridItem xs={12} sm={12} md={10}>
