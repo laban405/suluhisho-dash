@@ -2,8 +2,5 @@
   "/_app": "pages/_app.js",
   "/_document": "pages/_document.js",
   "/_error": "pages/_error.js",
-  "/admin/add-user": "pages/admin/add-user.js",
-  "/admin/faqs": "pages/admin/faqs.js",
-  "/admin/resource-center": "pages/admin/resource-center.js",
-  "/admin/users": "pages/admin/users.js"
+  "/admin/resource-center": "pages/admin/resource-center.js"
 }

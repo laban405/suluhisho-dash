@@ -28,7 +28,7 @@ export default function Reports() {
   const [rowsPerPage, setRowsPerPage] = useState(10);
   const [totalUsers, setTotalUsers] = useState(0);
   const [isUserLoggedIn, setIsUserLoggedIn] = useState(false);
-  const [pageLoading, setPageLoading] = useState();
+  const [pageLoading, setPageLoading] = useState(false);
 
   const containerVariants = {
     hidden: {
@@ -91,6 +91,10 @@ export default function Reports() {
       .then(() => {
         setPageLoading(false);
         setUsers(usersArr);
+      })
+      .catch((error) => {
+        console.error(error);
+        setPageLoading(false);
       });
   };
 
@@ -114,6 +118,10 @@ export default function Reports() {
       .then(() => {
         setPageLoading(false);
         setUsers(usersArr);
+      })
+      .catch((error) => {
+        console.error(error);
+        setPageLoading(false);
       });
   };
 

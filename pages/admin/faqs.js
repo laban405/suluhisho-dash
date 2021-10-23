@@ -79,7 +79,7 @@ export default function Reports() {
   const [totalFaqs, setTotalFaqsSize] = useState(0);
   const [lastVisibleData, setLastVisibleData] = useState(null);
   const [isUserLoggedIn, setIsUserLoggedIn] = useState(false);
-  const [pageLoading, setPageLoading] = useState();
+  const [pageLoading, setPageLoading] = useState(false);
 
   const containerVariants = {
     hidden: {
@@ -136,6 +136,10 @@ export default function Reports() {
       .then(() => {
         setPageLoading(false);
         setFAQs(faqArr);
+      })
+      .catch((error) => {
+        console.error(error);
+        setPageLoading(false);
       });
   };
 

@@ -20,6 +20,7 @@ import CardBody from 'components/Card/CardBody.js';
 import { useRouter } from 'next/router';
 import ManageResource from 'components/Menu/resourcesMenu.js';
 import PageLoad from 'components/PageLoad/PageLoad.js';
+import { set } from 'js-cookie';
 
 const useStyles = makeStyles({
   cardCategoryWhite: {
@@ -79,6 +80,7 @@ export default function Reports() {
   const [totalFaqs, setTotalFaqsSize] = useState(0);
   const [lastVisibleData, setLastVisibleData] = useState(null);
   const [isUserLoggedIn, setIsUserLoggedIn] = useState(false);
+  const [pageLoading, setPageLoading] = useState(false);
 
   const containerVariants = {
     hidden: {
@@ -116,7 +118,9 @@ export default function Reports() {
 
   // fetch resources from firestore
   const fetchResources = async () => {
+    setPageLoading(true);
     const resourcesArr = [];
+
     firestore
       .collection('resources')
       .get()
@@ -129,12 +133,18 @@ export default function Reports() {
         });
       })
       .then(() => {
+        setPageLoading(false);
         setResources(resourcesArr);
+      })
+      .catch((error) => {
+        console.error(error);
+        setPageLoading(false);
       });
   };
 
   //
   const fetchNextFaqs = async () => {
+    setPageLoading(true);
     const resourcesArr = [];
 
     firestore
@@ -152,11 +162,17 @@ export default function Reports() {
         });
       })
       .then(() => {
+        setPageLoading(false);
         setResources(resourcesArr);
+      })
+      .catch((error) => {
+        console.error(error);
+        setPageLoading(false);
       });
   };
 
   const fetchPreviousFaqs = async () => {
+    setPageLoading(true);
     const resourcesArr = [];
 
     firestore
@@ -174,7 +190,12 @@ export default function Reports() {
         });
       })
       .then(() => {
+        setPageLoading(false);
         setResources(resourcesArr);
+      })
+      .catch((error) => {
+        console.error(error);
+        setPageLoading(false);
       });
   };
 
@@ -200,6 +221,7 @@ export default function Reports() {
       <GridContainer className={classes.container}>
         <GridItem xs={12} sm={12} md={12}>
           <Card>
+            {pageLoading ? <PageLoad /> : null}
             <CardHeader>
               <GridContainer>
                 <GridItem xs={12} sm={12} md={10}>
@@ -220,7 +242,6 @@ export default function Reports() {
               </GridContainer>
             </CardHeader>
             <Divider />
-            {resources.length === 0 ? <PageLoad /> : null}
             <CardBody>
               <Paper className={classes.root}>
                 {resources.map((resource) => (
