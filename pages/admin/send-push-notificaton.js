@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { firestore, auth } from '../../firebase';
 import axios from 'axios';
 import moment from 'moment';
+import { motion } from 'framer-motion';
 import firebase from 'firebase';
 import { useRouter } from 'next/router';
 import { useFormik } from 'formik';
@@ -19,6 +20,20 @@ import CardFooter from 'components/Card/CardFooter.js';
 function AlertEdit() {
   const router = useRouter();
   const [isUserLoggedIn, setIsUserLoggedIn] = useState(false);
+
+  const containerVariants = {
+    hidden: {
+      opacity: 0.5,
+      scale: 1.1,
+      y: 10,
+    },
+    visible: {
+      y: 0,
+      opacity: 1,
+      scale: 1,
+      transition: { delay: 0, duration: 0.5 },
+    },
+  };
 
   const formik = useFormik({
     initialValues: {
@@ -78,63 +93,70 @@ function AlertEdit() {
   }, []);
 
   return isUserLoggedIn ? (
-    <div>
-      <form onSubmit={formik.handleSubmit}>
-        <GridContainer>
-          <GridItem xs={12} sm={12} md={8}>
-            <Card>
-              <CardHeader color="dark">
-                <h4 className={styles.cardTitleWhite}>
-                  Send New Push Notification
-                </h4>
-              </CardHeader>
-              <CardBody>
-                <GridContainer>
-                  <GridItem xs={12} sm={12} md={12}>
-                    <CustomInput
-                      labelText={`Title:`}
-                      id="title"
-                      name="title"
-                      onChange={formik.handleChange}
-                      value={formik.values.title}
-                      formControlProps={{
-                        fullWidth: true,
-                      }}
-                    />
-                  </GridItem>
-                  <GridItem xs={12} sm={12} md={12}>
-                    <CustomInput
-                      id="text"
-                      name="text"
-                      onChange={formik.handleChange}
-                      value={formik.values.text}
-                      placeholder={formik.values.text}
-                      labelText={'Add new text....'}
-                      formControlProps={{
-                        fullWidth: true,
-                      }}
-                    />
-                  </GridItem>
-                </GridContainer>
-              </CardBody>
-              <CardFooter>
-                <Button type="submit" color="primary">
-                  <Send />
-                </Button>
-                <Button
-                  color="primary"
-                  onClick={() => {
-                    router.push('dashboard');
-                  }}
-                >
-                  exit
-                </Button>
-              </CardFooter>
-            </Card>
-          </GridItem>
-        </GridContainer>
-      </form>
-    </div>
+    <motion.main
+      variants={containerVariants}
+      initial="hidden"
+      animate="visible"
+      exit="exit"
+    >
+      <div>
+        <form onSubmit={formik.handleSubmit}>
+          <GridContainer>
+            <GridItem xs={12} sm={12} md={8}>
+              <Card>
+                <CardHeader color="dark">
+                  <h4 className={styles.cardTitleWhite}>
+                    Send New Push Notification
+                  </h4>
+                </CardHeader>
+                <CardBody>
+                  <GridContainer>
+                    <GridItem xs={12} sm={12} md={12}>
+                      <CustomInput
+                        labelText={`Title:`}
+                        id="title"
+                        name="title"
+                        onChange={formik.handleChange}
+                        value={formik.values.title}
+                        formControlProps={{
+                          fullWidth: true,
+                        }}
+                      />
+                    </GridItem>
+                    <GridItem xs={12} sm={12} md={12}>
+                      <CustomInput
+                        id="text"
+                        name="text"
+                        onChange={formik.handleChange}
+                        value={formik.values.text}
+                        placeholder={formik.values.text}
+                        labelText={'Add new text....'}
+                        formControlProps={{
+                          fullWidth: true,
+                        }}
+                      />
+                    </GridItem>
+                  </GridContainer>
+                </CardBody>
+                <CardFooter>
+                  <Button type="submit" color="primary">
+                    <Send />
+                  </Button>
+                  <Button
+                    color="primary"
+                    onClick={() => {
+                      router.push('dashboard');
+                    }}
+                  >
+                    exit
+                  </Button>
+                </CardFooter>
+              </Card>
+            </GridItem>
+          </GridContainer>
+        </form>
+      </div>
+    </motion.main>
   ) : null;
 }
 
