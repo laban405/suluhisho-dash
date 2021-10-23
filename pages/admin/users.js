@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { firestore, auth } from '../../firebase';
+import { collection, query, where } from '@firebase/firestore';
 import { makeStyles } from '@material-ui/core/styles';
 import Admin from 'layouts/Admin.js';
 import { motion } from 'framer-motion';
@@ -129,7 +130,7 @@ export default function Reports() {
       .then(() => setUsers(usersArr));
   };
 
-  const searchUserByName = (searchValue) => {
+  const searchUserByName = async (searchValue) => {
     const usersArr = [];
     firestore
       .collection('users')

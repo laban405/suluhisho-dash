@@ -232,7 +232,9 @@ export default function Reports() {
                         id="panel1a-header"
                       >
                         <Typography style={{ fontWeight: 'bold' }}>
-                          <GridContainer>{resource.title}</GridContainer>
+                          <GridContainer style={{ paddingLeft: 10 }}>
+                            {resource.title}
+                          </GridContainer>
                         </Typography>
                       </AccordionSummary>
                       <AccordionDetails>
