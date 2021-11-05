@@ -227,6 +227,7 @@ export default function Reports() {
                     'Email',
                     'County',
                     'Sub-County',
+                    'Profile Pic',
                     'Action',
                   ]}
                   tableData={users.map((userData) => [
@@ -236,6 +237,7 @@ export default function Reports() {
                     userData.email,
                     userData.county,
                     userData.subCounty,
+                    userData.profilePicture,
                     <ManageUser userData={userData} fetchUsers={fetchUsers} />,
                   ])}
                 />

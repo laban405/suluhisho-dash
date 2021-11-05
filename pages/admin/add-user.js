@@ -60,26 +60,20 @@ function AddUser() {
       latitude: '',
       longitude: '',
     },
-    // validationSchema: SignupSchema,
-    onSubmit: (values) => {
-      // const hash = geofire.geohashForLocation([
-      // values[latitude],
-      // values[longitude],
-      // ]);
-      // values.geohash = hash;
 
+    onSubmit: (values) => {
       values.name = `${values.firstname} ${values.lastname}`;
+
+      if (image) {
+        (async () => {
+          await handleUploadProfile();
+          values.profilePicture = downloadURL;
+        })();
+      }
 
       createUser(values);
     },
   });
-
-  const handleChangeUpload = (e) => {
-    if (e.target.files[0]) {
-      setImage(e.target.files[0]);
-    }
-    // console.log(e.target.files[0])
-  };
 
   const handleUploadProfile = () => {
     let file = image;
@@ -98,14 +92,18 @@ function AddUser() {
         throw error;
       },
       () => {
-        // uploadTask.snapshot.ref.getDownloadURL().then((downloadURL) =>{
-
         uploadTask.snapshot.ref.getDownloadURL().then((url) => {
           setDownloadURL(url);
+          console.log('download url: ', url);
         });
-        document.getElementById('file').value = null;
       }
     );
+  };
+
+  const handleChangeUpload = (e) => {
+    if (e.target.files[0]) {
+      setImage(e.target.files[0]);
+    }
   };
 
   const createUser = async (newUserData) => {
@@ -319,39 +317,23 @@ function AddUser() {
                   </GridContainer>
                   <GridContainer>
                     <GridItem xs={12} sm={12} md={6}>
-                      <h4>upload image</h4>
                       <label>
-                        Choose file
+                        Choose profile picture
                         <input
                           type="file"
                           id="file"
                           onChange={handleChangeUpload}
                         />
                       </label>
-
-                      {progress}
-                      <button className="button" onClick={handleUploadProfile}>
-                        Upload
-                      </button>
-
-                      <figure>
-                        <img
-                          className="ref"
-                          src={
-                            // this.state.downloadURL ||
-                            'https://via.placeholder.com/100x150'
-                          }
-                          alt="Uploaded Images"
-                          height="100"
-                          width="150"
-                        />
-                        <figcaption>Provider picture goes here</figcaption>
-                      </figure>
                     </GridItem>
                   </GridContainer>
                 </CardBody>
                 <CardFooter>
-                  <Button type="submit" color="primary">
+                  <Button
+                    type="submit"
+                    color="primary"
+                    // onClick={handleUploadProfile}
+                  >
                     Create User
                   </Button>
                   <Button
