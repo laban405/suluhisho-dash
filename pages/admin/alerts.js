@@ -68,6 +68,8 @@ export default function Reports() {
       alert.senderNumber,
       alert.location,
       alert.incidentType,
+      alert.providerName,
+      alert.providerNumber,
       alert.message,
       alert.lng,
       alert.lat,
@@ -153,6 +155,7 @@ export default function Reports() {
         querySnapshot.forEach((alert) => {
           let currentAlertData = alert.data();
           currentAlertData.id = alert.id;
+          console.log('alert data: ', currentAlertData);
           alertsArr.push(currentAlertData);
           setLastVisibleData(querySnapshot.docs[querySnapshot.docs.length - 1]);
         });

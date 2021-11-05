@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { firestore, auth } from '../../firebase';
+import firebase from 'firebase';
 import * as Yup from 'yup';
 import geofire from 'geofire';
 import { motion } from 'framer-motion';
@@ -16,9 +17,13 @@ import Card from 'components/Card/Card.js';
 import CardHeader from 'components/Card/CardHeader.js';
 import CardBody from 'components/Card/CardBody.js';
 import CardFooter from 'components/Card/CardFooter.js';
+
 function AddUser() {
   const router = useRouter();
   const [isUserLoggedIn, setIsUserLoggedIn] = useState(false);
+  const [downloadURL, setDownloadURL] = useState(null);
+  const [image, setImage] = useState(null);
+  const [progress, setProgress] = useState(0);
 
   const containerVariants = {
     hidden: {
@@ -69,6 +74,40 @@ function AddUser() {
     },
   });
 
+  const handleChangeUpload = (e) => {
+    if (e.target.files[0]) {
+      setImage(e.target.files[0]);
+    }
+    // console.log(e.target.files[0])
+  };
+
+  const handleUploadProfile = () => {
+    let file = image;
+    let storage = firebase.storage();
+    let storageRef = storage.ref();
+    let uploadTask = storageRef.child('profile_pics/' + file.name).put(file);
+
+    uploadTask.on(
+      firebase.storage.TaskEvent.STATE_CHANGED,
+      (snapshot) => {
+        let progress =
+          Math.round(snapshot.bytesTransferred / snapshot.totalBytes) * 100;
+        setProgress(progress);
+      },
+      (error) => {
+        throw error;
+      },
+      () => {
+        // uploadTask.snapshot.ref.getDownloadURL().then((downloadURL) =>{
+
+        uploadTask.snapshot.ref.getDownloadURL().then((url) => {
+          setDownloadURL(url);
+        });
+        document.getElementById('file').value = null;
+      }
+    );
+  };
+
   const createUser = async (newUserData) => {
     firestore
       .collection('users')
@@ -92,6 +131,7 @@ function AddUser() {
         setIsUserLoggedIn(true);
       }
     });
+    console.log('storage ref: ', firebase.storage().ref());
   }, []);
 
   return isUserLoggedIn ? (
@@ -110,14 +150,6 @@ function AddUser() {
                   <h4 className={styles.cardTitleWhite}>Add A New User</h4>
                 </CardHeader>
                 <CardBody>
-                  <Stack direction="row" spacing={2}>
-                    <Avatar
-                      alt="User"
-                      src="/static/images/avatar/3.jpg"
-                      sx={{ width: 60, height: 60, float: 'right' }}
-                    />
-                  </Stack>
-
                   <GridContainer>
                     <GridItem xs={12} sm={12} md={6}>
                       <CustomInput
@@ -287,13 +319,34 @@ function AddUser() {
                   </GridContainer>
                   <GridContainer>
                     <GridItem xs={12} sm={12} md={6}>
-                      <input
-                        type="file"
-                        id="profile"
-                        name="profile"
-                        accept="image/"
-                        style={{ marginTop: 30 }}
-                      />
+                      <h4>upload image</h4>
+                      <label>
+                        Choose file
+                        <input
+                          type="file"
+                          id="file"
+                          onChange={handleChangeUpload}
+                        />
+                      </label>
+
+                      {progress}
+                      <button className="button" onClick={handleUploadProfile}>
+                        Upload
+                      </button>
+
+                      <figure>
+                        <img
+                          className="ref"
+                          src={
+                            // this.state.downloadURL ||
+                            'https://via.placeholder.com/100x150'
+                          }
+                          alt="Uploaded Images"
+                          height="100"
+                          width="150"
+                        />
+                        <figcaption>Provider picture goes here</figcaption>
+                      </figure>
                     </GridItem>
                   </GridContainer>
                 </CardBody>
