@@ -14,7 +14,7 @@ const center = {
 function MyComponent() {
   const { isLoaded } = useJsApiLoader({
     id: 'google-map-script',
-    googleMapsApiKey: "AIzaSyAxqV2MiSDAF3rV81ZDYwrtzL7NjvQqQhI"
+    googleMapsApiKey: process.env.NEXT_PUBLIC_GOOGLE_MAP_KEY
   })
 
   const [map, setMap] = React.useState(null)
@@ -45,8 +45,6 @@ function MyComponent() {
         onLoad={onLoad}
         onUnmount={onUnmount}
       >
-        { /* Child components, such as markers, info windows, etc. */ }
-        {/* <RoomIcon/> */}
         <Marker position={center}/>
         <></>
       </GoogleMap>
