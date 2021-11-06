@@ -61,15 +61,6 @@ export default function Reports() {
     fetchUsers();
   };
 
-  const usersTotal = () => {
-    firestore
-      .collection('users')
-      .get()
-      .then((snap) => {
-        setTotalUsers(snap.size);
-      });
-  };
-
   const fetchNextUsers = async () => {
     const usersArr = [];
     setPageLoading(true);
@@ -149,6 +140,7 @@ export default function Reports() {
       })
       .then(() => {
         setPageLoading(false);
+        setTotalUsers(usersArr.length);
         setUsers(usersArr);
       });
   };
@@ -176,7 +168,6 @@ export default function Reports() {
 
   useEffect(() => {
     fetchUsers();
-    usersTotal();
     auth.onAuthStateChanged(async (user) => {
       if (!user) {
         router.push('../login');
@@ -201,7 +192,7 @@ export default function Reports() {
                 <GridItem xs={12} sm={12} md={10}>
                   <h4 className={classes.cardTitleWhite}>Users</h4>
                   <p className={classes.cardCategoryWhite}>
-                    View and Manage all users.
+                    View and Manage Service Providers.
                   </p>
                 </GridItem>
 

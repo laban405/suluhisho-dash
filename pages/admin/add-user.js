@@ -315,18 +315,6 @@ function AddUser() {
                       />
                     </GridItem>
                   </GridContainer>
-                  <GridContainer>
-                    <GridItem xs={12} sm={12} md={6}>
-                      <label>
-                        Choose profile picture
-                        <input
-                          type="file"
-                          id="file"
-                          onChange={handleChangeUpload}
-                        />
-                      </label>
-                    </GridItem>
-                  </GridContainer>
                 </CardBody>
                 <CardFooter>
                   <Button

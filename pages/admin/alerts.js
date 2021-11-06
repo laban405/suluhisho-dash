@@ -91,6 +91,13 @@ export default function Reports() {
     },
   });
 
+  const getAlertDate = (seconds) => {
+    let date = new Date(1970, 0, 1);
+    date.setSeconds(seconds);
+    date = moment(date).format('DD/MM/YYYY');
+    return date;
+  };
+
   const handleDownload = () => alertsReport.save();
 
   const handleChangePage = (event, newPage) => {
@@ -294,7 +301,7 @@ export default function Reports() {
                     'Action',
                   ]}
                   tableData={alerts.map((data) => [
-                    data.createdAt,
+                    getAlertDate(data.createdAt.seconds),
                     data.senderName,
                     data.senderNumber,
                     data.location,
