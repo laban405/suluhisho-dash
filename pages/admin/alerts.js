@@ -41,8 +41,7 @@ export default function Reports() {
       'Sender Number',
       'Location',
       'Message',
-      'Longitude',
-      'Latitude',
+      'Location',
       'Incident Type',
     ],
   ];
@@ -69,10 +68,7 @@ export default function Reports() {
       alert.location,
       alert.incidentType,
       alert.providerName,
-      alert.providerNumber,
       alert.message,
-      alert.lng,
-      alert.lat,
     ]);
 
   alertsReport.autoTable({
@@ -100,6 +96,12 @@ export default function Reports() {
     setPage(newPage);
   };
 
+  const handleChangeRowsPerPage = (event) => {
+    setRowsPerPage(parseInt(event.target.value, 10));
+    setPage(0);
+    fetchAlerts();
+  };
+
   const fetchOldAlerts = () => {
     const alertsArr = [];
     setIsLoading(true);
@@ -114,6 +116,7 @@ export default function Reports() {
           let currentAlertData = alert.data();
           currentAlertData.id = alert.id;
           alertsArr.push(currentAlertData);
+          console.log(currentAlertData);
           setLastVisibleData(querySnapshot.docs[querySnapshot.docs.length - 1]);
         });
       })
@@ -125,12 +128,6 @@ export default function Reports() {
         setIsLoading(false);
         console.error(error);
       });
-  };
-
-  const handleChangeRowsPerPage = (event) => {
-    setRowsPerPage(parseInt(event.target.value, 10));
-    setPage(0);
-    fetchAlerts();
   };
 
   const alertsSize = () => {
@@ -184,6 +181,7 @@ export default function Reports() {
         querySnapshot.forEach((alert) => {
           let currentAlertData = alert.data();
           currentAlertData.id = alert.id;
+          console.log(currentAlertData);
           alertsArr.push(currentAlertData);
           setLastVisibleData(querySnapshot.docs[querySnapshot.docs.length - 1]);
         });
@@ -287,6 +285,8 @@ export default function Reports() {
                     'Sender Number.',
                     'Location',
                     'Recipients',
+                    'ProviderName',
+                    'Provider Number',
                     'Status',
                     'Message',
                     'Action',
@@ -297,8 +297,10 @@ export default function Reports() {
                     data.senderNumber,
                     data.location,
                     data.recipients,
+                    data.providerName,
+                    data.providerNumber,
                     data.status,
-                    data.message,
+                    data.message.substring(0, 10) + '...',
                     <ManageAlert alertsData={data} fetchAlerts={fetchAlerts} />,
                   ])}
                 />
