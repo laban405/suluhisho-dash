@@ -125,7 +125,6 @@ export default function Reports() {
           let currentAlertData = alert.data();
           currentAlertData.id = alert.id;
           alertsArr.push(currentAlertData);
-          console.log(currentAlertData);
           setLastVisibleData(querySnapshot.docs[querySnapshot.docs.length - 1]);
         });
       })
@@ -161,7 +160,6 @@ export default function Reports() {
         querySnapshot.forEach((alert) => {
           let currentAlertData = alert.data();
           currentAlertData.id = alert.id;
-          console.log('alert data: ', currentAlertData);
           alertsArr.push(currentAlertData);
           setLastVisibleData(querySnapshot.docs[querySnapshot.docs.length - 1]);
         });
@@ -190,7 +188,6 @@ export default function Reports() {
         querySnapshot.forEach((alert) => {
           let currentAlertData = alert.data();
           currentAlertData.id = alert.id;
-          console.log(currentAlertData);
           alertsArr.push(currentAlertData);
           setLastVisibleData(querySnapshot.docs[querySnapshot.docs.length - 1]);
         });
