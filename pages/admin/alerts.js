@@ -294,7 +294,7 @@ export default function Reports() {
                     'Action',
                   ]}
                   tableData={alerts.map((data) => [
-                    // data.createdAt,
+                    data.createdAt,
                     data.senderName,
                     data.senderNumber,
                     data.location,

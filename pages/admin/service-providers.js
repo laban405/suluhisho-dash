@@ -2,10 +2,11 @@ import React, { useEffect, useState } from 'react';
 import { firestore, auth } from '../../firebase';
 import { makeStyles } from '@material-ui/core/styles';
 import Admin from 'layouts/Admin.js';
-import Divider from '@material-ui/core/Divider';
 import { motion } from 'framer-motion';
+import Divider from '@material-ui/core/Divider';
 import TablePagination from '@material-ui/core/TablePagination';
 import Paper from '@material-ui/core/Paper';
+import Button from '@material-ui/core/Button';
 import GridItem from 'components/Grid/GridItem.js';
 import GridContainer from 'components/Grid/GridContainer.js';
 import Table from 'components/Table/Table.js';
@@ -13,23 +14,21 @@ import Card from 'components/Card/Card.js';
 import CardHeader from 'components/Card/CardHeader.js';
 import CardBody from 'components/Card/CardBody.js';
 import SearchComponent from 'components/Search/Search.js';
-import Button from 'components/CustomButtons/Button.js';
-import { MoreVert } from '@material-ui/icons';
+import ManageUser from 'components/Menu/viewUserMenu.js';
 import { useRouter } from 'next/router';
-
-import Menu from '@material-ui/core/Menu';
-import MenuItem from '@material-ui/core/MenuItem';
+import PageLoad from 'components/PageLoad/PageLoad.js';
 
 export default function Reports() {
   const useStyles = makeStyles(styles);
   const classes = useStyles();
   const router = useRouter();
-  const [serviceProviders, setServiceProviders] = useState([]);
+  const [users, setUsers] = useState([]);
+  const [lastVisibleData, setLastVisibleData] = useState(null);
   const [page, setPage] = useState(0);
   const [rowsPerPage, setRowsPerPage] = useState(10);
-  const [totalAlerts, setTotalAlerts] = useState(0);
-  const [anchorEl, setAnchorEl] = React.useState(null);
+  const [totalUsers, setTotalUsers] = useState(0);
   const [isUserLoggedIn, setIsUserLoggedIn] = useState(false);
+  const [pageLoading, setPageLoading] = useState(false);
 
   const containerVariants = {
     hidden: {
@@ -45,91 +44,139 @@ export default function Reports() {
     },
   };
 
+  const handleSearch = (e) => {
+    e.preventDefault();
+    let searchVal = e.target.value.toLowerCase();
+    searchUserByName(searchVal);
+  };
+
   const handleChangePage = (event, newPage) => {
-    newPage > page ? fetchNextAlerts() : fetchPreviousAlerts();
+    newPage > page ? fetchNextUsers() : fetchPreviousUsersList();
     setPage(newPage);
   };
 
   const handleChangeRowsPerPage = (event) => {
     setRowsPerPage(parseInt(event.target.value, 10));
     setPage(0);
-    fetchAlerts();
+    fetchUsers();
   };
 
-  const providersSize = () => {
+  const usersTotal = () => {
     firestore
-      .collection('locations')
+      .collection('users')
       .get()
       .then((snap) => {
-        setTotalAlerts(snap.size);
+        setTotalUsers(snap.size);
       });
   };
 
-  const handleClick = (event) => {
-    setAnchorEl(event.currentTarget);
-  };
+  const fetchNextUsers = async () => {
+    const usersArr = [];
+    setPageLoading(true);
 
-  const handleClose = () => {
-    setAnchorEl(null);
-  };
-
-  const handleView = (provider) => {
-    setAnchorEl(null);
-    const currentProvider = JSON.stringify(provider);
-    localStorage.setItem('provider', currentProvider);
-    router.push('view-provider');
-    console.log('stored provider...', localStorage.getItem('provider'));
-  };
-
-  const handleEdit = (provider) => {
-    setAnchorEl(null);
-    localStorage.setItem('provider', JSON.stringify(provider));
-    router.push('manage-provider');
-  };
-
-  const handleDelete = (provider) => {
-    setAnchorEl(null);
     firestore
-      .collection('locations')
-      .doc(provider.id)
-      .delete()
-      .then(() => {
-        console.log('data deleted successfully!');
-        fetchServiceProviders();
-      })
-      .catch((error) => {
-        console.log('error deleting provider!');
-        console.log('error deleting doc....', error);
-      });
-  };
-
-  const handleSearch = () => {
-    let providersRef = firestore.collection('locations');
-    let query = providersRef.where('senderName', '==', 'Laban');
-    setServiceProviders(query);
-    handleSearch();
-  };
-
-  const fetchServiceProviders = async () => {
-    const serviceProviderArr = [];
-    firestore
-      .collection('locations')
+      .collection('users')
+      .orderBy('name')
+      .startAfter(lastVisibleData)
+      .limit(rowsPerPage)
       .get()
       .then((querySnapshot) => {
-        querySnapshot.forEach((serviceProvider) => {
-          let currentProvider = serviceProvider.data();
-          currentProvider.id = serviceProvider.id;
-          serviceProviderArr.push(currentProvider);
+        querySnapshot.forEach((alert) => {
+          let currentUser = alert.data();
+          currentUser.id = alert.id;
+          if (currentUser.isSP) {
+            usersArr.push(currentUser);
+          }
+          setLastVisibleData(querySnapshot.docs[querySnapshot.docs.length - 1]);
         });
       })
       .then(() => {
-        setServiceProviders(serviceProviderArr);
+        setPageLoading(false);
+        setUsers(usersArr);
+      })
+      .catch((error) => {
+        console.error(error);
+        setPageLoading(false);
+      });
+  };
+
+  const fetchPreviousUsersList = async () => {
+    const usersArr = [];
+    setPageLoading(true);
+    firestore
+      .collection('users')
+      .orderBy('name')
+      .endBefore(lastVisibleData)
+      .limit(rowsPerPage)
+      .get()
+      .then((querySnapshot) => {
+        querySnapshot.forEach((alert) => {
+          let currentUser = alert.data();
+          currentUser.id = alert.id;
+          if (currentUser.isSP) {
+            usersArr.push(currentUser);
+          }
+          setLastVisibleData(querySnapshot.docs[querySnapshot.docs.length - 1]);
+        });
+      })
+      .then(() => {
+        setPageLoading(false);
+        setUsers(usersArr);
+      })
+      .catch((error) => {
+        console.error(error);
+        setPageLoading(false);
+      });
+  };
+
+  const fetchUsers = async () => {
+    setPageLoading(true);
+    const usersArr = [];
+    firestore
+      .collection('users')
+      .orderBy('name')
+      .limit(rowsPerPage)
+      .get()
+      .then((querySnapshot) => {
+        querySnapshot.forEach((user) => {
+          let currentUser = user.data();
+          currentUser.id = user.id;
+          if (currentUser.isSP) {
+            usersArr.push(currentUser);
+          }
+          setLastVisibleData(querySnapshot.docs[querySnapshot.docs.length - 1]);
+        });
+      })
+      .then(() => {
+        setPageLoading(false);
+        setUsers(usersArr);
+      });
+  };
+
+  const searchUserByName = async (searchValue) => {
+    setPageLoading(false);
+    const usersArr = [];
+    firestore
+      .collection('users')
+      .limit(rowsPerPage)
+      .get()
+      .then((querySnapshot) => {
+        querySnapshot.forEach((user) => {
+          let currentUser = user.data();
+          currentUser.id = user.id;
+          if (currentUser.name?.toLowerCase().includes(searchValue))
+            usersArr.push(currentUser);
+        });
+      })
+      .then(() => {
+        setPageLoading(false);
+        setUsers(usersArr);
       });
   };
 
   useEffect(() => {
-    fetchServiceProviders();
-    providersSize();
+    fetchUsers();
+    usersTotal();
     auth.onAuthStateChanged(async (user) => {
       if (!user) {
         router.push('../login');
@@ -152,23 +199,28 @@ export default function Reports() {
             <CardHeader>
               <GridContainer>
                 <GridItem xs={12} sm={12} md={10}>
-                  <h4 className={classes.cardTitleWhite}>Service Providers</h4>
+                  <h4 className={classes.cardTitleWhite}>Users</h4>
                   <p className={classes.cardCategoryWhite}>
-                    View and Manage all Service Providers.
+                    View and Manage all users.
                   </p>
                 </GridItem>
 
-                <GridItem xs={12} sm={12} md={2}></GridItem>
+                <GridItem xs={12} sm={12} md={2}>
+                  <Button
+                    variant="contained"
+                    onClick={() => router.push('add-provider')}
+                  >
+                    Add Provider
+                  </Button>
+                </GridItem>
               </GridContainer>
             </CardHeader>
             <Divider />
+            {pageLoading ? <PageLoad /> : null}
             <CardBody>
               <GridContainer>
                 <GridItem xs={12} sm={12} md={6}>
-                  <SearchComponent
-                    handleSearch={handleSearch}
-                    placeholder={'Search category...'}
-                  />
+                  <SearchComponent handleSearch={handleSearch} />
                 </GridItem>
               </GridContainer>
               <Paper style={classes.root}>
@@ -176,45 +228,23 @@ export default function Reports() {
                   tableHeaderColor="primary"
                   tableHead={[
                     'Name',
-                    'Email',
-                    'Location',
-                    'Location Name',
                     'Phone',
+                    'NationalID',
+                    'Email',
+                    'County',
+                    'Sub-County',
+                    'Profile Pic',
                     'Action',
                   ]}
-                  tableData={serviceProviders.map((data) => [
-                    data.category,
-                    data.email,
-                    data.locationName,
-                    data.name,
-                    data.phone,
-                    <div>
-                      <Button
-                        size="sm"
-                        aria-controls="simple-menu"
-                        aria-haspopup="true"
-                        onClick={handleClick}
-                      >
-                        <MoreVert />
-                      </Button>
-                      <Menu
-                        id="simple-menu"
-                        anchorEl={anchorEl}
-                        keepMounted
-                        open={Boolean(anchorEl)}
-                        onClose={handleClose}
-                      >
-                        <MenuItem onClick={() => handleView(data)}>
-                          View
-                        </MenuItem>
-                        <MenuItem onClick={() => handleEdit(data)}>
-                          Edit
-                        </MenuItem>
-                        <MenuItem onClick={() => handleDelete(data)}>
-                          Delete
-                        </MenuItem>
-                      </Menu>
-                    </div>,
+                  tableData={users.map((userData) => [
+                    userData.name,
+                    userData.phone,
+                    userData.nationalID,
+                    userData.email,
+                    userData.county,
+                    userData.subCounty,
+                    userData.profilePicture,
+                    <ManageUser userData={userData} fetchUsers={fetchUsers} />,
                   ])}
                 />
               </Paper>
@@ -223,7 +253,7 @@ export default function Reports() {
               <GridItem xs={12} sm={12} md={10} container justify="center">
                 <TablePagination
                   component="div"
-                  count={totalAlerts}
+                  count={totalUsers}
                   page={page}
                   onPageChange={handleChangePage}
                   rowsPerPage={rowsPerPage}
@@ -242,11 +272,16 @@ export default function Reports() {
 // styles
 const styles = {
   cardCategoryWhite: {
-    color: '#434444',
-    margin: '0',
-    fontSize: '14px',
-    marginTop: '0',
-    marginBottom: '0',
+    '&,& a,& a:hover,& a:focus': {
+      color: '#434444',
+      margin: '0',
+      fontSize: '14px',
+      marginTop: '0',
+      marginBottom: '0',
+    },
+    '& a,& a:hover,& a:focus': {
+      color: '#FFFFFF',
+    },
   },
   cardTitleWhite: {
     color: '#434444',
