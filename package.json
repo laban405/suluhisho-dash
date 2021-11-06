@@ -22,6 +22,7 @@
     "@material-ui/pickers": "^3.3.10",
     "@mui/icons-material": "^5.0.4",
     "@mui/material": "^5.0.4",
+    "@react-google-maps/api": "^2.5.0",
     "@zeit/next-css": "1.0.1",
     "@zeit/next-sass": "1.0.1",
     "axios": "^0.21.1",
