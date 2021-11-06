@@ -43,6 +43,7 @@ function AlertView() {
   const router = useRouter();
   const [alert, setAlert] = useState('');
   const [isUserLoggedIn, setIsUserLoggedIn] = useState(false);
+  const [hasMedia, setHasMedia] = useState(false);
 
   const exitView = () => {
     localStorage.removeItem('alert');
@@ -83,20 +84,28 @@ function AlertView() {
     </Card>
   );
 
-  useEffect(() => {
-    (() => setAlert(JSON.parse(localStorage.getItem('alert'))))();
+  const checkIfUserLoggedIn = (user) => {
     auth.onAuthStateChanged(async (user) => {
       if (!user) {
         router.push('../login');
       } else {
         setIsUserLoggedIn(true);
+        const currentAlert = JSON.parse(localStorage.getItem('alert'));
+        setAlert(currentAlert);
+        if (currentAlert.media.length > 0) {
+          setHasMedia(true);
+        }
       }
     });
+  };
+
+  useEffect(() => {
+    checkIfUserLoggedIn();
   }, []);
 
   return isUserLoggedIn ? (
     <div>
-      {console.log('current alert: ', alert)}
+      {console.log(alert)}
       <GridContainer>
         <GridItem xs={12} sm={12} md={8}>
           <Card>
@@ -108,13 +117,15 @@ function AlertView() {
               >
                 Show on map
               </Button>
-              <Button
-                className={classes.playVidBtn}
-                color="primary"
-                onClick={handleOpen}
-              >
-                Open video
-              </Button>
+              {hasMedia ? (
+                <Button
+                  className={classes.playVidBtn}
+                  color="primary"
+                  onClick={handleOpen}
+                >
+                  Open video
+                </Button>
+              ) : null}
               <h4 className={styles.cardTitleWhite}>View Incident</h4>
             </CardHeader>
             <CardBody>

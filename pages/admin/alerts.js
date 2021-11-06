@@ -33,6 +33,8 @@ export default function Reports() {
   const [isUserLoggedIn, setIsUserLoggedIn] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
 
+  const Timestamp = firestore.Timestamp;
+
   // PDF report
   const alertsReport = new jsPDF();
   const headRows = () => [
@@ -145,7 +147,7 @@ export default function Reports() {
 
     firestore
       .collection('sms')
-      .orderBy('date')
+      .orderBy('createdAt')
       .limit(rowsPerPage)
       .get()
       .then((querySnapshot) => {
@@ -173,7 +175,7 @@ export default function Reports() {
 
     firestore
       .collection('sms')
-      .orderBy('date')
+      .orderBy('createdAt')
       .startAfter(lastVisibleData)
       .limit(rowsPerPage)
       .get()
@@ -203,7 +205,7 @@ export default function Reports() {
 
     firestore
       .collection('sms')
-      .orderBy('date')
+      .orderBy('createdAt')
       .endBefore(lastVisibleData)
       .limit(rowsPerPage)
       .get()
@@ -292,7 +294,7 @@ export default function Reports() {
                     'Action',
                   ]}
                   tableData={alerts.map((data) => [
-                    moment(data.date.seconds).format('LLL'),
+                    // data.createdAt,
                     data.senderName,
                     data.senderNumber,
                     data.location,
@@ -300,7 +302,7 @@ export default function Reports() {
                     data.providerName,
                     data.providerNumber,
                     data.status,
-                    data.message.substring(0, 10) + '...',
+                    data.message,
                     <ManageAlert alertsData={data} fetchAlerts={fetchAlerts} />,
                   ])}
                 />
