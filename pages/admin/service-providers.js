@@ -234,6 +234,7 @@ export default function Reports() {
                     userData.email,
                     userData.county,
                     userData.subCounty,
+                    userData.profileUrl || 'No profile picture available',
                     userData.profilePicture,
                     <ManageUser userData={userData} fetchUsers={fetchUsers} />,
                   ])}
