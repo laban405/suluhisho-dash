@@ -156,7 +156,10 @@ export default function Reports() {
         querySnapshot.forEach((user) => {
           let currentUser = user.data();
           currentUser.id = user.id;
-          if (currentUser.name?.toLowerCase().includes(searchValue))
+          if (
+            currentUser.name?.toLowerCase().includes(searchValue) &&
+            currentUser.isSP
+          )
             usersArr.push(currentUser);
         });
       })
