@@ -64,15 +64,7 @@ function AddUser() {
 
     onSubmit: (values) => {
       values.name = `${values.firstname} ${values.lastname}`;
-
-      if (image) {
-        (async () => {
-          await handleUploadProfile();
-          values.profilePicture = downloadURL;
-        })();
-      }
-
-      createUser(values);
+      // createUser(values);
     },
   });
 
@@ -81,6 +73,7 @@ function AddUser() {
     let storage = firebase.storage();
     let storageRef = storage.ref();
     let uploadTask = storageRef.child('profile_pics/' + file.name).put(file);
+    let userValues = formik.values;
 
     uploadTask.on(
       firebase.storage.TaskEvent.STATE_CHANGED,
@@ -95,13 +88,16 @@ function AddUser() {
       () => {
         uploadTask.snapshot.ref.getDownloadURL().then((url) => {
           setDownloadURL(url);
-          console.log('download url: ', url);
+          userValues.profileUrl = url;
+          console.log('download url: ', console.log('user data: ', userValues));
+          createUser(userValues);
         });
       }
     );
   };
 
   const handleChangeUpload = (e) => {
+    e.preventDefault();
     if (e.target.files[0]) {
       setImage(e.target.files[0]);
     }
@@ -333,7 +329,7 @@ function AddUser() {
                   <Button
                     type="submit"
                     color="primary"
-                    // onClick={handleUploadProfile}
+                    onClick={handleUploadProfile}
                   >
                     Create User
                   </Button>
