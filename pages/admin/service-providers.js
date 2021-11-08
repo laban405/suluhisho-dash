@@ -235,7 +235,10 @@ export default function Reports() {
                     userData.county,
                     userData.subCounty,
                     userData.profileUrl ? (
-                      <a href={userData.profileUrl}> view profile </a>
+                      <a href={userData.profileUrl} target="_blank">
+                        {' '}
+                        view profile{' '}
+                      </a>
                     ) : (
                       'No profile picture available'
                     ),
