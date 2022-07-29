@@ -6,26 +6,84 @@ import geofire from 'geofire';
 import { motion } from 'framer-motion';
 import { useRouter } from 'next/router';
 import { useFormik } from 'formik';
-import Avatar from '@mui/material/Avatar';
-import Stack from '@mui/material/Stack';
 import Admin from 'layouts/Admin.js';
 import GridItem from 'components/Grid/GridItem.js';
 import GridContainer from 'components/Grid/GridContainer.js';
-import CustomInput from 'components/CustomInput/CustomInput.js';
 import Button from 'components/CustomButtons/Button.js';
 import Card from 'components/Card/Card.js';
 import CardHeader from 'components/Card/CardHeader.js';
 import CardBody from 'components/Card/CardBody.js';
 import CardFooter from 'components/Card/CardFooter.js';
 import {
-  createTheme,
   CssBaseline,
+  FormControl,
   Grid,
+  InputLabel,
+  MenuItem,
+  Select,
   TextField,
+} from '@material-ui/core';
+import {
+  createTheme,
   ThemeProvider,
-} from '@mui/material';
+  makeStyles,
+} from '@material-ui/core/styles';
+
+const counties = [
+  { value: 'Baringo', label: 'Baringo' },
+  { value: 'Bomet', label: 'Bomet' },
+  { value: 'Bungoma', label: 'Bungoma' },
+  { value: 'Busia', label: 'Busia' },
+  { value: 'Elgeyo-Marakwet', label: 'Elgeyo-Marakwet' },
+  { value: 'Embu', label: 'Embu' },
+  { value: 'Garissa', label: 'Garissa' },
+  { value: 'Homa Bay', label: 'Homa Bay' },
+  { value: 'Isiolo', label: 'Isiolo' },
+  { value: 'Kajiado', label: 'Kajiado' },
+  { value: 'Kakamega', label: 'Kakamega' },
+  { value: 'Kericho', label: 'Kericho' },
+  { value: 'Kiambu', label: 'Kiambu' },
+  { value: 'Kilifi', label: 'Kilifi' },
+  { value: 'Kirinyaga', label: 'Kirinyaga' },
+  { value: 'Kisii', label: 'Kisii' },
+  { value: 'Kisumu', label: 'Kisumu' },
+  { value: 'Kitui', label: 'Kitui' },
+  { value: 'Kwale', label: 'Kwale' },
+  { value: 'Laikipia', label: 'Laikipia' },
+  { value: 'Lamu', label: 'Lamu' },
+  { value: 'Machakos', label: 'Machakos' },
+  { value: 'Makueni', label: 'Makueni' },
+  { value: 'Mandera', label: 'Mandera' },
+  { value: 'Marsabit', label: 'Marsabit' },
+  { value: 'Meru', label: 'Meru' },
+  { value: 'Migori', label: 'Migori' },
+  { value: 'Mombasa', label: 'Mombasa' },
+  { value: 'Muranga', label: 'Muranga' },
+  { value: 'Nairobi', label: 'Nairobi' },
+  { value: 'Nakuru', label: 'Nakuru' },
+  { value: 'Nandi', label: 'Nandi' },
+  { value: 'Narok', label: 'Narok' },
+  { value: 'Nyamira', label: 'Nyamira' },
+  { value: 'Nyandarua', label: 'Nyandarua' },
+  { value: 'Nyeri', label: 'Nyeri' },
+  { value: 'Samburu', label: 'Samburu' },
+  { value: 'Siaya', label: 'Siaya' },
+  { value: 'Taita-Taveta', label: 'Taita-Taveta' },
+  { value: 'Tana River', label: 'Tana River' },
+  { value: 'Tharaka-Nithi', label: 'Tharaka-Nithi' },
+];
 
 const theme = createTheme({});
+
+const useStyles = makeStyles((theme) => ({
+  formControl: {
+    margin: theme.spacing(1),
+    minWidth: 120,
+  },
+  selectEmpty: {
+    marginTop: theme.spacing(2),
+  },
+}));
 
 function AddUser() {
   const router = useRouter();
@@ -138,6 +196,8 @@ function AddUser() {
     console.log('storage ref: ', firebase.storage().ref());
   }, []);
 
+  const classes = useStyles();
+
   return isUserLoggedIn ? (
     <motion.main
       variants={containerVariants}
@@ -145,7 +205,8 @@ function AddUser() {
       animate="visible"
       exit="exit"
     >
-      <div>
+      <ThemeProvider theme={theme}>
+        <CssBaseline />
         <form onSubmit={formik.handleSubmit}>
           <GridContainer>
             <GridItem xs={12} sm={12} md={8}>
@@ -204,16 +265,24 @@ function AddUser() {
                       />
                     </Grid>
                     <Grid item xs={12} sm={12} md={6}>
-                      <TextField
-                        fullWidth
-                        label="County"
-                        id="county"
-                        name="county"
-                        onChange={formik.handleChange}
-                        required
-                        value={formik.values.county}
-                        variant="outlined"
-                      />
+                      <FormControl fullWidth className={classes.formControl}>
+                        <InputLabel id="county-select-label">County</InputLabel>
+                        <Select
+                          labelId="county-select-label"
+                          label="County"
+                          id="county"
+                          name="county"
+                          onChange={formik.handleChange}
+                          value={formik.values.county}
+                          variant="outlined"
+                        >
+                          {counties.map((county) => (
+                            <MenuItem key={county.value} value={county.value}>
+                              {county.label}
+                            </MenuItem>
+                          ))}
+                        </Select>
+                      </FormControl>
                     </Grid>
                     <Grid item xs={12} sm={12} md={6}>
                       <TextField
@@ -332,22 +401,10 @@ function AddUser() {
             </GridItem>
           </GridContainer>
         </form>
-      </div>
+      </ThemeProvider>
     </motion.main>
   ) : null;
 }
-
-const styles = {
-  cardTitleWhite: {
-    color: '#FFFFFF',
-    marginTop: '0px',
-    minHeight: 'auto',
-    fontWeight: '300',
-    fontFamily: "'Roboto', 'Helvetica', 'Arial', sans-serif",
-    marginBottom: '3px',
-    textDecoration: 'none',
-  },
-};
 
 AddUser.layout = Admin;
 
