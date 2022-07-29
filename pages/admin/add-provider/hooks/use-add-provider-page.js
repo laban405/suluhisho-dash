@@ -1,9 +1,9 @@
 import { useFormik } from 'formik';
 import { useRouter } from 'next/router';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import * as Yup from 'yup';
 import firebase from 'firebase';
-import { firestore } from '../../../../firebase';
+import { firestore, auth } from '../../../../firebase';
 
 const initialValues = {
   firstname: '',
@@ -154,6 +154,15 @@ export const useAddProviderPage = () => {
       setImage(e.target.files[0]);
     }
   };
+
+  useEffect(() => {
+    auth.onAuthStateChanged(async (user) => {
+      if (!user) {
+        router.push('../login');
+      } else onSetIsUserLoggedIn(true);
+    });
+    console.log('storage ref: ', firebase.storage().ref());
+  }, []);
 
   return {
     counties,

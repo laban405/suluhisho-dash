@@ -1,7 +1,4 @@
-import React, { useEffect } from 'react';
-import { auth } from '../../../firebase';
-import firebase from 'firebase';
-import { useRouter } from 'next/router';
+import React from 'react';
 import Admin from 'layouts/Admin.js';
 import GridItem from 'components/Grid/GridItem.js';
 import GridContainer from 'components/Grid/GridContainer.js';
@@ -38,25 +35,14 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 function AddUser() {
-  const router = useRouter();
   const {
     counties,
     subCounties,
     isUserLoggedIn,
     onExit,
-    onSetIsUserLoggedIn,
     formik,
     onChangeUpload,
   } = useAddProviderPage();
-
-  useEffect(() => {
-    auth.onAuthStateChanged(async (user) => {
-      if (!user) {
-        router.push('../login');
-      } else onSetIsUserLoggedIn(true);
-    });
-    console.log('storage ref: ', firebase.storage().ref());
-  }, []);
 
   const classes = useStyles();
 
