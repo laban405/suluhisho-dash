@@ -38,6 +38,7 @@ function AddUser() {
   const {
     counties,
     subCounties,
+    categories,
     isUserLoggedIn,
     onExit,
     formik,
@@ -152,16 +153,26 @@ function AddUser() {
                     </FormControl>
                   </Grid>
                   <Grid item xs={12} sm={12} md={12}>
-                    <TextField
-                      fullWidth
-                      label="Category"
-                      id="category"
-                      name="category"
-                      onChange={formik.handleChange}
-                      required
-                      value={formik.values.category}
-                      variant="outlined"
-                    />
+                    <FormControl fullWidth className={classes.formControl}>
+                      <InputLabel id="category-select-label">
+                        Category
+                      </InputLabel>
+                      <Select
+                        labelId="category-select-label"
+                        label="Category"
+                        id="category"
+                        name="category"
+                        onChange={formik.handleChange}
+                        value={formik.values.category}
+                        variant="outlined"
+                      >
+                        {categories.map((category) => (
+                          <MenuItem key={category.value} value={category.value}>
+                            {category.label}
+                          </MenuItem>
+                        ))}
+                      </Select>
+                    </FormControl>
                   </Grid>
                   <Grid item xs={12} sm={12} md={6}>
                     <TextField
