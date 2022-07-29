@@ -1,13 +1,11 @@
 import React from 'react';
 import Admin from 'layouts/Admin.js';
-import GridItem from 'components/Grid/GridItem.js';
-import GridContainer from 'components/Grid/GridContainer.js';
 import Button from 'components/CustomButtons/Button.js';
 import Card from 'components/Card/Card.js';
 import CardHeader from 'components/Card/CardHeader.js';
 import CardBody from 'components/Card/CardBody.js';
 import CardFooter from 'components/Card/CardFooter.js';
-import { CssBaseline, InputLabel, MenuItem, Select } from '@material-ui/core';
+import { CssBaseline, Select } from '@material-ui/core';
 import {
   createTheme,
   ThemeProvider,
@@ -17,6 +15,8 @@ import { useAddProviderPage } from './hooks/use-add-provider-page';
 import SuTextField from '../../../components/Inputs/SuTextField';
 import SuFormControl from '../../../components/Inputs/SuFormControl';
 import SuGrid from '../../../components/Layout/SuGrid';
+import SuInputLabel from '../../../components/Inputs/SuInputLabel';
+import SuMenuItem from '../../../components/Navigation/SuMenuItem';
 
 const theme = createTheme({});
 
@@ -46,8 +46,8 @@ function AddUser() {
     <ThemeProvider theme={theme}>
       <CssBaseline />
       <form onSubmit={formik.handleSubmit}>
-        <GridContainer>
-          <GridItem xs={12} sm={12} md={8}>
+        <SuGrid container spacing={2}>
+          <SuGrid item xs={12} sm={12} md={8}>
             <Card>
               <CardHeader color="primary">
                 <h4 className="cardTitleWhite">Add Service Provider</h4>
@@ -104,7 +104,9 @@ function AddUser() {
                   </SuGrid>
                   <SuGrid item xs={12} sm={12} md={6}>
                     <SuFormControl fullWidth className={classes.formControl}>
-                      <InputLabel id="county-select-label">County</InputLabel>
+                      <SuInputLabel id="county-select-label">
+                        County
+                      </SuInputLabel>
                       <Select
                         labelId="county-select-label"
                         label="County"
@@ -115,18 +117,18 @@ function AddUser() {
                         variant="outlined"
                       >
                         {counties.map((county) => (
-                          <MenuItem key={county.value} value={county.value}>
+                          <SuMenuItem key={county.value} value={county.value}>
                             {county.label}
-                          </MenuItem>
+                          </SuMenuItem>
                         ))}
                       </Select>
                     </SuFormControl>
                   </SuGrid>
                   <SuGrid item xs={12} sm={12} md={6}>
                     <SuFormControl fullWidth className={classes.formControl}>
-                      <InputLabel id="sub-county-select-label">
+                      <SuInputLabel id="sub-county-select-label">
                         Sub County
-                      </InputLabel>
+                      </SuInputLabel>
                       <Select
                         labelId="sub-county-select-label"
                         label="Sub County"
@@ -137,21 +139,21 @@ function AddUser() {
                         variant="outlined"
                       >
                         {subCounties.map((subCounty) => (
-                          <MenuItem
+                          <SuMenuItem
                             key={subCounty.value}
                             value={subCounty.value}
                           >
                             {subCounty.label}
-                          </MenuItem>
+                          </SuMenuItem>
                         ))}
                       </Select>
                     </SuFormControl>
                   </SuGrid>
                   <SuGrid item xs={12} sm={12} md={12}>
                     <SuFormControl fullWidth className={classes.formControl}>
-                      <InputLabel id="category-select-label">
+                      <SuInputLabel id="category-select-label">
                         Category
-                      </InputLabel>
+                      </SuInputLabel>
                       <Select
                         labelId="category-select-label"
                         label="Category"
@@ -162,9 +164,12 @@ function AddUser() {
                         variant="outlined"
                       >
                         {categories.map((category) => (
-                          <MenuItem key={category.value} value={category.value}>
+                          <SuMenuItem
+                            key={category.value}
+                            value={category.value}
+                          >
                             {category.label}
-                          </MenuItem>
+                          </SuMenuItem>
                         ))}
                       </Select>
                     </SuFormControl>
@@ -246,8 +251,8 @@ function AddUser() {
                 </Button>
               </CardFooter>
             </Card>
-          </GridItem>
-        </GridContainer>
+          </SuGrid>
+        </SuGrid>
       </form>
     </ThemeProvider>
   ) : null;
