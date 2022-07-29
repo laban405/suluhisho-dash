@@ -1,8 +1,6 @@
 import React, { useEffect } from 'react';
-import { firestore, auth } from '../../../firebase';
+import { auth } from '../../../firebase';
 import firebase from 'firebase';
-import * as Yup from 'yup';
-import geofire from 'geofire';
 import { useRouter } from 'next/router';
 import Admin from 'layouts/Admin.js';
 import GridItem from 'components/Grid/GridItem.js';
@@ -45,63 +43,11 @@ function AddUser() {
     counties,
     subCounties,
     isUserLoggedIn,
-    downloadURL,
-    image,
-    progress,
     onExit,
     onSetIsUserLoggedIn,
     formik,
+    onChangeUpload,
   } = useAddProviderPage();
-
-  const handleUploadProfile = () => {
-    let file = image;
-    let storage = firebase.storage();
-    let storageRef = storage.ref();
-    let uploadTask = storageRef.child('profile_pics/' + file.name).put(file);
-    let userValues = formik.values;
-
-    uploadTask.on(
-      firebase.storage.TaskEvent.STATE_CHANGED,
-      (snapshot) => {
-        let progress =
-          Math.round(snapshot.bytesTransferred / snapshot.totalBytes) * 100;
-        setProgress(progress);
-      },
-      (error) => {
-        throw error;
-      },
-      () => {
-        uploadTask.snapshot.ref.getDownloadURL().then((url) => {
-          setDownloadURL(url);
-          userValues.profileUrl = url;
-          console.log('download url: ', console.log('user data: ', userValues));
-          createUser(userValues);
-        });
-      }
-    );
-  };
-
-  const handleChangeUpload = (e) => {
-    e.preventDefault();
-    if (e.target.files[0]) {
-      setImage(e.target.files[0]);
-    }
-  };
-
-  const createUser = async (newUserData) => {
-    firestore
-      .collection('users')
-      .add(newUserData)
-      .then(() => {
-        alert('New user created!');
-      })
-      .then(() => {
-        router.push('users');
-      })
-      .catch((error) => {
-        console.log('could not create User...', error);
-      });
-  };
 
   useEffect(() => {
     auth.onAuthStateChanged(async (user) => {
@@ -294,21 +240,13 @@ function AddUser() {
                   <Grid item xs={12} sm={12} md={12}>
                     <label>
                       Choose profile picture
-                      <input
-                        type="file"
-                        id="file"
-                        onChange={handleChangeUpload}
-                      />
+                      <input type="file" id="file" onChange={onChangeUpload} />
                     </label>
                   </Grid>
                 </Grid>
               </CardBody>
               <CardFooter>
-                <Button
-                  type="submit"
-                  color="primary"
-                  onClick={handleUploadProfile}
-                >
+                <Button type="submit" color="primary">
                   Create Service Provider
                 </Button>
                 <Button color="primary" onClick={onExit}>
