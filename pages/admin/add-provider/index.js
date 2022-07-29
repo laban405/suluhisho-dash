@@ -11,7 +11,7 @@ import {
   ThemeProvider,
   makeStyles,
 } from '@material-ui/core/styles';
-import { useAddProviderPage } from './hooks/use-add-provider-page';
+import { useAddProviderPage } from './useAddProviderPage';
 import SuTextField from '../../../components/Inputs/SuTextField';
 import SuFormControl from '../../../components/Inputs/SuFormControl';
 import SuGrid from '../../../components/Layout/SuGrid';
