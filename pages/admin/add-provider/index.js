@@ -1,5 +1,5 @@
 import React, { useEffect } from 'react';
-import { firestore, auth } from '../../firebase';
+import { firestore, auth } from '../../../firebase';
 import firebase from 'firebase';
 import * as Yup from 'yup';
 import geofire from 'geofire';
@@ -26,7 +26,7 @@ import {
   ThemeProvider,
   makeStyles,
 } from '@material-ui/core/styles';
-import { useAddProviderPage } from '../../hooks/use-add-provider-page';
+import { useAddProviderPage } from './hooks/use-add-provider-page';
 
 const theme = createTheme({});
 
