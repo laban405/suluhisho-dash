@@ -6,6 +6,21 @@ import firebase from 'firebase';
 import { firestore, auth } from '../../../../firebase';
 import { counties, subCounties, categories } from '../data';
 
+const smsData = {
+  apikey: 'bab2a63d9ceb65a8c7674771aed617da',
+  partnerID: '3587',
+  mobile: to,
+  message: message,
+  shortcode: 'SULUHISHO',
+  clientsmsid: '3587',
+  pass_type: 'plain',
+};
+
+const baseUrl = 'https://mysms.celcomafrica.com';
+const url = 'services/sendsms/';
+const contextPath = '/api/';
+const method = 'POST';
+
 const initialValues = {
   firstname: '',
   lastname: '',
