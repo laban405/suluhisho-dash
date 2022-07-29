@@ -14,7 +14,6 @@ import {
   InputLabel,
   MenuItem,
   Select,
-  TextField,
 } from '@material-ui/core';
 import {
   createTheme,
@@ -22,6 +21,7 @@ import {
   makeStyles,
 } from '@material-ui/core/styles';
 import { useAddProviderPage } from './hooks/use-add-provider-page';
+import SuTextField from '../../../components/Inputs/SuTextField';
 
 const theme = createTheme({});
 
@@ -60,7 +60,7 @@ function AddUser() {
               <CardBody>
                 <Grid container spacing={3}>
                   <Grid item xs={12} sm={12} md={6}>
-                    <TextField
+                    <SuTextField
                       fullWidth
                       label="First name"
                       id="firstname"
@@ -72,7 +72,7 @@ function AddUser() {
                     />
                   </Grid>
                   <Grid item xs={12} sm={12} md={6}>
-                    <TextField
+                    <SuTextField
                       fullWidth
                       label="Last name"
                       id="lastname"
@@ -84,7 +84,7 @@ function AddUser() {
                     />
                   </Grid>
                   <Grid item xs={12} sm={12} md={6}>
-                    <TextField
+                    <SuTextField
                       fullWidth
                       label="Email"
                       id="email"
@@ -96,7 +96,7 @@ function AddUser() {
                     />
                   </Grid>
                   <Grid item xs={12} sm={12} md={6}>
-                    <TextField
+                    <SuTextField
                       fullWidth
                       label="Phone"
                       id="phone"
@@ -175,7 +175,7 @@ function AddUser() {
                     </FormControl>
                   </Grid>
                   <Grid item xs={12} sm={12} md={6}>
-                    <TextField
+                    <SuTextField
                       fullWidth
                       label="National ID"
                       id="nationalID"
@@ -187,7 +187,7 @@ function AddUser() {
                     />
                   </Grid>
                   <Grid item xs={12} sm={12} md={6}>
-                    <TextField
+                    <SuTextField
                       fullWidth
                       label="Profession"
                       id="profession"
@@ -199,7 +199,7 @@ function AddUser() {
                     />
                   </Grid>
                   <Grid item xs={12} sm={12} md={6}>
-                    <TextField
+                    <SuTextField
                       fullWidth
                       label="Latitude"
                       id="latitude"
@@ -211,7 +211,7 @@ function AddUser() {
                     />
                   </Grid>
                   <Grid item xs={12} sm={12} md={6}>
-                    <TextField
+                    <SuTextField
                       fullWidth
                       label="Longitude"
                       id="longitude"
@@ -223,7 +223,7 @@ function AddUser() {
                     />
                   </Grid>
                   <Grid item xs={12} sm={12} md={12}>
-                    <TextField
+                    <SuTextField
                       fullWidth
                       label="Location"
                       id="location"
