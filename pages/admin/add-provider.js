@@ -17,6 +17,15 @@ import Card from 'components/Card/Card.js';
 import CardHeader from 'components/Card/CardHeader.js';
 import CardBody from 'components/Card/CardBody.js';
 import CardFooter from 'components/Card/CardFooter.js';
+import {
+  createTheme,
+  CssBaseline,
+  Grid,
+  TextField,
+  ThemeProvider,
+} from '@mui/material';
+
+const theme = createTheme({});
 
 function AddUser() {
   const router = useRouter();
@@ -141,179 +150,156 @@ function AddUser() {
           <GridContainer>
             <GridItem xs={12} sm={12} md={8}>
               <Card>
-                <CardHeader color="dark">
-                  <h4 className={styles.cardTitleWhite}>Add A New User</h4>
+                <CardHeader color="primary">
+                  <h4 className="cardTitleWhite">Add Service Provider</h4>
                 </CardHeader>
                 <CardBody>
-                  <GridContainer>
-                    <GridItem xs={12} sm={12} md={6}>
-                      <CustomInput
-                        labelText={`First Name:`}
+                  <Grid container spacing={3}>
+                    <Grid item xs={12} sm={12} md={6}>
+                      <TextField
+                        fullWidth
+                        label="First name"
                         id="firstname"
                         name="firstname"
                         onChange={formik.handleChange}
+                        required
                         value={formik.values.firstname}
-                        formControlProps={{
-                          fullWidth: true,
-                        }}
+                        variant="outlined"
                       />
-                    </GridItem>
-                    <GridItem xs={12} sm={12} md={6}>
-                      <CustomInput
-                        labelText={`Last Name:`}
+                    </Grid>
+                    <Grid item xs={12} sm={12} md={6}>
+                      <TextField
+                        fullWidth
+                        label="Last name"
                         id="lastname"
                         name="lastname"
                         onChange={formik.handleChange}
+                        required
                         value={formik.values.lastname}
-                        formControlProps={{
-                          fullWidth: true,
-                        }}
+                        variant="outlined"
                       />
-                    </GridItem>
-
-                    <GridItem xs={12} sm={12} md={6}>
-                      <CustomInput
-                        labelText={`Email:`}
+                    </Grid>
+                    <Grid item xs={12} sm={12} md={6}>
+                      <TextField
+                        fullWidth
+                        label="Email"
                         id="email"
                         name="email"
                         onChange={formik.handleChange}
+                        required
                         value={formik.values.email}
-                        formControlProps={{
-                          fullWidth: true,
-                        }}
+                        variant="outlined"
                       />
-                    </GridItem>
-                    <GridItem xs={12} sm={12} md={6}>
-                      <CustomInput
-                        labelText={`Phone:`}
+                    </Grid>
+                    <Grid item xs={12} sm={12} md={6}>
+                      <TextField
+                        fullWidth
+                        label="Phone"
                         id="phone"
                         name="phone"
                         onChange={formik.handleChange}
+                        required
                         value={formik.values.phone}
-                        formControlProps={{
-                          fullWidth: true,
-                        }}
+                        variant="outlined"
                       />
-                    </GridItem>
-                    <GridItem xs={12} sm={12} md={6}>
-                      <CustomInput
+                    </Grid>
+                    <Grid item xs={12} sm={12} md={6}>
+                      <TextField
+                        fullWidth
+                        label="County"
                         id="county"
                         name="county"
                         onChange={formik.handleChange}
+                        required
                         value={formik.values.county}
-                        placeholder={formik.values.county}
-                        labelText={'County:'}
-                        formControlProps={{
-                          fullWidth: true,
-                        }}
+                        variant="outlined"
                       />
-                    </GridItem>
-                    <GridItem xs={12} sm={12} md={6}>
-                      <CustomInput
+                    </Grid>
+                    <Grid item xs={12} sm={12} md={6}>
+                      <TextField
+                        fullWidth
+                        label="Sub County"
                         id="subCounty"
                         name="subCounty"
                         onChange={formik.handleChange}
+                        required
                         value={formik.values.subCounty}
-                        placeholder={formik.values.subCounty}
-                        labelText={'Sub-County:'}
-                        formControlProps={{
-                          fullWidth: true,
-                        }}
+                        variant="outlined"
                       />
-                    </GridItem>
-                  </GridContainer>
-                  <GridContainer>
-                    <GridItem xs={12} sm={12} md={6}>
-                      <CustomInput
-                        labelText={`Category:`}
+                    </Grid>
+                    <Grid item xs={12} sm={12} md={12}>
+                      <TextField
+                        fullWidth
+                        label="Category"
                         id="category"
                         name="category"
                         onChange={formik.handleChange}
+                        required
                         value={formik.values.category}
-                        formControlProps={{
-                          fullWidth: true,
-                        }}
+                        variant="outlined"
                       />
-                    </GridItem>
-                    <GridItem xs={12} sm={12} md={6}>
-                      <CustomInput
-                        labelText={`Category ID:`}
-                        id="categoryID"
-                        name="categoryID"
-                        onChange={formik.handleChange}
-                        value={formik.values.categoryID}
-                        formControlProps={{
-                          fullWidth: true,
-                        }}
-                      />
-                    </GridItem>
-                    <GridItem xs={12} sm={12} md={6}>
-                      <CustomInput
+                    </Grid>
+                    <Grid item xs={12} sm={12} md={6}>
+                      <TextField
+                        fullWidth
+                        label="National ID"
                         id="nationalID"
                         name="nationalID"
                         onChange={formik.handleChange}
+                        required
                         value={formik.values.nationalID}
-                        placeholder={formik.values.nationalID}
-                        labelText={'National ID or Passport No.'}
-                        formControlProps={{
-                          fullWidth: true,
-                        }}
+                        variant="outlined"
                       />
-                    </GridItem>
-                    <GridItem xs={12} sm={12} md={6}>
-                      <CustomInput
+                    </Grid>
+                    <Grid item xs={12} sm={12} md={6}>
+                      <TextField
+                        fullWidth
+                        label="Profession"
                         id="profession"
                         name="profession"
                         onChange={formik.handleChange}
+                        required
                         value={formik.values.profession}
-                        placeholder={formik.values.profession}
-                        labelText={'Profession'}
-                        formControlProps={{
-                          fullWidth: true,
-                        }}
+                        variant="outlined"
                       />
-                    </GridItem>
-                    <GridItem xs={12} sm={12} md={6}>
-                      <CustomInput
+                    </Grid>
+                    <Grid item xs={12} sm={12} md={6}>
+                      <TextField
+                        fullWidth
+                        label="Latitude"
                         id="latitude"
                         name="latitude"
                         onChange={formik.handleChange}
+                        required
                         value={formik.values.latitude}
-                        placeholder={formik.values.latitude}
-                        labelText={'Location - Latitude'}
-                        formControlProps={{
-                          fullWidth: true,
-                        }}
+                        variant="outlined"
                       />
-                    </GridItem>
-                    <GridItem xs={12} sm={12} md={6}>
-                      <CustomInput
+                    </Grid>
+                    <Grid item xs={12} sm={12} md={6}>
+                      <TextField
+                        fullWidth
+                        label="Longitude"
                         id="longitude"
                         name="longitude"
                         onChange={formik.handleChange}
+                        required
                         value={formik.values.longitude}
-                        placeholder={formik.values.longitude}
-                        labelText={'Location - Longitude'}
-                        formControlProps={{
-                          fullWidth: true,
-                        }}
+                        variant="outlined"
                       />
-                    </GridItem>
-                    <GridItem xs={12} sm={12} md={6}>
-                      <CustomInput
-                        labelText={`Location/Address:`}
+                    </Grid>
+                    <Grid item xs={12} sm={12} md={12}>
+                      <TextField
+                        fullWidth
+                        label="Location"
                         id="location"
                         name="location"
                         onChange={formik.handleChange}
+                        required
                         value={formik.values.location}
-                        formControlProps={{
-                          fullWidth: true,
-                        }}
+                        variant="outlined"
                       />
-                    </GridItem>
-                  </GridContainer>
-                  <GridContainer>
-                    <GridItem xs={12} sm={12} md={6}>
+                    </Grid>
+                    <Grid item xs={12} sm={12} md={12}>
                       <label>
                         Choose profile picture
                         <input
@@ -322,8 +308,8 @@ function AddUser() {
                           onChange={handleChangeUpload}
                         />
                       </label>
-                    </GridItem>
-                  </GridContainer>
+                    </Grid>
+                  </Grid>
                 </CardBody>
                 <CardFooter>
                   <Button
@@ -331,12 +317,12 @@ function AddUser() {
                     color="primary"
                     onClick={handleUploadProfile}
                   >
-                    Create User
+                    Create Service Provider
                   </Button>
                   <Button
                     color="primary"
                     onClick={() => {
-                      router.push('users');
+                      router.push('service-providers');
                     }}
                   >
                     exit

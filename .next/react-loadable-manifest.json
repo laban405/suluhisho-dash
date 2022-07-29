@@ -1,57 +1,8 @@
 {
-  "../node_modules/jspdf/dist/jspdf.es.min.js -> canvg": {
-    "id": "DXPr",
+  "../node_modules/next/dist/client/next-dev.js -> ./dev/noop": {
+    "id": "./node_modules/next/dist/client/dev/noop.js",
     "files": [
-      "static/chunks/72a30a16.6b1fe07e709d05127e34.js",
-      "static/chunks/57.5cac020e72d0beb90cb8.js"
-    ]
-  },
-  "../node_modules/jspdf/dist/jspdf.es.min.js -> dompurify": {
-    "id": "wMS7",
-    "files": [
-      "static/chunks/58.52ee8065c1a26186f3ed.js"
-    ]
-  },
-  "../node_modules/jspdf/dist/jspdf.es.min.js -> html2canvas": {
-    "id": "wOnQ",
-    "files": [
-      "static/chunks/59.4933c26bcd86ce2649a3.js"
-    ]
-  },
-  "admin/add-faq.js -> react-quill": {
-    "id": "rmP6",
-    "files": [
-      "static/chunks/framework.324c8fc7dc7653d6c1c5.js",
-      "static/chunks/eabe11fc.83b795f460fc78555dd3.js",
-      "static/chunks/948c568b3d92e0c48251d2303cec62149fa5909b.6a81b6b11ef3be705110.js",
-      "static/chunks/17.03ebaae3476cdbeb59df.js"
-    ]
-  },
-  "admin/add-resource.js -> react-quill": {
-    "id": "rmP6",
-    "files": [
-      "static/chunks/framework.324c8fc7dc7653d6c1c5.js",
-      "static/chunks/eabe11fc.83b795f460fc78555dd3.js",
-      "static/chunks/948c568b3d92e0c48251d2303cec62149fa5909b.6a81b6b11ef3be705110.js",
-      "static/chunks/17.03ebaae3476cdbeb59df.js"
-    ]
-  },
-  "admin/manage-faq.js -> react-quill": {
-    "id": "rmP6",
-    "files": [
-      "static/chunks/framework.324c8fc7dc7653d6c1c5.js",
-      "static/chunks/eabe11fc.83b795f460fc78555dd3.js",
-      "static/chunks/948c568b3d92e0c48251d2303cec62149fa5909b.6a81b6b11ef3be705110.js",
-      "static/chunks/17.03ebaae3476cdbeb59df.js"
-    ]
-  },
-  "admin/manage-resource.js -> react-quill": {
-    "id": "rmP6",
-    "files": [
-      "static/chunks/framework.324c8fc7dc7653d6c1c5.js",
-      "static/chunks/eabe11fc.83b795f460fc78555dd3.js",
-      "static/chunks/948c568b3d92e0c48251d2303cec62149fa5909b.6a81b6b11ef3be705110.js",
-      "static/chunks/17.03ebaae3476cdbeb59df.js"
+      "static/chunks/0.js"
     ]
   }
 }
