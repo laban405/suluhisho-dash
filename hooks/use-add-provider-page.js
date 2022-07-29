@@ -1,3 +1,7 @@
+import { useFormik } from "formik";
+import { useRouter } from "next/router";
+import { useState } from "react";
+
 const counties = [
   { value: "Baringo", label: "Baringo" },
   { value: "Bomet", label: "Bomet" },
@@ -66,5 +70,54 @@ const subCounties = [
 ];
 
 export const useAddProviderPage = () => {
-  return { counties, subCounties };
+  const router = useRouter();
+  const [isUserLoggedIn, setIsUserLoggedIn] = useState(false);
+  const [downloadURL, setDownloadURL] = useState(null);
+  const [image, setImage] = useState(null);
+  const [progress, setProgress] = useState(0);
+
+  const onExit = () => router.push("service-providers");
+
+  const onSetIsUserLoggedIn = (value) => setIsUserLoggedIn(value);
+
+  const formik = useFormik({
+    initialValues: {
+      firstname: "",
+      lastname: "",
+      phone: "",
+      email: "",
+      location: "",
+      county: "",
+      subCounty: "",
+      category: "",
+      categoryID: "",
+      nationalID: "",
+      isSP: true,
+      profession: "",
+      isActive: true,
+      isAdmin: false,
+      isClient: false,
+      isOccupied: false,
+      position: {},
+      latitude: "",
+      longitude: "",
+    },
+
+    onSubmit: (values) => {
+      values.name = `${values.firstname} ${values.lastname}`;
+      // createUser(values);
+    },
+  });
+
+  return {
+    counties,
+    subCounties,
+    isUserLoggedIn,
+    downloadURL,
+    image,
+    progress,
+    onExit,
+    onSetIsUserLoggedIn,
+    formik,
+  };
 };

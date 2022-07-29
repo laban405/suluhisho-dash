@@ -1,11 +1,10 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect } from 'react';
 import { firestore, auth } from '../../firebase';
 import firebase from 'firebase';
 import * as Yup from 'yup';
 import geofire from 'geofire';
 import { motion } from 'framer-motion';
 import { useRouter } from 'next/router';
-import { useFormik } from 'formik';
 import Admin from 'layouts/Admin.js';
 import GridItem from 'components/Grid/GridItem.js';
 import GridContainer from 'components/Grid/GridContainer.js';
@@ -34,8 +33,7 @@ const theme = createTheme({});
 
 const useStyles = makeStyles((theme) => ({
   formControl: {
-    margin: theme.spacing(1),
-    minWidth: 120,
+    width: '100%',
   },
   selectEmpty: {
     marginTop: theme.spacing(2),
@@ -44,11 +42,17 @@ const useStyles = makeStyles((theme) => ({
 
 function AddUser() {
   const router = useRouter();
-  const [isUserLoggedIn, setIsUserLoggedIn] = useState(false);
-  const [downloadURL, setDownloadURL] = useState(null);
-  const [image, setImage] = useState(null);
-  const [progress, setProgress] = useState(0);
-  const { counties, subCounties } = useAddProviderPage();
+  const {
+    counties,
+    subCounties,
+    isUserLoggedIn,
+    downloadURL,
+    image,
+    progress,
+    onExit,
+    onSetIsUserLoggedIn,
+    formik,
+  } = useAddProviderPage();
 
   const containerVariants = {
     hidden: {
@@ -63,35 +67,6 @@ function AddUser() {
       transition: { delay: 0, duration: 0.5 },
     },
   };
-
-  const formik = useFormik({
-    initialValues: {
-      firstname: '',
-      lastname: '',
-      phone: '',
-      email: '',
-      location: '',
-      county: '',
-      subCounty: '',
-      category: '',
-      categoryID: '',
-      nationalID: '',
-      isSP: true,
-      profession: '',
-      isActive: true,
-      isAdmin: false,
-      isClient: false,
-      isOccupied: false,
-      position: {},
-      latitude: '',
-      longitude: '',
-    },
-
-    onSubmit: (values) => {
-      values.name = `${values.firstname} ${values.lastname}`;
-      // createUser(values);
-    },
-  });
 
   const handleUploadProfile = () => {
     let file = image;
@@ -147,9 +122,7 @@ function AddUser() {
     auth.onAuthStateChanged(async (user) => {
       if (!user) {
         router.push('../login');
-      } else {
-        setIsUserLoggedIn(true);
-      }
+      } else onSetIsUserLoggedIn(true);
     });
     console.log('storage ref: ', firebase.storage().ref());
   }, []);
@@ -359,12 +332,7 @@ function AddUser() {
                   >
                     Create Service Provider
                   </Button>
-                  <Button
-                    color="primary"
-                    onClick={() => {
-                      router.push('service-providers');
-                    }}
-                  >
+                  <Button color="primary" onClick={onExit}>
                     exit
                   </Button>
                 </CardFooter>
