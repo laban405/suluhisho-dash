@@ -4,7 +4,6 @@ import { useEffect, useState } from 'react';
 import * as Yup from 'yup';
 import firebase from 'firebase';
 import { firestore, auth } from '../../../firebase';
-import { counties, subCounties, categories } from './data';
 
 const smsData = {
   apikey: 'bab2a63d9ceb65a8c7674771aed617da',
@@ -115,9 +114,6 @@ export const useAddProviderPage = () => {
   }, []);
 
   return {
-    counties,
-    subCounties,
-    categories,
     isUserLoggedIn,
     downloadURL,
     image,
