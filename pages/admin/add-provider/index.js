@@ -5,7 +5,7 @@ import Card from 'components/Card/Card.js';
 import CardHeader from 'components/Card/CardHeader.js';
 import CardBody from 'components/Card/CardBody.js';
 import CardFooter from 'components/Card/CardFooter.js';
-import { CssBaseline, Select } from '@material-ui/core';
+import { CssBaseline } from '@material-ui/core';
 import {
   createTheme,
   ThemeProvider,
@@ -17,15 +17,13 @@ import SuFormControl from '../../../components/Inputs/SuFormControl';
 import SuGrid from '../../../components/Layout/SuGrid';
 import SuInputLabel from '../../../components/Inputs/SuInputLabel';
 import SuMenuItem from '../../../components/Navigation/SuMenuItem';
+import SuSelect from '../../../components/Inputs/SuSelect';
 
 const theme = createTheme({});
 
 const useStyles = makeStyles((theme) => ({
   formControl: {
     width: '100%',
-  },
-  selectEmpty: {
-    marginTop: theme.spacing(2),
   },
 }));
 
@@ -107,7 +105,7 @@ function AddUser() {
                       <SuInputLabel id="county-select-label">
                         County
                       </SuInputLabel>
-                      <Select
+                      <SuSelect
                         labelId="county-select-label"
                         label="County"
                         id="county"
@@ -121,7 +119,7 @@ function AddUser() {
                             {county.label}
                           </SuMenuItem>
                         ))}
-                      </Select>
+                      </SuSelect>
                     </SuFormControl>
                   </SuGrid>
                   <SuGrid item xs={12} sm={12} md={6}>
@@ -129,7 +127,7 @@ function AddUser() {
                       <SuInputLabel id="sub-county-select-label">
                         Sub County
                       </SuInputLabel>
-                      <Select
+                      <SuSelect
                         labelId="sub-county-select-label"
                         label="Sub County"
                         id="subCounty"
@@ -146,7 +144,7 @@ function AddUser() {
                             {subCounty.label}
                           </SuMenuItem>
                         ))}
-                      </Select>
+                      </SuSelect>
                     </SuFormControl>
                   </SuGrid>
                   <SuGrid item xs={12} sm={12} md={12}>
@@ -154,7 +152,7 @@ function AddUser() {
                       <SuInputLabel id="category-select-label">
                         Category
                       </SuInputLabel>
-                      <Select
+                      <SuSelect
                         labelId="category-select-label"
                         label="Category"
                         id="category"
@@ -171,7 +169,7 @@ function AddUser() {
                             {category.label}
                           </SuMenuItem>
                         ))}
-                      </Select>
+                      </SuSelect>
                     </SuFormControl>
                   </SuGrid>
                   <SuGrid item xs={12} sm={12} md={6}>
