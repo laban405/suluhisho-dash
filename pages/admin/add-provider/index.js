@@ -7,14 +7,7 @@ import Card from 'components/Card/Card.js';
 import CardHeader from 'components/Card/CardHeader.js';
 import CardBody from 'components/Card/CardBody.js';
 import CardFooter from 'components/Card/CardFooter.js';
-import {
-  CssBaseline,
-  FormControl,
-  Grid,
-  InputLabel,
-  MenuItem,
-  Select,
-} from '@material-ui/core';
+import { CssBaseline, InputLabel, MenuItem, Select } from '@material-ui/core';
 import {
   createTheme,
   ThemeProvider,
@@ -22,6 +15,8 @@ import {
 } from '@material-ui/core/styles';
 import { useAddProviderPage } from './hooks/use-add-provider-page';
 import SuTextField from '../../../components/Inputs/SuTextField';
+import SuFormControl from '../../../components/Inputs/SuFormControl';
+import SuGrid from '../../../components/Layout/SuGrid';
 
 const theme = createTheme({});
 
@@ -58,8 +53,8 @@ function AddUser() {
                 <h4 className="cardTitleWhite">Add Service Provider</h4>
               </CardHeader>
               <CardBody>
-                <Grid container spacing={3}>
-                  <Grid item xs={12} sm={12} md={6}>
+                <SuGrid container spacing={3}>
+                  <SuGrid item xs={12} sm={12} md={6}>
                     <SuTextField
                       fullWidth
                       label="First name"
@@ -70,8 +65,8 @@ function AddUser() {
                       value={formik.values.firstname}
                       variant="outlined"
                     />
-                  </Grid>
-                  <Grid item xs={12} sm={12} md={6}>
+                  </SuGrid>
+                  <SuGrid item xs={12} sm={12} md={6}>
                     <SuTextField
                       fullWidth
                       label="Last name"
@@ -82,8 +77,8 @@ function AddUser() {
                       value={formik.values.lastname}
                       variant="outlined"
                     />
-                  </Grid>
-                  <Grid item xs={12} sm={12} md={6}>
+                  </SuGrid>
+                  <SuGrid item xs={12} sm={12} md={6}>
                     <SuTextField
                       fullWidth
                       label="Email"
@@ -94,8 +89,8 @@ function AddUser() {
                       value={formik.values.email}
                       variant="outlined"
                     />
-                  </Grid>
-                  <Grid item xs={12} sm={12} md={6}>
+                  </SuGrid>
+                  <SuGrid item xs={12} sm={12} md={6}>
                     <SuTextField
                       fullWidth
                       label="Phone"
@@ -106,9 +101,9 @@ function AddUser() {
                       value={formik.values.phone}
                       variant="outlined"
                     />
-                  </Grid>
-                  <Grid item xs={12} sm={12} md={6}>
-                    <FormControl fullWidth className={classes.formControl}>
+                  </SuGrid>
+                  <SuGrid item xs={12} sm={12} md={6}>
+                    <SuFormControl fullWidth className={classes.formControl}>
                       <InputLabel id="county-select-label">County</InputLabel>
                       <Select
                         labelId="county-select-label"
@@ -125,10 +120,10 @@ function AddUser() {
                           </MenuItem>
                         ))}
                       </Select>
-                    </FormControl>
-                  </Grid>
-                  <Grid item xs={12} sm={12} md={6}>
-                    <FormControl fullWidth className={classes.formControl}>
+                    </SuFormControl>
+                  </SuGrid>
+                  <SuGrid item xs={12} sm={12} md={6}>
+                    <SuFormControl fullWidth className={classes.formControl}>
                       <InputLabel id="sub-county-select-label">
                         Sub County
                       </InputLabel>
@@ -150,10 +145,10 @@ function AddUser() {
                           </MenuItem>
                         ))}
                       </Select>
-                    </FormControl>
-                  </Grid>
-                  <Grid item xs={12} sm={12} md={12}>
-                    <FormControl fullWidth className={classes.formControl}>
+                    </SuFormControl>
+                  </SuGrid>
+                  <SuGrid item xs={12} sm={12} md={12}>
+                    <SuFormControl fullWidth className={classes.formControl}>
                       <InputLabel id="category-select-label">
                         Category
                       </InputLabel>
@@ -172,9 +167,9 @@ function AddUser() {
                           </MenuItem>
                         ))}
                       </Select>
-                    </FormControl>
-                  </Grid>
-                  <Grid item xs={12} sm={12} md={6}>
+                    </SuFormControl>
+                  </SuGrid>
+                  <SuGrid item xs={12} sm={12} md={6}>
                     <SuTextField
                       fullWidth
                       label="National ID"
@@ -185,8 +180,8 @@ function AddUser() {
                       value={formik.values.nationalID}
                       variant="outlined"
                     />
-                  </Grid>
-                  <Grid item xs={12} sm={12} md={6}>
+                  </SuGrid>
+                  <SuGrid item xs={12} sm={12} md={6}>
                     <SuTextField
                       fullWidth
                       label="Profession"
@@ -197,8 +192,8 @@ function AddUser() {
                       value={formik.values.profession}
                       variant="outlined"
                     />
-                  </Grid>
-                  <Grid item xs={12} sm={12} md={6}>
+                  </SuGrid>
+                  <SuGrid item xs={12} sm={12} md={6}>
                     <SuTextField
                       fullWidth
                       label="Latitude"
@@ -209,8 +204,8 @@ function AddUser() {
                       value={formik.values.latitude}
                       variant="outlined"
                     />
-                  </Grid>
-                  <Grid item xs={12} sm={12} md={6}>
+                  </SuGrid>
+                  <SuGrid item xs={12} sm={12} md={6}>
                     <SuTextField
                       fullWidth
                       label="Longitude"
@@ -221,8 +216,8 @@ function AddUser() {
                       value={formik.values.longitude}
                       variant="outlined"
                     />
-                  </Grid>
-                  <Grid item xs={12} sm={12} md={12}>
+                  </SuGrid>
+                  <SuGrid item xs={12} sm={12} md={12}>
                     <SuTextField
                       fullWidth
                       label="Location"
@@ -233,14 +228,14 @@ function AddUser() {
                       value={formik.values.location}
                       variant="outlined"
                     />
-                  </Grid>
-                  <Grid item xs={12} sm={12} md={12}>
+                  </SuGrid>
+                  <SuGrid item xs={12} sm={12} md={12}>
                     <label>
                       Choose profile picture
                       <input type="file" id="file" onChange={onChangeUpload} />
                     </label>
-                  </Grid>
-                </Grid>
+                  </SuGrid>
+                </SuGrid>
               </CardBody>
               <CardFooter>
                 <Button type="submit" color="primary">
