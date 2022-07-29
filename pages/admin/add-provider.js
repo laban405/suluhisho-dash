@@ -28,50 +28,7 @@ import {
   ThemeProvider,
   makeStyles,
 } from '@material-ui/core/styles';
-
-const counties = [
-  { value: 'Baringo', label: 'Baringo' },
-  { value: 'Bomet', label: 'Bomet' },
-  { value: 'Bungoma', label: 'Bungoma' },
-  { value: 'Busia', label: 'Busia' },
-  { value: 'Elgeyo-Marakwet', label: 'Elgeyo-Marakwet' },
-  { value: 'Embu', label: 'Embu' },
-  { value: 'Garissa', label: 'Garissa' },
-  { value: 'Homa Bay', label: 'Homa Bay' },
-  { value: 'Isiolo', label: 'Isiolo' },
-  { value: 'Kajiado', label: 'Kajiado' },
-  { value: 'Kakamega', label: 'Kakamega' },
-  { value: 'Kericho', label: 'Kericho' },
-  { value: 'Kiambu', label: 'Kiambu' },
-  { value: 'Kilifi', label: 'Kilifi' },
-  { value: 'Kirinyaga', label: 'Kirinyaga' },
-  { value: 'Kisii', label: 'Kisii' },
-  { value: 'Kisumu', label: 'Kisumu' },
-  { value: 'Kitui', label: 'Kitui' },
-  { value: 'Kwale', label: 'Kwale' },
-  { value: 'Laikipia', label: 'Laikipia' },
-  { value: 'Lamu', label: 'Lamu' },
-  { value: 'Machakos', label: 'Machakos' },
-  { value: 'Makueni', label: 'Makueni' },
-  { value: 'Mandera', label: 'Mandera' },
-  { value: 'Marsabit', label: 'Marsabit' },
-  { value: 'Meru', label: 'Meru' },
-  { value: 'Migori', label: 'Migori' },
-  { value: 'Mombasa', label: 'Mombasa' },
-  { value: 'Muranga', label: 'Muranga' },
-  { value: 'Nairobi', label: 'Nairobi' },
-  { value: 'Nakuru', label: 'Nakuru' },
-  { value: 'Nandi', label: 'Nandi' },
-  { value: 'Narok', label: 'Narok' },
-  { value: 'Nyamira', label: 'Nyamira' },
-  { value: 'Nyandarua', label: 'Nyandarua' },
-  { value: 'Nyeri', label: 'Nyeri' },
-  { value: 'Samburu', label: 'Samburu' },
-  { value: 'Siaya', label: 'Siaya' },
-  { value: 'Taita-Taveta', label: 'Taita-Taveta' },
-  { value: 'Tana River', label: 'Tana River' },
-  { value: 'Tharaka-Nithi', label: 'Tharaka-Nithi' },
-];
+import { useAddProviderPage } from '../../hooks/use-add-provider-page';
 
 const theme = createTheme({});
 
@@ -91,6 +48,7 @@ function AddUser() {
   const [downloadURL, setDownloadURL] = useState(null);
   const [image, setImage] = useState(null);
   const [progress, setProgress] = useState(0);
+  const { counties, subCounties } = useAddProviderPage();
 
   const containerVariants = {
     hidden: {
@@ -285,16 +243,29 @@ function AddUser() {
                       </FormControl>
                     </Grid>
                     <Grid item xs={12} sm={12} md={6}>
-                      <TextField
-                        fullWidth
-                        label="Sub County"
-                        id="subCounty"
-                        name="subCounty"
-                        onChange={formik.handleChange}
-                        required
-                        value={formik.values.subCounty}
-                        variant="outlined"
-                      />
+                      <FormControl fullWidth className={classes.formControl}>
+                        <InputLabel id="sub-county-select-label">
+                          Sub County
+                        </InputLabel>
+                        <Select
+                          labelId="sub-county-select-label"
+                          label="Sub County"
+                          id="subCounty"
+                          name="subCounty"
+                          onChange={formik.handleChange}
+                          value={formik.values.subCounty}
+                          variant="outlined"
+                        >
+                          {subCounties.map((subCounty) => (
+                            <MenuItem
+                              key={subCounty.value}
+                              value={subCounty.value}
+                            >
+                              {subCounty.label}
+                            </MenuItem>
+                          ))}
+                        </Select>
+                      </FormControl>
                     </Grid>
                     <Grid item xs={12} sm={12} md={12}>
                       <TextField
