@@ -14,6 +14,7 @@ import CardIcon from 'components/Card/CardIcon.js';
 import CardFooter from 'components/Card/CardFooter.js';
 import styles from 'assets/jss/nextjs-material-dashboard/views/dashboardStyle.js';
 import { useRouter } from 'next/router';
+import { Button } from '@material-ui/core';
 
 function Dashboard() {
   const useStyles = makeStyles(styles);
@@ -103,7 +104,9 @@ function Dashboard() {
                   <CountUp start={0} end={totalAlerts} duration={3} />
                 </h3>
               </CardHeader>
-              <CardFooter stats></CardFooter>
+              <CardFooter stats>
+                <Button href="/admin/alerts">more</Button>
+              </CardFooter>
             </Card>
           </GridItem>
           <GridItem xs={12} sm={6} md={4}>
@@ -117,7 +120,9 @@ function Dashboard() {
                   <CountUp start={0} end={totalUsers} duration={4} />
                 </h3>
               </CardHeader>
-              <CardFooter stats></CardFooter>
+              <CardFooter stats>
+                <Button href="/admin/users">more</Button>
+              </CardFooter>
             </Card>
           </GridItem>
           <GridItem xs={12} sm={6} md={4}>
@@ -131,7 +136,9 @@ function Dashboard() {
                   <CountUp start={0} end={5} duration={5} />
                 </h3>
               </CardHeader>
-              <CardFooter stats></CardFooter>
+              <CardFooter stats>
+                <Button href="/admin/service-providers">more</Button>
+              </CardFooter>
             </Card>
           </GridItem>
         </GridContainer>
