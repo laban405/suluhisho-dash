@@ -1,55 +1,55 @@
-import { useFormik } from 'formik';
-import { useRouter } from 'next/router';
-import { useEffect, useState } from 'react';
-import * as Yup from 'yup';
-import firebase from 'firebase';
-import { firestore, auth } from '../../../firebase';
+import { useFormik } from "formik";
+import { useRouter } from "next/router";
+import { useEffect, useState } from "react";
+import * as Yup from "yup";
+import firebase from "firebase";
+import { firestore, auth } from "../firebase";
 
 const smsData = {
-  apikey: 'bab2a63d9ceb65a8c7674771aed617da',
-  partnerID: '3587',
+  apikey: "bab2a63d9ceb65a8c7674771aed617da",
+  partnerID: "3587",
   //mobile: to,
-  mobile: 'to',
+  mobile: "to",
   //message: message,
-  message: 'message',
-  shortcode: 'SULUHISHO',
-  clientsmsid: '3587',
-  pass_type: 'plain',
+  message: "message",
+  shortcode: "SULUHISHO",
+  clientsmsid: "3587",
+  pass_type: "plain",
 };
-const baseUrl = 'https://mysms.celcomafrica.com';
-const url = 'services/sendsms/';
-const contextPath = '/api/';
-const method = 'POST';
+const baseUrl = "https://mysms.celcomafrica.com";
+const url = "services/sendsms/";
+const contextPath = "/api/";
+const method = "POST";
 
 const initialValues = {
-  firstname: '',
-  lastname: '',
-  phone: '',
-  email: '',
-  location: '',
-  county: '',
-  subCounty: '',
-  category: '',
-  categoryID: '',
-  nationalID: '',
+  firstname: "",
+  lastname: "",
+  phone: "",
+  email: "",
+  location: "",
+  county: "",
+  subCounty: "",
+  category: "",
+  categoryID: "",
+  nationalID: "",
   isSP: true,
-  profession: '',
+  profession: "",
   isActive: true,
   isAdmin: false,
   isClient: false,
   isOccupied: false,
   position: {},
-  latitude: '',
-  longitude: '',
+  latitude: "",
+  longitude: "",
 };
 
 const validationSchema = Yup.object({
-  firstname: Yup.string().required('First name is required'),
-  lastname: Yup.string().required('Last name is required'),
-  phone: Yup.string().required('Phone number is required'),
+  firstname: Yup.string().required("First name is required"),
+  lastname: Yup.string().required("Last name is required"),
+  phone: Yup.string().required("Phone number is required"),
   email: Yup.string()
-    .email('Invalid email format')
-    .required('Email is required'),
+    .email("Invalid email format")
+    .required("Email is required"),
 });
 
 export const useAddProviderPage = () => {
@@ -59,7 +59,7 @@ export const useAddProviderPage = () => {
   const [image, setImage] = useState(null);
   const [progress, setProgress] = useState(0);
 
-  const onExit = () => router.push('service-providers');
+  const onExit = () => router.push("service-providers");
 
   const onSetIsUserLoggedIn = (value) => setIsUserLoggedIn(value);
 
@@ -82,10 +82,10 @@ export const useAddProviderPage = () => {
           const url = await uploadTask.snapshot.ref.getDownloadURL();
           setDownloadURL(url);
           values.profileUrl = url;
-          const res = await firestore.collection('users').add(values);
-          console.log('Service provider created: ', res);
+          const res = await firestore.collection("users").add(values);
+          console.log("Service provider created: ", res);
         } catch (error) {
-          console.log('Error creating provider', error);
+          console.log("Error creating provider", error);
         }
       }
     );
@@ -107,10 +107,10 @@ export const useAddProviderPage = () => {
   useEffect(() => {
     auth.onAuthStateChanged(async (user) => {
       if (!user) {
-        router.push('../login');
+        router.push("../login");
       } else onSetIsUserLoggedIn(true);
     });
-    console.log('storage ref: ', firebase.storage().ref());
+    console.log("storage ref: ", firebase.storage().ref());
   }, []);
 
   return {
