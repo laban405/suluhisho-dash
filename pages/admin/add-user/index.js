@@ -6,16 +6,15 @@ import CardBody from 'components/Card/CardBody.js';
 import CardFooter from 'components/Card/CardFooter.js';
 import { CssBaseline } from '@material-ui/core';
 import { createTheme, ThemeProvider } from '@material-ui/core/styles';
-import { useAddProviderPage } from '../../../hooks/useAddProviderPage';
+import { useAddUserPage } from '../../../hooks/useAddUserPage';
 import SuGrid from '../../../components/Layout/SuGrid';
-import AddUserForm from '../../../components/AddUserForm';
 import Button from '../../../components/CustomButtons/Button';
+import AddUserForm from '../../../components/AddUserForm';
 
 const theme = createTheme({});
 
-function AddProvider() {
-  const { isUserLoggedIn, onExit, formik, onChangeUpload } =
-    useAddProviderPage();
+function AddUser() {
+  const { isUserLoggedIn, onExit, formik, onChangeUpload } = useAddUserPage();
 
   return isUserLoggedIn ? (
     <ThemeProvider theme={theme}>
@@ -24,7 +23,7 @@ function AddProvider() {
         <SuGrid item xs={12} sm={12} md={8}>
           <Card>
             <CardHeader color="dark">
-              <h4 className={styles.cardTitleWhite}>Add Service Provider</h4>
+              <h4 className={styles.cardTitleWhite}>Add User</h4>
             </CardHeader>
             <CardBody>
               <AddUserForm formik={formik} onChangeUpload={onChangeUpload} />
@@ -53,6 +52,6 @@ const styles = {
   },
 };
 
-AddProvider.layout = Admin;
+AddUser.layout = Admin;
 
-export default AddProvider;
+export default AddUser;

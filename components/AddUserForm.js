@@ -271,7 +271,7 @@ function AddUserForm({ formik, onChangeUpload }) {
         </SuGrid>
         <SuGrid item xs={12} sm={12} md={12}>
           <Button fullWidth type="submit" color="primary">
-            Create Service Provider
+            Submit
           </Button>
         </SuGrid>
       </SuGrid>
