@@ -4,22 +4,7 @@ import { useEffect, useState } from "react";
 import * as Yup from "yup";
 import firebase from "firebase";
 import { firestore, auth } from "../firebase";
-
-const smsData = {
-  apikey: "bab2a63d9ceb65a8c7674771aed617da",
-  partnerID: "3587",
-  //mobile: to,
-  mobile: "to",
-  //message: message,
-  message: "message",
-  shortcode: "SULUHISHO",
-  clientsmsid: "3587",
-  pass_type: "plain",
-};
-const baseUrl = "https://mysms.celcomafrica.com";
-const url = "services/sendsms/";
-const contextPath = "/api/";
-const method = "POST";
+import { sms } from "../lib/sms";
 
 const initialValues = {
   firstname: "",
@@ -83,7 +68,11 @@ export const useAddProviderPage = () => {
           setDownloadURL(url);
           values.profileUrl = url;
           const res = await firestore.collection("users").add(values);
-          console.log("Service provider created: ", res);
+          await sms.post("/api/services/sendsms/", {
+            mobile: values.phone,
+            message:
+              "Welcome to SuluHisho. Your account has been created successfully.",
+          });
         } catch (error) {
           console.log("Error creating provider", error);
         }
