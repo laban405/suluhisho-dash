@@ -68,10 +68,8 @@ export const useAddProviderPage = () => {
           setDownloadURL(url);
           values.profileUrl = url;
           const res = await firestore.collection("users").add(values);
-          await sms.post("/api/services/sendsms/", {
+          await sms.post("/notifications/sms/service-provider", {
             mobile: values.phone,
-            message:
-              "Welcome to SuluHisho. Your account has been created successfully.",
           });
         } catch (error) {
           console.log("Error creating provider", error);
