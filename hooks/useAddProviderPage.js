@@ -4,7 +4,10 @@ import { useEffect, useState } from "react";
 import * as Yup from "yup";
 import firebase from "firebase";
 import { firestore, auth } from "../firebase";
-import { sms } from "../lib/sms";
+import { api } from "../lib/api.lib";
+import { generateString } from "../lib/random.lib";
+
+//import { storage } from "../lib/firebase.lib";
 
 const initialValues = {
   firstname: "",
@@ -17,12 +20,7 @@ const initialValues = {
   category: "",
   categoryID: "",
   nationalID: "",
-  isSP: true,
   profession: "",
-  isActive: true,
-  isAdmin: false,
-  isClient: false,
-  isOccupied: false,
   position: {},
   latitude: "",
   longitude: "",
@@ -40,48 +38,41 @@ const validationSchema = Yup.object({
 export const useAddProviderPage = () => {
   const router = useRouter();
   const [isUserLoggedIn, setIsUserLoggedIn] = useState(false);
-  const [downloadURL, setDownloadURL] = useState(null);
   const [image, setImage] = useState(null);
-  const [progress, setProgress] = useState(0);
 
   const onExit = () => router.push("service-providers");
 
   const onSetIsUserLoggedIn = (value) => setIsUserLoggedIn(value);
 
-  const createServiceProvider = (values) => {
-    let file = image;
-    let storageRef = firebase.storage().ref();
-    let uploadTask = storageRef.child(`profile_pics/${file.name}`).put(file);
-
-    uploadTask.on(
-      firebase.storage.TaskEvent.STATE_CHANGED,
-      (snapshot) => {
-        let progress = (snapshot.bytesTransferred / snapshot.totalBytes) * 100;
-        setProgress(progress);
-      },
-      (error) => {
-        throw error;
-      },
-      async () => {
-        try {
-          const url = await uploadTask.snapshot.ref.getDownloadURL();
-          setDownloadURL(url);
-          values.profileUrl = url;
-          const res = await firestore.collection("users").add(values);
-          await sms.post("/notifications/sms/service-provider", {
-            mobile: values.phone,
-          });
-        } catch (error) {
-          console.log("Error creating provider", error);
-        }
-      }
-    );
-  };
-
   const formik = useFormik({
     initialValues,
     validationSchema,
-    onSubmit: (values) => createServiceProvider(values),
+    onSubmit: async (values) => {
+      try {
+        const uploadTask = await firebase
+          .storage()
+          .ref(`profile_pics/${Date.now()}`)
+          .put(image);
+        values.profileUrl = await uploadTask.ref.getDownloadURL();
+        const password = generateString(16);
+        await auth.createUserWithEmailAndPassword(values.email, password);
+        await firestore.collection("users").add({
+          ...values,
+          isSP: true,
+          isActive: true,
+          isAdmin: false,
+          isClient: false,
+          isOccupied: false,
+        });
+        await api.post("/notifications/sms/service-provider", {
+          mobile: values.phone,
+          email: values.email,
+          password,
+        });
+      } catch (error) {
+        console.log("Error creating provider", error);
+      }
+    },
   });
 
   const onChangeUpload = (e) => {
@@ -102,11 +93,7 @@ export const useAddProviderPage = () => {
 
   return {
     isUserLoggedIn,
-    downloadURL,
-    image,
-    progress,
     onExit,
-    onSetIsUserLoggedIn,
     formik,
     onChangeUpload,
   };
