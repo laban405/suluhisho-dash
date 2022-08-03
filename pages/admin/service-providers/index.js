@@ -21,6 +21,7 @@ import SuDialogTitle from '../../../components/Feedback/SuDialogTitle';
 import SuDialogContent from '../../../components/Feedback/SuDialogContent';
 import SuDialogActions from '../../../components/Feedback/SuDialogActions';
 import SuButton from '../../../components/Inputs/SuButton';
+import AddUserForm from '../../../components/AddUserForm';
 
 const useStyles = makeStyles({
   cardCategoryWhite: {
@@ -85,6 +86,8 @@ function ServiceProviders() {
     openAddDialog,
     handleOpenAddDialog,
     handleCloseAddDialog,
+    formik,
+    handleChangeUpload,
   } = useServiceProvidersPage();
 
   return isUserLoggedIn ? (
@@ -178,7 +181,9 @@ function ServiceProviders() {
         maxWidth="md"
       >
         <SuDialogTitle>Add service provider</SuDialogTitle>
-        <SuDialogContent>Add service provider form</SuDialogContent>
+        <SuDialogContent>
+          <AddUserForm formik={formik} onChangeUpload={handleChangeUpload} />
+        </SuDialogContent>
         <SuDialogActions>
           <SuButton onClick={handleCloseAddDialog}>close</SuButton>
         </SuDialogActions>
