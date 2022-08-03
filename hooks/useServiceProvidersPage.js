@@ -11,6 +11,7 @@ export const useServiceProvidersPage = () => {
   const [totalUsers, setTotalUsers] = useState(0);
   const [isUserLoggedIn, setIsUserLoggedIn] = useState(false);
   const [pageLoading, setPageLoading] = useState(false);
+  const [openAddDialog, setOpenAddDialog] = useState(false);
 
   const handleSearchUser = (e) => {
     e.preventDefault();
@@ -137,6 +138,9 @@ export const useServiceProvidersPage = () => {
       });
   };
 
+  const handleOpenAddDialog = () => setOpenAddDialog(true);
+  const handleCloseAddDialog = () => setOpenAddDialog(false);
+
   useEffect(() => {
     fetchUsers();
     auth.onAuthStateChanged(async (user) => {
@@ -149,6 +153,7 @@ export const useServiceProvidersPage = () => {
   }, []);
 
   return {
+    router,
     isUserLoggedIn,
     rowsPerPage,
     pageLoading,
@@ -159,5 +164,8 @@ export const useServiceProvidersPage = () => {
     handleChangePage,
     handleChangeRowsPerPage,
     fetchUsers,
+    openAddDialog,
+    handleOpenAddDialog,
+    handleCloseAddDialog,
   };
 };

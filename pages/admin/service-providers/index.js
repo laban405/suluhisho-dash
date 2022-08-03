@@ -16,6 +16,11 @@ import SearchComponent from 'components/Search/Search.js';
 import ManageUser from 'components/Menu/viewUserMenu.js';
 import PageLoad from 'components/PageLoad/PageLoad.js';
 import { useServiceProvidersPage } from '../../../hooks/useServiceProvidersPage';
+import SuDialog from '../../../components/Feedback/SuDialog';
+import SuDialogTitle from '../../../components/Feedback/SuDialogTitle';
+import SuDialogContent from '../../../components/Feedback/SuDialogContent';
+import SuDialogActions from '../../../components/Feedback/SuDialogActions';
+import SuButton from '../../../components/Inputs/SuButton';
 
 const useStyles = makeStyles({
   cardCategoryWhite: {
@@ -77,6 +82,9 @@ function ServiceProviders() {
     handleChangePage,
     handleChangeRowsPerPage,
     fetchUsers,
+    openAddDialog,
+    handleOpenAddDialog,
+    handleCloseAddDialog,
   } = useServiceProvidersPage();
 
   return isUserLoggedIn ? (
@@ -99,10 +107,7 @@ function ServiceProviders() {
                 </GridItem>
 
                 <GridItem xs={12} sm={12} md={2}>
-                  <Button
-                    variant="contained"
-                    onClick={() => router.push('add-provider')}
-                  >
+                  <Button variant="contained" onClick={handleOpenAddDialog}>
                     Add Provider
                   </Button>
                 </GridItem>
@@ -166,6 +171,18 @@ function ServiceProviders() {
           </Card>
         </GridItem>
       </GridContainer>
+      <SuDialog
+        open={openAddDialog}
+        onClose={handleCloseAddDialog}
+        fullWidth
+        maxWidth="md"
+      >
+        <SuDialogTitle>Add service provider</SuDialogTitle>
+        <SuDialogContent>Add service provider form</SuDialogContent>
+        <SuDialogActions>
+          <SuButton onClick={handleCloseAddDialog}>close</SuButton>
+        </SuDialogActions>
+      </SuDialog>
     </motion.main>
   ) : null;
 }
