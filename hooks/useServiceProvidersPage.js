@@ -16,10 +16,8 @@ const initialValues = {
   county: "",
   subCounty: "",
   category: "",
-  categoryID: "",
   nationalID: "",
   profession: "",
-  position: {},
   latitude: "",
   longitude: "",
 };
@@ -31,6 +29,14 @@ const validationSchema = Yup.object({
   email: Yup.string()
     .email("Invalid email format")
     .required("Email is required"),
+  location: Yup.string().required("Location is required"),
+  county: Yup.string().required("County is required"),
+  subCounty: Yup.string().required("Sub county is required"),
+  category: Yup.string().required("Category is required"),
+  nationalID: Yup.string().required("National ID is required"),
+  profession: Yup.string().required("Profession is required"),
+  latitude: Yup.string().required("Latitude is required"),
+  longitude: Yup.string().required("Longitude is required"),
 });
 
 export const useServiceProvidersPage = () => {
@@ -44,6 +50,10 @@ export const useServiceProvidersPage = () => {
   const [pageLoading, setPageLoading] = useState(false);
   const [openAddDialog, setOpenAddDialog] = useState(false);
   const [image, setImage] = useState(null);
+  const [alert, setAlert] = useState({
+    severity: "info",
+    message: "",
+  });
 
   const handleSearchUser = (e) => {
     e.preventDefault();
@@ -174,11 +184,17 @@ export const useServiceProvidersPage = () => {
 
   const handleCloseAddDialog = () => setOpenAddDialog(false);
 
+  const setAlertOptions = (severity, message) =>
+    setAlert({ severity, message });
+
+  const resetAlertOptions = () => setAlert({ severity: "info", message: "" });
+
   const formik = useFormik({
     initialValues,
     validationSchema,
     onSubmit: async (values) => {
       try {
+        resetAlertOptions();
         const uploadTask = await firebase
           .storage()
           .ref(`profile_pics/${Date.now()}`)
@@ -207,7 +223,7 @@ export const useServiceProvidersPage = () => {
           password,
         });
       } catch (error) {
-        console.log("Error creating provider", error);
+        setAlertOptions("error", error.message);
       }
     },
   });
@@ -246,5 +262,8 @@ export const useServiceProvidersPage = () => {
     handleCloseAddDialog,
     formik,
     handleChangeUpload,
+    alert,
+    setAlertOptions,
+    resetAlertOptions,
   };
 };
