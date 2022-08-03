@@ -75,7 +75,7 @@ const subCounties = [
 ];
 
 const categories = [
-  { value: "councelling", label: "Councelling" },
+  { value: "counselling", label: "Counselling" },
   { value: "hospital", label: "Hospital" },
   { value: "legal", label: "Legal" },
   { value: "police", label: "Police" },
