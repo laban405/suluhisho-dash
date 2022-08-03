@@ -22,6 +22,8 @@ import SuDialogContent from '../../../components/Feedback/SuDialogContent';
 import SuDialogActions from '../../../components/Feedback/SuDialogActions';
 import SuButton from '../../../components/Inputs/SuButton';
 import AddUserForm from '../../../components/AddUserForm';
+import SuSnackbar from '../../../components/Feedback/SuSnackbar';
+import SuAlert from '../../../components/Feedback/SuAlert';
 
 const useStyles = makeStyles({
   cardCategoryWhite: {
@@ -88,6 +90,8 @@ function ServiceProviders() {
     handleCloseAddDialog,
     formik,
     handleChangeUpload,
+    alert,
+    resetAlertOptions,
   } = useServiceProvidersPage();
 
   return isUserLoggedIn ? (
@@ -188,6 +192,20 @@ function ServiceProviders() {
           <SuButton onClick={handleCloseAddDialog}>close</SuButton>
         </SuDialogActions>
       </SuDialog>
+      <SuSnackbar
+        anchorOrigin={{
+          vertical: 'bottom',
+          horizontal: 'left',
+        }}
+        open={Boolean(alert.message)}
+        autoHideDuration={6000}
+        message="Service provider added successfully"
+        onClose={resetAlertOptions}
+      >
+        <SuAlert onClose={resetAlertOptions} severity={alert.severity}>
+          {alert.message}
+        </SuAlert>
+      </SuSnackbar>
     </motion.main>
   ) : null;
 }
