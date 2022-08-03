@@ -192,7 +192,7 @@ export const useServiceProvidersPage = () => {
         console.log("user", user.uid);
         await firestore.collection("users").add({
           ...values,
-          uid: user.uid,
+          id: user.uid,
           isSP: true,
           isActive: true,
           isAdmin: false,
