@@ -4,6 +4,8 @@ import * as Yup from "yup";
 import firebase from "firebase";
 import { useFormik } from "formik";
 import { firestore, auth } from "../firebase";
+import { generateString } from "../lib/random.lib";
+import { api } from "../lib/api.lib";
 
 const initialValues = {
   firstname: "",
@@ -183,9 +185,14 @@ export const useServiceProvidersPage = () => {
           .put(image);
         values.profileUrl = await uploadTask.ref.getDownloadURL();
         const password = generateString(16);
-        await auth.createUserWithEmailAndPassword(values.email, password);
+        const { user } = await auth.createUserWithEmailAndPassword(
+          values.email,
+          password
+        );
+        console.log("user", user.uid);
         await firestore.collection("users").add({
           ...values,
+          uid: user.uid,
           isSP: true,
           isActive: true,
           isAdmin: false,
@@ -222,7 +229,6 @@ export const useServiceProvidersPage = () => {
   }, []);
 
   return {
-    router,
     isUserLoggedIn,
     rowsPerPage,
     pageLoading,

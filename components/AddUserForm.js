@@ -75,12 +75,12 @@ const subCounties = [
 ];
 
 const categories = [
-  { value: "category-a", label: "Category A" },
-  { value: "category-b", label: "Category B" },
-  { value: "category-c", label: "Category C" },
-  { value: "category-d", label: "Category D" },
-  { value: "category-e", label: "Category E" },
-  { value: "category-f", label: "Category F" },
+  { value: "councelling", label: "Councelling" },
+  { value: "hospital", label: "Hospital" },
+  { value: "legal", label: "Legal" },
+  { value: "police", label: "Police" },
+  { value: "shelter", label: "Shelter" },
+  { value: "socialwork", label: "Social Work" },
 ];
 
 const useStyles = makeStyles({
