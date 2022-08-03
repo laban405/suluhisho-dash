@@ -189,16 +189,18 @@ export const useServiceProvidersPage = () => {
           values.email,
           password
         );
-        console.log("user", user.uid);
-        await firestore.collection("users").add({
-          ...values,
-          id: user.uid,
-          isSP: true,
-          isActive: true,
-          isAdmin: false,
-          isClient: false,
-          isOccupied: false,
-        });
+        await firestore
+          .collection("users")
+          .doc(user.uid)
+          .set({
+            ...values,
+            id: user.uid,
+            isSP: true,
+            isActive: true,
+            isAdmin: false,
+            isClient: false,
+            isOccupied: false,
+          });
         await api.post("/notifications/sms/service-provider", {
           mobile: values.phone,
           email: values.email,
