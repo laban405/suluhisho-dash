@@ -97,56 +97,65 @@ function AddUserForm({ formik, onChangeUpload }) {
       <SuGrid container spacing={3}>
         <SuGrid item xs={12} sm={12} md={6}>
           <SuTextField
+            required
             fullWidth
             label="First name"
             id="firstname"
             name="firstname"
             onChange={formik.handleChange}
-            required
             value={formik.values.firstname}
             variant="outlined"
+            error={formik.touched.firstname && Boolean(formik.errors.firstname)}
+            helperText={formik.touched.firstname && formik.errors.firstname}
           />
         </SuGrid>
         <SuGrid item xs={12} sm={12} md={6}>
           <SuTextField
+            required
             fullWidth
             label="Last name"
             id="lastname"
             name="lastname"
             onChange={formik.handleChange}
-            required
             value={formik.values.lastname}
             variant="outlined"
+            error={formik.touched.lastname && Boolean(formik.errors.lastname)}
+            helperText={formik.touched.lastname && formik.errors.lastname}
           />
         </SuGrid>
         <SuGrid item xs={12} sm={12} md={6}>
           <SuTextField
+            required
             fullWidth
             label="Email"
             id="email"
             name="email"
             onChange={formik.handleChange}
-            required
             value={formik.values.email}
             variant="outlined"
+            error={formik.touched.email && Boolean(formik.errors.email)}
+            helperText={formik.touched.email && formik.errors.email}
           />
         </SuGrid>
         <SuGrid item xs={12} sm={12} md={6}>
           <SuTextField
+            required
             fullWidth
             label="Phone"
             id="phone"
             name="phone"
             onChange={formik.handleChange}
-            required
             value={formik.values.phone}
             variant="outlined"
+            error={formik.touched.phone && Boolean(formik.errors.phone)}
+            helperText={formik.touched.phone && formik.errors.phone}
           />
         </SuGrid>
         <SuGrid item xs={12} sm={12} md={6}>
           <SuFormControl fullWidth className={classes.formControl}>
             <SuInputLabel id="county-select-label">County</SuInputLabel>
             <SuSelect
+              required
               labelId="county-select-label"
               label="County"
               id="county"
@@ -154,6 +163,7 @@ function AddUserForm({ formik, onChangeUpload }) {
               onChange={formik.handleChange}
               value={formik.values.county}
               variant="outlined"
+              error={formik.touched.county && Boolean(formik.errors.county)}
             >
               {counties.map((county) => (
                 <SuMenuItem key={county.value} value={county.value}>
@@ -167,6 +177,7 @@ function AddUserForm({ formik, onChangeUpload }) {
           <SuFormControl fullWidth className={classes.formControl}>
             <SuInputLabel id="sub-county-select-label">Sub County</SuInputLabel>
             <SuSelect
+              required
               labelId="sub-county-select-label"
               label="Sub County"
               id="subCounty"
@@ -174,6 +185,9 @@ function AddUserForm({ formik, onChangeUpload }) {
               onChange={formik.handleChange}
               value={formik.values.subCounty}
               variant="outlined"
+              error={
+                formik.touched.subCounty && Boolean(formik.errors.subCounty)
+              }
             >
               {subCounties.map((subCounty) => (
                 <SuMenuItem key={subCounty.value} value={subCounty.value}>
@@ -187,6 +201,7 @@ function AddUserForm({ formik, onChangeUpload }) {
           <SuFormControl fullWidth className={classes.formControl}>
             <SuInputLabel id="category-select-label">Category</SuInputLabel>
             <SuSelect
+              required
               labelId="category-select-label"
               label="Category"
               id="category"
@@ -194,6 +209,7 @@ function AddUserForm({ formik, onChangeUpload }) {
               onChange={formik.handleChange}
               value={formik.values.category}
               variant="outlined"
+              error={formik.touched.category && Boolean(formik.errors.category)}
             >
               {categories.map((category) => (
                 <SuMenuItem key={category.value} value={category.value}>
@@ -205,62 +221,76 @@ function AddUserForm({ formik, onChangeUpload }) {
         </SuGrid>
         <SuGrid item xs={12} sm={12} md={6}>
           <SuTextField
+            required
             fullWidth
             label="National ID"
             id="nationalID"
             name="nationalID"
             onChange={formik.handleChange}
-            required
             value={formik.values.nationalID}
             variant="outlined"
+            error={
+              formik.touched.nationalID && Boolean(formik.errors.nationalID)
+            }
+            helperText={formik.touched.nationalID && formik.errors.nationalID}
           />
         </SuGrid>
         <SuGrid item xs={12} sm={12} md={6}>
           <SuTextField
+            required
             fullWidth
             label="Profession"
             id="profession"
             name="profession"
             onChange={formik.handleChange}
-            required
             value={formik.values.profession}
             variant="outlined"
+            error={
+              formik.touched.profession && Boolean(formik.errors.profession)
+            }
+            helperText={formik.touched.profession && formik.errors.profession}
           />
         </SuGrid>
         <SuGrid item xs={12} sm={12} md={6}>
           <SuTextField
+            required
             fullWidth
             label="Latitude"
             id="latitude"
             name="latitude"
             onChange={formik.handleChange}
-            required
             value={formik.values.latitude}
             variant="outlined"
+            error={formik.touched.latitude && Boolean(formik.errors.latitude)}
+            helperText={formik.touched.latitude && formik.errors.latitude}
           />
         </SuGrid>
         <SuGrid item xs={12} sm={12} md={6}>
           <SuTextField
+            required
             fullWidth
             label="Longitude"
             id="longitude"
             name="longitude"
             onChange={formik.handleChange}
-            required
             value={formik.values.longitude}
             variant="outlined"
+            error={formik.touched.longitude && Boolean(formik.errors.longitude)}
+            helperText={formik.touched.longitude && formik.errors.longitude}
           />
         </SuGrid>
         <SuGrid item xs={12} sm={12} md={12}>
           <SuTextField
+            required
             fullWidth
             label="Location"
             id="location"
             name="location"
             onChange={formik.handleChange}
-            required
             value={formik.values.location}
             variant="outlined"
+            error={formik.touched.location && Boolean(formik.errors.location)}
+            helperText={formik.touched.location && formik.errors.location}
           />
         </SuGrid>
         <SuGrid item xs={12} sm={12} md={12}>

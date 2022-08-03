@@ -16,10 +16,8 @@ const initialValues = {
   county: "",
   subCounty: "",
   category: "",
-  categoryID: "",
   nationalID: "",
   profession: "",
-  position: {},
   latitude: "",
   longitude: "",
 };
@@ -31,6 +29,14 @@ const validationSchema = Yup.object({
   email: Yup.string()
     .email("Invalid email format")
     .required("Email is required"),
+  location: Yup.string().required("Location is required"),
+  county: Yup.string().required("County is required"),
+  subCounty: Yup.string().required("Sub county is required"),
+  category: Yup.string().required("Category is required"),
+  nationalID: Yup.string().required("National ID is required"),
+  profession: Yup.string().required("Profession is required"),
+  latitude: Yup.string().required("Latitude is required"),
+  longitude: Yup.string().required("Longitude is required"),
 });
 
 export const useServiceProvidersPage = () => {
