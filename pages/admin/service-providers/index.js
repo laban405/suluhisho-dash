@@ -1,5 +1,5 @@
-import React, { useEffect, useState } from 'react';
-import { firestore, auth } from '../../firebase';
+import React, { useEffect } from 'react';
+import { firestore, auth } from '../../../firebase';
 import { makeStyles } from '@material-ui/core/styles';
 import Admin from 'layouts/Admin.js';
 import { motion } from 'framer-motion';
@@ -15,20 +15,27 @@ import CardHeader from 'components/Card/CardHeader.js';
 import CardBody from 'components/Card/CardBody.js';
 import SearchComponent from 'components/Search/Search.js';
 import ManageUser from 'components/Menu/viewUserMenu.js';
-import { useRouter } from 'next/router';
 import PageLoad from 'components/PageLoad/PageLoad.js';
+import { useServiceProvidersPage } from '../../../hooks/useServiceProvidersPage';
 
 export default function Reports() {
   const useStyles = makeStyles(styles);
   const classes = useStyles();
-  const router = useRouter();
-  const [users, setUsers] = useState([]);
-  const [lastVisibleData, setLastVisibleData] = useState(null);
-  const [page, setPage] = useState(0);
-  const [rowsPerPage, setRowsPerPage] = useState(10);
-  const [totalUsers, setTotalUsers] = useState(0);
-  const [isUserLoggedIn, setIsUserLoggedIn] = useState(false);
-  const [pageLoading, setPageLoading] = useState(false);
+  const {
+    isUserLoggedIn,
+    setPageLoading,
+    rowsPerPage,
+    setIsUserLoggedIn,
+    pageLoading,
+    users,
+    totalUsers,
+    page,
+    setLastVisibleData,
+    setTotalUsers,
+    setUsers,
+    setRowsPerPage,
+    setPage,
+  } = useServiceProvidersPage();
 
   const containerVariants = {
     hidden: {

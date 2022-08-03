@@ -2,5 +2,6 @@
   "/_app": "pages/_app.js",
   "/_document": "pages/_document.js",
   "/_error": "pages/_error.js",
-  "/admin/add-provider": "pages/admin/add-provider.js"
+  "/admin/service-providers": "pages/admin/service-providers.js",
+  "/admin/view-user": "pages/admin/view-user.js"
 }

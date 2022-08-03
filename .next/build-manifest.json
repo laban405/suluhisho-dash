@@ -26,12 +26,19 @@
       "static/chunks/main.js",
       "static/chunks/pages/_error.js"
     ],
-    "/admin/add-provider": [
+    "/admin/service-providers": [
       "static/chunks/webpack.js",
       "static/chunks/main.js",
       "static/css/styles.chunk.css",
       "static/chunks/styles.js",
-      "static/chunks/pages/admin/add-provider.js"
+      "static/chunks/pages/admin/service-providers.js"
+    ],
+    "/admin/view-user": [
+      "static/chunks/webpack.js",
+      "static/chunks/main.js",
+      "static/css/styles.chunk.css",
+      "static/chunks/styles.js",
+      "static/chunks/pages/admin/view-user.js"
     ]
   },
   "ampFirstPages": []
