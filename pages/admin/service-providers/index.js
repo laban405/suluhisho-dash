@@ -1,5 +1,4 @@
-import React, { useEffect } from 'react';
-import { firestore, auth } from '../../../firebase';
+import React from 'react';
 import { makeStyles } from '@material-ui/core/styles';
 import Admin from 'layouts/Admin.js';
 import { motion } from 'framer-motion';
@@ -18,174 +17,67 @@ import ManageUser from 'components/Menu/viewUserMenu.js';
 import PageLoad from 'components/PageLoad/PageLoad.js';
 import { useServiceProvidersPage } from '../../../hooks/useServiceProvidersPage';
 
-export default function Reports() {
-  const useStyles = makeStyles(styles);
+const useStyles = makeStyles({
+  cardCategoryWhite: {
+    '&,& a,& a:hover,& a:focus': {
+      color: '#434444',
+      margin: '0',
+      fontSize: '14px',
+      marginTop: '0',
+      marginBottom: '0',
+    },
+    '& a,& a:hover,& a:focus': {
+      color: '#FFFFFF',
+    },
+  },
+  cardTitleWhite: {
+    color: '#434444',
+    marginTop: '0px',
+    minHeight: 'auto',
+    fontWeight: '500',
+    fontFamily: "'Roboto', 'Helvetica', 'Arial', sans-serif",
+    marginBottom: '3px',
+    textDecoration: 'none',
+    '& small': {
+      color: '#777',
+      fontSize: '65%',
+      fontWeight: '400',
+      lineHeight: '1',
+    },
+  },
+  pagination: {
+    padding: '10px',
+  },
+});
+
+const containerVariants = {
+  hidden: {
+    opacity: 0.5,
+    scale: 1.1,
+    y: 10,
+  },
+  visible: {
+    y: 0,
+    opacity: 1,
+    scale: 1,
+    transition: { delay: 0, duration: 0.5 },
+  },
+};
+
+function ServiceProviders() {
   const classes = useStyles();
   const {
     isUserLoggedIn,
-    setPageLoading,
     rowsPerPage,
-    setIsUserLoggedIn,
     pageLoading,
     users,
     totalUsers,
     page,
-    setLastVisibleData,
-    setTotalUsers,
-    setUsers,
-    setRowsPerPage,
-    setPage,
+    handleSearchUser,
+    handleChangePage,
+    handleChangeRowsPerPage,
+    fetchUsers,
   } = useServiceProvidersPage();
-
-  const containerVariants = {
-    hidden: {
-      opacity: 0.5,
-      scale: 1.1,
-      y: 10,
-    },
-    visible: {
-      y: 0,
-      opacity: 1,
-      scale: 1,
-      transition: { delay: 0, duration: 0.5 },
-    },
-  };
-
-  const handleSearch = (e) => {
-    e.preventDefault();
-    let searchVal = e.target.value.toLowerCase();
-    searchUserByName(searchVal);
-  };
-
-  const handleChangePage = (event, newPage) => {
-    newPage > page ? fetchNextUsers() : fetchPreviousUsersList();
-    setPage(newPage);
-  };
-
-  const handleChangeRowsPerPage = (event) => {
-    setRowsPerPage(parseInt(event.target.value, 10));
-    setPage(0);
-    fetchUsers();
-  };
-
-  const fetchNextUsers = async () => {
-    const usersArr = [];
-    setPageLoading(true);
-
-    firestore
-      .collection('users')
-      .orderBy('name')
-      .startAfter(lastVisibleData)
-      .limit(rowsPerPage)
-      .get()
-      .then((querySnapshot) => {
-        querySnapshot.forEach((alert) => {
-          let currentUser = alert.data();
-          currentUser.id = alert.id;
-          if (currentUser.isSP) {
-            usersArr.push(currentUser);
-          }
-          setLastVisibleData(querySnapshot.docs[querySnapshot.docs.length - 1]);
-        });
-      })
-      .then(() => {
-        setPageLoading(false);
-        setUsers(usersArr);
-      })
-      .catch((error) => {
-        console.error(error);
-        setPageLoading(false);
-      });
-  };
-
-  const fetchPreviousUsersList = async () => {
-    const usersArr = [];
-    setPageLoading(true);
-    firestore
-      .collection('users')
-      .orderBy('name')
-      .endBefore(lastVisibleData)
-      .limit(rowsPerPage)
-      .get()
-      .then((querySnapshot) => {
-        querySnapshot.forEach((alert) => {
-          let currentUser = alert.data();
-          currentUser.id = alert.id;
-          if (currentUser.isSP) {
-            usersArr.push(currentUser);
-          }
-          setLastVisibleData(querySnapshot.docs[querySnapshot.docs.length - 1]);
-        });
-      })
-      .then(() => {
-        setPageLoading(false);
-        setUsers(usersArr);
-      })
-      .catch((error) => {
-        console.error(error);
-        setPageLoading(false);
-      });
-  };
-
-  const fetchUsers = async () => {
-    setPageLoading(true);
-    const usersArr = [];
-    firestore
-      .collection('users')
-      .orderBy('name')
-      .limit(rowsPerPage)
-      .get()
-      .then((querySnapshot) => {
-        querySnapshot.forEach((user) => {
-          let currentUser = user.data();
-          currentUser.id = user.id;
-          if (currentUser.isSP) {
-            usersArr.push(currentUser);
-          }
-          setLastVisibleData(querySnapshot.docs[querySnapshot.docs.length - 1]);
-        });
-      })
-      .then(() => {
-        setPageLoading(false);
-        setTotalUsers(usersArr.length);
-        setUsers(usersArr);
-      });
-  };
-
-  const searchUserByName = async (searchValue) => {
-    setPageLoading(false);
-    const usersArr = [];
-    firestore
-      .collection('users')
-      .limit(rowsPerPage)
-      .get()
-      .then((querySnapshot) => {
-        querySnapshot.forEach((user) => {
-          let currentUser = user.data();
-          currentUser.id = user.id;
-          if (
-            currentUser.name?.toLowerCase().includes(searchValue) &&
-            currentUser.isSP
-          )
-            usersArr.push(currentUser);
-        });
-      })
-      .then(() => {
-        setPageLoading(false);
-        setUsers(usersArr);
-      });
-  };
-
-  useEffect(() => {
-    fetchUsers();
-    auth.onAuthStateChanged(async (user) => {
-      if (!user) {
-        router.push('../login');
-      } else {
-        setIsUserLoggedIn(true);
-      }
-    });
-  }, []);
 
   return isUserLoggedIn ? (
     <motion.main
@@ -221,7 +113,7 @@ export default function Reports() {
             <CardBody>
               <GridContainer>
                 <GridItem xs={12} sm={12} md={6}>
-                  <SearchComponent handleSearch={handleSearch} />
+                  <SearchComponent handleSearch={handleSearchUser} />
                 </GridItem>
               </GridContainer>
               <Paper style={classes.root}>
@@ -278,38 +170,6 @@ export default function Reports() {
   ) : null;
 }
 
-// styles
-const styles = {
-  cardCategoryWhite: {
-    '&,& a,& a:hover,& a:focus': {
-      color: '#434444',
-      margin: '0',
-      fontSize: '14px',
-      marginTop: '0',
-      marginBottom: '0',
-    },
-    '& a,& a:hover,& a:focus': {
-      color: '#FFFFFF',
-    },
-  },
-  cardTitleWhite: {
-    color: '#434444',
-    marginTop: '0px',
-    minHeight: 'auto',
-    fontWeight: '500',
-    fontFamily: "'Roboto', 'Helvetica', 'Arial', sans-serif",
-    marginBottom: '3px',
-    textDecoration: 'none',
-    '& small': {
-      color: '#777',
-      fontSize: '65%',
-      fontWeight: '400',
-      lineHeight: '1',
-    },
-  },
-  pagination: {
-    padding: '10px',
-  },
-};
+ServiceProviders.layout = Admin;
 
-Reports.layout = Admin;
+export default ServiceProviders;
