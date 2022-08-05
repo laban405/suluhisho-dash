@@ -282,10 +282,10 @@ function AddUserForm({ formik, onChangeUpload }) {
         </SuGrid>
         <SuGrid item xs={12} sm={12} md={12}>
           <LocationMap
-            zoom={6}
-            initialCenter={{
-              lat: "1.2921",
-              lng: "36.8219",
+            zoom={8}
+            defaultCenter={{
+              lat: -1.3062755503323038,
+              lng: 36.83437569368872,
             }}
           />
         </SuGrid>
