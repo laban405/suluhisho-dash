@@ -1,6 +1,6 @@
 import { GoogleApiWrapper, Map } from "google-maps-react";
 
-const MapContainer = ({ google }) => (
+const MapContainer = ({ google, zoom, initialCenter }) => (
   <Map
     containerStyle={{
       position: "relative",
@@ -12,14 +12,12 @@ const MapContainer = ({ google }) => (
       height: "100%",
     }}
     google={google}
-    zoom={6}
-    initialCenter={{
-      lat: "1.2921",
-      lng: "36.8219",
-    }}
+    zoom={zoom}
+    initialCenter={initialCenter}
   />
 );
 
-export default GoogleApiWrapper({
+export default GoogleApiWrapper((props) => ({
   apiKey: process.env.NEXT_PUBLIC_GOOGLE_MAPS_API_KEY,
-})(MapContainer);
+  ...props,
+}))(MapContainer);
