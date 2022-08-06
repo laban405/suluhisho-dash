@@ -6,6 +6,7 @@ import SuInputLabel from "./Inputs/SuInputLabel";
 import SuMenuItem from "./Navigation/SuMenuItem";
 import SuSelect from "./Inputs/SuSelect";
 import Button from "./CustomButtons/Button";
+import LocationMap from "./LocationMap";
 
 const counties = [
   { value: "Baringo", label: "Baringo" },
@@ -277,6 +278,15 @@ function AddUserForm({ formik, onChangeUpload }) {
             variant="outlined"
             error={formik.touched.longitude && Boolean(formik.errors.longitude)}
             helperText={formik.touched.longitude && formik.errors.longitude}
+          />
+        </SuGrid>
+        <SuGrid item xs={12} sm={12} md={12}>
+          <LocationMap
+            zoom={8}
+            defaultCenter={{
+              lat: -1.3062755503323038,
+              lng: 36.83437569368872,
+            }}
           />
         </SuGrid>
         <SuGrid item xs={12} sm={12} md={12}>
