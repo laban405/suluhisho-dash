@@ -15,9 +15,9 @@ const LocationMap = compose(
   }),
   withScriptjs,
   withGoogleMap
-)(({ zoom, defaultCenter }) => (
+)(({ zoom, defaultCenter, location, onDragEnd }) => (
   <GoogleMap defaultZoom={zoom} defaultCenter={defaultCenter}>
-    <Marker position={{ lat: -1.3062755503323038, lng: 36.83437569368872 }} />
+    <Marker position={location} draggable onDragEnd={onDragEnd} />
   </GoogleMap>
 ));
 

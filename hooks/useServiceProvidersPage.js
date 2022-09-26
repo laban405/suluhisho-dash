@@ -35,8 +35,6 @@ const validationSchema = Yup.object({
   category: Yup.string().required("Category is required"),
   nationalID: Yup.string().required("National ID is required"),
   profession: Yup.string().required("Profession is required"),
-  latitude: Yup.string().required("Latitude is required"),
-  longitude: Yup.string().required("Longitude is required"),
 });
 
 export const useServiceProvidersPage = () => {
@@ -189,6 +187,14 @@ export const useServiceProvidersPage = () => {
 
   const resetAlertOptions = () => setAlert({ severity: "info", message: "" });
 
+  const [location, setLocation] = useState({
+    lat: -1.3062755503323038,
+    lng: 36.83437569368872,
+  });
+
+  const handleChangeLocation = (e) =>
+    setLocation({ lat: e.latLng.lat(), lng: e.latLng.lng() });
+
   const formik = useFormik({
     initialValues,
     validationSchema,
@@ -210,6 +216,8 @@ export const useServiceProvidersPage = () => {
           .doc(user.uid)
           .set({
             ...values,
+            latitude: location.lat,
+            longitude: location.lng,
             id: user.uid,
             isSP: true,
             isActive: true,
@@ -265,5 +273,7 @@ export const useServiceProvidersPage = () => {
     alert,
     setAlertOptions,
     resetAlertOptions,
+    location,
+    handleChangeLocation,
   };
 };
