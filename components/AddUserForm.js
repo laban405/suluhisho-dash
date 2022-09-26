@@ -90,7 +90,7 @@ const useStyles = makeStyles({
   },
 });
 
-function AddUserForm({ formik, onChangeUpload }) {
+function AddUserForm({ formik, onChangeUpload, location, onChangeLocation }) {
   const classes = useStyles();
 
   return (
@@ -252,41 +252,12 @@ function AddUserForm({ formik, onChangeUpload }) {
             helperText={formik.touched.profession && formik.errors.profession}
           />
         </SuGrid>
-        <SuGrid item xs={12} sm={12} md={6}>
-          <SuTextField
-            required
-            fullWidth
-            label="Latitude"
-            id="latitude"
-            name="latitude"
-            onChange={formik.handleChange}
-            value={formik.values.latitude}
-            variant="outlined"
-            error={formik.touched.latitude && Boolean(formik.errors.latitude)}
-            helperText={formik.touched.latitude && formik.errors.latitude}
-          />
-        </SuGrid>
-        <SuGrid item xs={12} sm={12} md={6}>
-          <SuTextField
-            required
-            fullWidth
-            label="Longitude"
-            id="longitude"
-            name="longitude"
-            onChange={formik.handleChange}
-            value={formik.values.longitude}
-            variant="outlined"
-            error={formik.touched.longitude && Boolean(formik.errors.longitude)}
-            helperText={formik.touched.longitude && formik.errors.longitude}
-          />
-        </SuGrid>
         <SuGrid item xs={12} sm={12} md={12}>
           <LocationMap
-            zoom={8}
-            defaultCenter={{
-              lat: -1.3062755503323038,
-              lng: 36.83437569368872,
-            }}
+            zoom={16}
+            defaultCenter={location}
+            location={location}
+            onDragEnd={onChangeLocation}
           />
         </SuGrid>
         <SuGrid item xs={12} sm={12} md={12}>

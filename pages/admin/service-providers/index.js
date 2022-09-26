@@ -92,6 +92,8 @@ function ServiceProviders() {
     handleChangeUpload,
     alert,
     resetAlertOptions,
+    location,
+    handleChangeLocation,
   } = useServiceProvidersPage();
 
   return isUserLoggedIn ? (
@@ -186,7 +188,12 @@ function ServiceProviders() {
       >
         <SuDialogTitle>Add service provider</SuDialogTitle>
         <SuDialogContent>
-          <AddUserForm formik={formik} onChangeUpload={handleChangeUpload} />
+          <AddUserForm
+            formik={formik}
+            onChangeUpload={handleChangeUpload}
+            location={location}
+            onChangeLocation={handleChangeLocation}
+          />
         </SuDialogContent>
         <SuDialogActions>
           <SuButton onClick={handleCloseAddDialog}>close</SuButton>
