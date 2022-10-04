@@ -51,7 +51,9 @@ function AlertEdit() {
   useEffect(() => {
     setProvider(JSON.parse(localStorage.getItem('provider')));
     auth.onAuthStateChanged(async (user) => {
-      if (!user) {
+      const { isAdmin } = JSON.parse(localStorage.getItem('user'));
+
+      if (!user || !isAdmin) {
         router.push('../login');
       } else {
         setIsUserLoggedIn(true);

@@ -44,7 +44,9 @@ function ManageFaq() {
 
   const checkIfUserLoggedIn = () => {
     auth.onAuthStateChanged(async (user) => {
-      if (!user) {
+      const { isAdmin } = JSON.parse(localStorage.getItem('user'));
+
+      if (!user || !isAdmin) {
         router.push('../login');
       } else {
         setIsUserLoggedIn(true);
