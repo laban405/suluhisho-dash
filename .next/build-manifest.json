@@ -31,6 +31,13 @@
       "static/chunks/main.js",
       "static/chunks/pages/_error.js"
     ],
+    "/admin/alerts": [
+      "static/chunks/webpack.js",
+      "static/chunks/main.js",
+      "static/css/styles.chunk.css",
+      "static/chunks/styles.js",
+      "static/chunks/pages/admin/alerts.js"
+    ],
     "/admin/dashboard": [
       "static/chunks/webpack.js",
       "static/chunks/main.js",
@@ -38,12 +45,12 @@
       "static/chunks/styles.js",
       "static/chunks/pages/admin/dashboard.js"
     ],
-    "/admin/service-providers": [
+    "/admin/users": [
       "static/chunks/webpack.js",
       "static/chunks/main.js",
       "static/css/styles.chunk.css",
       "static/chunks/styles.js",
-      "static/chunks/pages/admin/service-providers.js"
+      "static/chunks/pages/admin/users.js"
     ],
     "/login": [
       "static/chunks/webpack.js",
