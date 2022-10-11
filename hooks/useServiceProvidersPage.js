@@ -37,6 +37,25 @@ const validationSchema = Yup.object({
   profession: Yup.string().required("Profession is required"),
 });
 
+const getCategoryID = (category) => {
+  switch (category) {
+    case "counselling":
+      return 5;
+    case "hospital":
+      return 2;
+    case "legal":
+      return 6;
+    case "police":
+      return 1;
+    case "shelter":
+      return 4;
+    case "socialwork":
+      return 3;
+    default:
+      return 0;
+  }
+};
+
 export const useServiceProvidersPage = () => {
   const router = useRouter();
   const [users, setUsers] = useState([]);
@@ -211,6 +230,7 @@ export const useServiceProvidersPage = () => {
           values.email,
           password
         );
+
         await firestore
           .collection("users")
           .doc(user.uid)
@@ -224,6 +244,8 @@ export const useServiceProvidersPage = () => {
             isAdmin: false,
             isClient: false,
             isOccupied: false,
+            isPhoneVerified: false,
+            categoryID: getCategoryID(values.category),
           });
         await api.post("/notifications/sms/service-provider", {
           mobile: values.phone,
