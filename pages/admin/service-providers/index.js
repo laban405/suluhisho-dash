@@ -98,8 +98,6 @@ function ServiceProviders() {
   } = useServiceProvidersPage();
   const { serviceProviders } = useFetchServiceProviders();
 
-  console.log('serviceProviders', serviceProviders);
-
   return isUserLoggedIn ? (
     <motion.main
       variants={containerVariants}
