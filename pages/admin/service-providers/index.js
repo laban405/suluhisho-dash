@@ -146,7 +146,7 @@ function ServiceProviders() {
                     'Action',
                   ]}
                   tableData={serviceProviders.map((userData) => [
-                    userData.name,
+                    `${userData.firstname} ${userData.lastname}`,
                     userData.phone,
                     userData.nationalID,
                     userData.email,
