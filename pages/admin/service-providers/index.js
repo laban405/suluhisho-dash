@@ -24,6 +24,7 @@ import SuButton from '../../../components/Inputs/SuButton';
 import AddUserForm from '../../../components/AddUserForm';
 import SuSnackbar from '../../../components/Feedback/SuSnackbar';
 import SuAlert from '../../../components/Feedback/SuAlert';
+import { useFetchServiceProviders } from '../../../hooks/useFetchServiceProviders';
 
 const useStyles = makeStyles({
   cardCategoryWhite: {
@@ -95,6 +96,9 @@ function ServiceProviders() {
     location,
     handleChangeLocation,
   } = useServiceProvidersPage();
+  const { serviceProviders } = useFetchServiceProviders();
+
+  console.log('serviceProviders', serviceProviders);
 
   return isUserLoggedIn ? (
     <motion.main
@@ -143,7 +147,7 @@ function ServiceProviders() {
                     'Profile Pic',
                     'Action',
                   ]}
-                  tableData={users.map((userData) => [
+                  tableData={serviceProviders.map((userData) => [
                     userData.name,
                     userData.phone,
                     userData.nationalID,
@@ -161,6 +165,24 @@ function ServiceProviders() {
                     userData.profilePicture,
                     <ManageUser userData={userData} fetchUsers={fetchUsers} />,
                   ])}
+                  // tableData={users.map((userData) => [
+                  //   userData.name,
+                  //   userData.phone,
+                  //   userData.nationalID,
+                  //   userData.email,
+                  //   userData.county,
+                  //   userData.subCounty,
+                  //   userData.profileUrl ? (
+                  //     <a href={userData.profileUrl} target="_blank">
+                  //       {' '}
+                  //       view profile{' '}
+                  //     </a>
+                  //   ) : (
+                  //     'No profile picture available'
+                  //   ),
+                  //   userData.profilePicture,
+                  //   <ManageUser userData={userData} fetchUsers={fetchUsers} />,
+                  // ])}
                 />
               </Paper>
             </CardBody>
